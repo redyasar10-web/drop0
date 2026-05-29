@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Neutrals</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .swatch { border: 1px solid var(--border); padding: 14px; aspect-ratio: 1.3 / 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .swatch .name { font-family: var(--font-display); font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+  .swatch .meta { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; }
+  .role { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .dust   { background: #E4DDD4; color: #111; border-color: #C8C0B5; }
+  .ash    { background: #C8C0B5; color: #111; border-color: #5C5449; }
+  .shadow { background: #5C5449; color: #FAFAF8; border-color: #5C5449; }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="swatch dust">
+      <div class="role">Surface</div>
+      <div><div class="name">Dust</div><div class="meta">#E4DDD4</div></div>
+    </div>
+    <div class="swatch ash">
+      <div class="role">Borders only</div>
+      <div><div class="name">Ash</div><div class="meta">#C8C0B5</div></div>
+    </div>
+    <div class="swatch shadow">
+      <div class="role">Secondary text</div>
+      <div><div class="name">Shadow</div><div class="meta">#5C5449</div></div>
+    </div>
+  </div>
+</body></html>

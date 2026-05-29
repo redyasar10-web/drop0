@@ -1,0 +1,25 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Spacing scale</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5C5449; }
+  .row { display: grid; grid-template-columns: 60px 1fr 80px; gap: 12px; align-items: center; padding: 4px 0; }
+  .tok { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: #5C5449; }
+  .bar { background: #111; height: 10px; }
+  .use { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5C5449; text-align: right; }
+</style></head>
+<body>
+  <div class="eyebrow">Space · 4px baseline</div>
+  <div style="margin-top: 10px">
+    <div class="row"><span class="tok">4</span><div class="bar" style="width:4px"></div><span class="use">1</span></div>
+    <div class="row"><span class="tok">8</span><div class="bar" style="width:8px"></div><span class="use">2</span></div>
+    <div class="row"><span class="tok">12</span><div class="bar" style="width:12px"></div><span class="use">3</span></div>
+    <div class="row"><span class="tok">16</span><div class="bar" style="width:16px"></div><span class="use">4</span></div>
+    <div class="row"><span class="tok">24</span><div class="bar" style="width:24px"></div><span class="use">5</span></div>
+    <div class="row"><span class="tok">32</span><div class="bar" style="width:32px"></div><span class="use">6</span></div>
+    <div class="row"><span class="tok">48</span><div class="bar" style="width:48px"></div><span class="use">7</span></div>
+    <div class="row"><span class="tok">64</span><div class="bar" style="width:64px"></div><span class="use">8</span></div>
+    <div class="row"><span class="tok">96</span><div class="bar" style="width:96px"></div><span class="use">9</span></div>
+    <div class="row"><span class="tok">128</span><div class="bar" style="width:128px"></div><span class="use">10</span></div>
+  </div>
+</body></html>

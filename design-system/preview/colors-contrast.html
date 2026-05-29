@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Contrast pairs</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .pair { padding: 14px 16px; border: 1px solid #C8C0B5; }
+  .pair .big { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .pair .small { font-family: var(--font-body); font-size: 13px; }
+  .pair .ratio { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-top: 10px; opacity: 0.8; }
+  .a { background: #F2EBE0; color: #111; }
+  .b { background: #F2EBE0; color: #5C5449; }
+  .c { background: #111; color: #FAFAF8; border-color: #111; }
+  .d { background: #F2EBE0; color: #C9921E; }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="pair a"><div class="big">Already wearing it.</div><div class="small">Ink on Harmattan — AAA.</div><div class="ratio">16.7 : 1 · body ok</div></div>
+    <div class="pair b"><div class="big">Ships from New York.</div><div class="small">Shadow on Harmattan — AA.</div><div class="ratio">5.7 : 1 · body ok</div></div>
+    <div class="pair c"><div class="big">Drop closes Friday.</div><div class="small">Salt on Ink — AAA.</div><div class="ratio">19.5 : 1 · body ok</div></div>
+    <div class="pair d"><div class="big">1Nri</div><div class="small">Kente on Harmattan — 18pt+ only.</div><div class="ratio">2.8 : 1 · headline only</div></div>
+  </div>
+</body></html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop | Chariot</title>
+    <meta
+      name="description"
+      content="Shop every live product from Jireh and 1NRI through Chariot."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="site-body site-body-light">
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="announcement-bar announcement-bar-light">
+      <span>All products</span>
+      <span>1NRI and Jireh</span>
+      <span>Dense browse</span>
+    </div>
+
+    <header class="site-header">
+      <a class="brand-lockup" href="index.html" aria-label="Chariot home">
+        <img src="Logos 2/Chariot.png" alt="Chariot wordmark" />
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        Menu
+      </button>
+      <nav id="site-nav" class="site-nav">
+        <a href="about.html">About</a>
+        <a href="jireh.html">Jireh</a>
+        <a href="1nri.html">1NRI</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="page-intro reveal page-intro-shop">
+        <p class="eyebrow">Shop</p>
+        <h1>Every pulled product, spaced like a real browse page.</h1>
+      </section>
+
+      <section class="filter-bar reveal">
+        <div class="filter-row" role="toolbar" aria-label="Shop filters">
+          <button class="filter-pill is-active" type="button" data-filter="all">All</button>
+          <button class="filter-pill" type="button" data-filter="jireh">Jireh</button>
+          <button class="filter-pill" type="button" data-filter="1nri">1NRI</button>
+          <button class="filter-pill" type="button" data-filter="tops">Tops</button>
+          <button class="filter-pill" type="button" data-filter="outerwear">Outerwear</button>
+          <button class="filter-pill" type="button" data-filter="accessories">Accessories</button>
+          <button class="filter-pill" type="button" data-filter="soldout">Sold Out</button>
+        </div>
+      </section>
+
+      <section class="shop-grid shop-grid-zara">
+        <article class="product-card reveal" data-tags="jireh tops">
+          <img src="imported/jireh/battle_angel_blue_white.jpg" alt="Jireh Battle Angel tee blue and white" />
+          <div class="product-meta">
+            <p class="product-brand">Jireh</p>
+            <h3>Battle Angel Tee</h3>
+            <p>Blue &amp; White</p>
+            <p>₵250</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="jireh tops">
+          <img src="imported/jireh/battle_angel_black_yellow.jpg" alt="Jireh Battle Angel tee black and yellow" />
+          <div class="product-meta">
+            <p class="product-brand">Jireh</p>
+            <h3>Battle Angel Tee</h3>
+            <p>Black &amp; Yellow</p>
+            <p>₵250</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="jireh outerwear soldout">
+          <img src="imported/jireh/battle_angel_black_grey.jpg" alt="Jireh Battle Angel long sleeve black and grey" />
+          <div class="product-meta">
+            <p class="product-brand">Jireh</p>
+            <h3>Battle Angel Long Sleeve</h3>
+            <p>Black &amp; Grey</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="jireh outerwear">
+          <img src="imported/jireh/battle_angel_orange_grey.jpg" alt="Jireh Battle Angel long sleeve orange and grey" />
+          <div class="product-meta">
+            <p class="product-brand">Jireh</p>
+            <h3>Battle Angel Long Sleeve</h3>
+            <p>Orange &amp; Grey</p>
+            <p>₵340</p>
+          </div>
+        </article>
+
+        <article class="product-card reveal" data-tags="1nri accessories soldout">
+          <img src="imported/1nri/acid_washed_shorts.jpg" alt="1NRI Acid Wash Shorts Grey" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Acid Wash Shorts Grey</h3>
+            <p>GH₵270.00</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="1nri accessories soldout">
+          <img src="imported/1nri/1NRI23RDDEC-28.jpg" alt="1NRI Acid Washed Shorts Red" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Acid Washed Shorts Red</h3>
+            <p>GH₵270.00</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="1nri tops">
+          <img src="imported/1nri/cream_mothers_smile.jpg" alt="1NRI Cream Mothers Smile collab" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Cream Mothers Smile x 1NRI Collab</h3>
+            <p>GH₵300.00</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="1nri accessories soldout">
+          <img src="imported/1nri/1NRICAM-76.jpg" alt="1NRI Damaris Bag" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Damaris Bag</h3>
+            <p>GH₵270.00</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+
+        <article class="product-card reveal" data-tags="1nri accessories">
+          <img src="imported/1nri/1NRI23RDDEC-141.jpg" alt="1NRI Distressed Caps" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Distressed Caps</h3>
+            <p>GH₵150.00</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="1nri tops soldout">
+          <img src="imported/1nri/divine_provision_tee.jpg" alt="1NRI Divine Provision Tee" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Divine Provision Tee</h3>
+            <p>GH₵320.00</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="1nri tops soldout">
+          <img src="imported/1nri/dry_bones_coffee_brown.jpg" alt="1NRI Dry Bones Coffee Brown" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Dry Bones Coffee Brown</h3>
+            <p>GH₵300.00</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="1nri tops soldout">
+          <img src="imported/1nri/dry_bones_tee_white.jpg" alt="1NRI Dry Bones Tee White" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Dry Bones Tee White</h3>
+            <p>GH₵300.00</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+
+        <article class="product-card reveal" data-tags="1nri outerwear soldout">
+          <img src="imported/1nri/dusk_before_dawn_button_up.jpg" alt="1NRI Dusk Before Dawn Button up" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Dusk Before Dawn Button up</h3>
+            <p>GH₵320.00</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="1nri tops soldout">
+          <img src="imported/1nri/IMG-9109.jpg" alt="1NRI Dusk Before Dawn Tee Black" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Dusk Before Dawn Tee Black</h3>
+            <p>GH₵250.00</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+        <article class="product-card reveal" data-tags="1nri tops soldout">
+          <img src="imported/1nri/dusk_before_dawn_tee_pink.jpg" alt="1NRI Dusk Before Dawn Tee Pink" />
+          <div class="product-meta">
+            <p class="product-brand">1NRI</p>
+            <h3>Dusk Before Dawn Tee Pink</h3>
+            <p>GH₵300.00</p>
+            <p>Sold Out</p>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <img class="footer-logo" src="Logos 2/Chariot.png" alt="Chariot wordmark" />
+        <p>Every pulled product from the current Jireh and 1NRI catalogs.</p>
+      </div>
+      <div class="footer-links">
+        <a href="jireh.html">Jireh</a>
+        <a href="1nri.html">1NRI</a>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

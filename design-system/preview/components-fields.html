@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Form inputs</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 20px 24px; }
+  .eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5C5449; }
+  .field { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; max-width: 420px; }
+  label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5C5449; }
+  input, select {
+    font: inherit; font-family: var(--font-body); font-size: 16px; color: #111;
+    padding: 12px 14px; background: transparent; border: 1px solid #C8C0B5; border-radius: 2px;
+    transition: border-color 120ms cubic-bezier(.2,.6,.2,1);
+  }
+  input:focus, select:focus { outline: 2px solid #111; outline-offset: 2px; border-color: #111; }
+  .help { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5C5449; }
+  .row { display: flex; gap: 12px; }
+  .row .field { flex: 1; }
+</style></head>
+<body>
+  <div class="eyebrow">Fields — Mono label, Freight Text input</div>
+  <div class="field">
+    <label for="a">Email</label>
+    <input id="a" type="email" value="a@chariot.nyc">
+    <div class="help">We'll notify you 24 hours before the drop goes public.</div>
+  </div>
+  <div class="row">
+    <div class="field"><label>Size</label><select><option>XS</option><option>S</option><option selected>M</option><option>L</option></select></div>
+    <div class="field"><label>City</label><input placeholder="Brooklyn"></div>
+  </div>
+</body></html>

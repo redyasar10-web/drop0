@@ -1,0 +1,21 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Font families</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5C5449; }
+  .row { display: grid; grid-template-columns: 110px 1fr 150px; gap: 12px; padding: 12px 0; border-bottom: 1px solid #C8C0B5; align-items: baseline; }
+  .row:last-child { border-bottom: 0; }
+  .tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5C5449; }
+  .smp-d { font-family: var(--font-display); font-size: 32px; font-weight: 500; letter-spacing: -0.015em; color: #111; }
+  .smp-b { font-family: var(--font-body); font-size: 22px; color: #111; }
+  .smp-m { font-family: var(--font-mono); font-size: 20px; letter-spacing: 0.04em; color: #111; }
+  .use { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5C5449; text-align: right; }
+</style></head>
+<body>
+  <div class="eyebrow">Three families · three jobs</div>
+  <div style="margin-top: 6px">
+    <div class="row"><div class="tag">Display</div><div class="smp-d">Chariot — Already wearing it.</div><div class="use">Inter Variable · local</div></div>
+    <div class="row"><div class="tag">Body</div><div class="smp-b">Designed in Accra. Ships from New York.</div><div class="use">Spectral · <em>stands in for Freight</em></div></div>
+    <div class="row"><div class="tag">Mono</div><div class="smp-m">US$ 145.00 · 23 of 30</div><div class="use">DM Mono · <em>stands in for Söhne</em></div></div>
+  </div>
+</body></html>

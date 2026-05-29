@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chariot — Issue 00</title>
+<!-- FM_LAST_CLAIMED: 2 days ago — Red updates manually. -->
+<!-- THRESHOLD_RULE: Once ≥35 of 50 passes claimed (70%), swap the §8 active step copy to "High heat — only [N] founding passes remaining." -->
+<!-- STRIPE_INTEGRATION: all CTAs route to checkout once wired. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style>
+  :root{
+    --paper:#F6F5F1; --paper-2:#FAF6EC;
+    --ink:#14110F; --gold:#B8862B; --gold-deep:#8B6420;
+    --rule:rgba(20,17,15,0.10); --rule-paper:rgba(246,245,241,0.16);
+    --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    --sans:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif;
+    --ease:cubic-bezier(.2,.6,.2,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  img{display:block;max-width:100%;}
+  h1,h2,h3,h4{margin:0;font-weight:400;}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;color:inherit;}
+  ::selection{background:var(--gold);color:var(--paper);}
+
+  .label{font-family:var(--sans);font-size:11px;font-weight:500;
+    letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);}
+
+  .cta{display:inline-flex;align-items:center;justify-content:center;
+    font-family:var(--sans);font-size:14px;font-weight:500;letter-spacing:0.12em;
+    text-transform:uppercase;background:var(--gold);color:var(--ink);
+    border:0;border-radius:0;padding:18px 36px;cursor:pointer;
+    transition:background 160ms var(--ease);}
+  .cta:hover{background:var(--gold-deep);}
+
+  /* §0 NAV */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:80;background:transparent;
+    border-bottom:1px solid transparent;
+    transition:background 240ms var(--ease),border-color 240ms var(--ease);}
+  .nav__in{max-width:1280px;margin:0 auto;padding:22px 40px;}
+  .nav__wm{display:inline-flex;align-items:center;}
+  .nav__logo{width:130px;height:auto;display:block;}
+  .nav.scrolled{background:var(--ink);border-bottom-color:var(--rule-paper);}
+
+  /* §1 HERO */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;
+    justify-content:center;text-align:center;overflow:hidden;background:var(--ink);}
+  .hero__bg{position:absolute;inset:0;}
+  .hero__bg img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;}
+  .hero__bg::after{content:"";position:absolute;inset:0;background:rgba(20,17,15,0.55);}
+  .hero__in{position:relative;z-index:2;max-width:900px;padding:120px 24px 96px;
+    color:var(--paper);display:flex;flex-direction:column;align-items:center;}
+  .hero__eye{color:rgba(246,245,241,0.75);margin-bottom:26px;}
+  .hero__h{font-family:var(--serif);font-weight:300;font-size:clamp(48px,7vw,96px);
+    line-height:1.0;letter-spacing:0.005em;color:var(--paper);max-width:18ch;margin:0;}
+  .hero__body{font-family:var(--sans);font-size:15px;line-height:1.6;
+    color:rgba(246,245,241,0.70);max-width:52ch;margin:24px 0 0;}
+  .hero__cta-wrap{margin-top:36px;}
+  .hero__pay{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:0.12em;
+    text-transform:uppercase;color:rgba(246,245,241,0.55);margin-top:18px;}
+
+  /* generic section */
+  .sec{padding:96px 40px;}
+  .sec--ink{background:var(--ink);color:var(--paper);}
+  .sec--paper{background:var(--paper);}
+  .sec--paper2{background:var(--paper-2);}
+  .wrap{max-width:1200px;margin:0 auto;}
+  .h-head{font-family:var(--serif);font-weight:300;line-height:1.04;letter-spacing:0.01em;}
+  .rule{height:1px;background:var(--rule);border:0;margin:26px 0 0;}
+  .sec--ink .rule{background:var(--rule-paper);}
+
+  /* §3 FOUNDER LETTER */
+  .letter{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:64px;align-items:start;}
+  .letter__eye{display:block;margin-bottom:18px;}
+  .letter__h{font-size:clamp(36px,5vw,56px);color:var(--ink);margin:0 0 24px;}
+  .letter__body{display:flex;flex-direction:column;gap:18px;max-width:56ch;}
+  .letter__body p{font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.55;
+    color:rgba(20,17,15,0.85);}
+  .letter__sign{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink);
+    margin-top:26px;line-height:1.5;}
+  .letter__figure{margin:0;}
+  .letter__img{aspect-ratio:3/4;overflow:hidden;background:var(--ink);}
+  .letter__img img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;}
+  .letter__cap{font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:0.12em;
+    text-transform:uppercase;color:rgba(20,17,15,0.55);margin-top:12px;}
+
+  /* §4 BRAND (single editorial feature) */
+  .brands__eye{display:block;text-align:center;margin-bottom:44px;}
+  .brandfeature{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:56px;align-items:center;}
+  .brandfeature__img{aspect-ratio:3/4;overflow:hidden;background:#0f0d0b;}
+  .brandfeature__img img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;}
+  .brandfeature__name{font-family:var(--serif);font-weight:400;font-size:clamp(44px,5vw,64px);color:var(--paper);}
+  .brandfeature__loc{font-family:var(--sans);font-size:12px;font-weight:400;letter-spacing:0.14em;
+    text-transform:uppercase;color:rgba(246,245,241,0.65);margin:12px 0 0;}
+  .brandfeature__p{font-family:var(--serif);font-weight:400;font-size:18px;line-height:1.55;
+    color:rgba(246,245,241,0.80);max-width:48ch;margin:18px 0 0;}
+
+  /* §5 PIECES */
+  .pieces__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px 28px;margin-top:44px;}
+  .piece__img{aspect-ratio:3/4;overflow:hidden;background:var(--ink);}
+  .piece__img img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;
+    transition:transform 700ms var(--ease);}
+  .piece:hover .piece__img img{transform:scale(1.03);}
+  .piece__name{font-family:var(--serif);font-weight:400;font-size:17px;color:var(--ink);margin:12px 0 0;}
+  .piece__meta{font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:0.12em;
+    text-transform:uppercase;color:rgba(20,17,15,0.55);margin:4px 0 0;}
+
+  /* §8 STEPPER — what happens next */
+  .steps{display:flex;margin-top:48px;position:relative;}
+  .steps::before{content:"";position:absolute;top:7px;left:7px;right:7px;height:1px;background:var(--rule);}
+  .step{flex:1;display:flex;flex-direction:column;gap:14px;padding-right:24px;position:relative;}
+  .step__dot{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(20,17,15,0.25);
+    background:var(--paper);position:relative;z-index:1;}
+  .step--active .step__dot{border-color:var(--gold);background:var(--gold);}
+  .step__text{display:flex;flex-direction:column;gap:8px;}
+  .step__when{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:0.14em;
+    text-transform:uppercase;color:rgba(20,17,15,0.50);}
+  .step--active .step__when{color:var(--gold);}
+  .step__what{font-family:var(--serif);font-size:18px;line-height:1.35;color:rgba(20,17,15,0.65);}
+  .step--active .step__what{color:var(--ink);}
+
+  /* §10 FINAL */
+  .final{min-height:100svh;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;text-align:center;background:var(--ink);padding:96px 40px;}
+  .final__eye{margin-bottom:22px;}
+  .final__h{font-family:var(--serif);font-weight:300;font-size:clamp(40px,6vw,64px);
+    line-height:1.05;color:var(--paper);max-width:20ch;margin:0;}
+  .final__body{font-family:var(--sans);font-size:15px;line-height:1.6;color:rgba(246,245,241,0.70);
+    max-width:56ch;margin:24px 0 0;}
+  .final__cta-wrap{margin-top:36px;}
+  .final__fine{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:0.12em;
+    text-transform:uppercase;color:rgba(246,245,241,0.50);margin-top:20px;}
+
+  /* §11 FOOTER */
+  .foot{background:var(--ink);color:var(--paper);padding:36px 40px 30px;}
+  .foot__row{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;
+    align-items:center;gap:24px;}
+  .foot__wm{font-family:var(--serif);font-variant-caps:small-caps;font-weight:500;font-size:18px;
+    letter-spacing:0.18em;color:var(--paper);}
+  .foot__mid{font-family:var(--serif);font-style:italic;font-size:14px;color:rgba(246,245,241,0.50);text-align:center;}
+  .foot__r{justify-self:end;}
+  .foot__r a{font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:0.12em;
+    text-transform:uppercase;color:rgba(246,245,241,0.50);}
+  .foot__r a:hover{color:var(--gold);}
+  .foot__fine{text-align:center;margin-top:16px;font-family:var(--sans);font-size:10px;font-weight:400;
+    letter-spacing:0.10em;text-transform:uppercase;color:rgba(246,245,241,0.35);}
+
+  /* ambassador banner */
+  .ambassador-banner{background:var(--paper);border-bottom:1px solid var(--rule);padding:14px 24px;
+    text-align:center;font-family:var(--sans);font-size:12px;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--ink);}
+  .ambassador-banner__label{color:rgba(20,17,15,0.55);margin-right:6px;}
+  .ambassador-banner__name{color:var(--gold);font-weight:500;}
+
+  /* sticky mobile CTA */
+  .mcta{display:none;}
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:900px){
+    .letter{grid-template-columns:1fr;gap:32px;}
+    .letter__figure{order:-1;}
+    .brandfeature{grid-template-columns:1fr;gap:28px;}
+    .brandfeature__img{order:-1;}
+    .pieces__grid{grid-template-columns:1fr;gap:32px;}
+    .foot__row{grid-template-columns:1fr;text-align:center;gap:14px;justify-items:center;}
+    .foot__r{justify-self:center;}
+  }
+  @media(max-width:768px){
+    .sec{padding:64px 22px;}
+    .nav__in{padding:18px 22px;}
+    .hero__in{padding:104px 20px 96px;}
+    .final{padding:80px 22px 120px;}
+    .steps{flex-direction:column;gap:0;}
+    .steps::before{top:0;bottom:0;left:7px;right:auto;width:1px;height:auto;}
+    .step{flex-direction:row;align-items:flex-start;gap:18px;padding:0 0 28px 0;}
+    .step__dot{flex-shrink:0;margin-top:2px;}
+    .mcta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:90;align-items:center;
+      justify-content:center;height:56px;width:100%;background:var(--gold);color:var(--ink);
+      border:0;border-radius:0;font-family:var(--sans);font-size:14px;font-weight:500;
+      letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;
+      transition:opacity 200ms var(--ease),transform 200ms var(--ease);}
+    .mcta.hidden{opacity:0;transform:translateY(100%);pointer-events:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- §0 NAV -->
+<header class="nav" id="nav"><div class="nav__in"><a class="nav__wm" href="#top" aria-label="Chariot home"><img class="nav__logo" src="assets/chariot-logo-white.png" alt="Chariot" /></a></div></header>
+
+<!-- §1 HERO -->
+<header class="hero" id="top">
+  <div class="hero__bg"><img src="assets/1nri/varsity-jersey-01.jpg" alt="An 1NRI piece, worn in Berekuso" /></div>
+  <div class="hero__in">
+    <span class="label hero__eye">Drop 0 · May 2026 · Berekuso → Austin</span>
+    <h1 class="hero__h">The work that was already happening.</h1>
+    <p class="hero__body">1NRI. Berekuso, Ghana. Through Chariot, now in the United States.</p>
+    <div class="hero__cta-wrap"><a class="cta" href="#claim">Join the Founding Crew — $20</a></div>
+    <p class="hero__pay">Stripe-secured · Apple Pay · Google Pay · Refundable before Drop 1</p>
+  </div>
+</header>
+
+<!-- §3 A LETTER FROM THE FOUNDERS -->
+<section class="sec sec--paper">
+  <div class="wrap letter">
+    <div class="letter__text">
+      <span class="label letter__eye">A Letter from the Founders · Chariot · May 2026</span>
+      <h2 class="h-head letter__h">Dear Founding Crew,</h2>
+      <div class="letter__body">
+        <p>1NRI has been making clothes out of a studio in Berekuso since 2018. Nana Kwadwo Osei Nyarko runs it out of Ashesi University, where he was a student.</p>
+        <p>We brought 1NRI to the United States this year because no one was going to do it for them.</p>
+        <p>Chariot is not a marketplace. We are not a wholesaler. We are the bridge — Berekuso to Austin, through Aquantuo, under AGOA, paying the brand what they actually charge.</p>
+        <p>The Founding Crew is the first fifty people who put their hand up before any of this proves out. You will be on the hangtag of every Chariot piece, in the order you joined. The numbers stay private. The trust does not.</p>
+        <p>When Drop 1 opens in July, you go first. Twenty-four hours before anyone else. Every drop after that, same thing. Permanently.</p>
+        <p>That's the entire pitch.</p>
+      </div>
+      <p class="letter__sign">Red, on behalf of the Chariot team<br/>Wooster, Ohio</p>
+    </div>
+    <figure class="letter__figure">
+      <div class="letter__img"><img src="assets/1nri/olive-grove-jersey-blue-01.jpg" alt="1NRI, worn in Berekuso" /></div>
+      <figcaption class="letter__cap">1NRI · Berekuso, Ghana</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- §4 THE BRAND -->
+<section class="sec sec--ink">
+  <div class="wrap">
+    <span class="label brands__eye">The Brand · Drop 1 · July 2026</span>
+    <div class="brandfeature">
+      <div class="brandfeature__img"><img src="assets/1nri/dusk-button-up-01.jpg" alt="A person wearing 1NRI" /></div>
+      <div class="brandfeature__text">
+        <h3 class="brandfeature__name">1NRI</h3>
+        <p class="brandfeature__loc">Berekuso, Ghana · Since 2018</p>
+        <p class="brandfeature__p">Faith-based streetwear by Nana Kwadwo Osei Nyarko. Cut and sewn in Ghana. Tees, jerseys, sweatpants, shorts. Run from Ashesi University since the founder was a student.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §5 DROP 1, A PREVIEW -->
+<section class="sec sec--paper">
+  <div class="wrap">
+    <h2 class="h-head" style="font-size:clamp(36px,5vw,48px);color:var(--ink);">1NRI · Drop 1 Preview</h2>
+    <hr class="rule" />
+    <div class="pieces__grid">
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/dusk-tee-black.jpg" alt="SMS Tee, 1NRI" /></div>
+        <h3 class="piece__name">SMS Tee</h3>
+        <p class="piece__meta">1NRI · Tee</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/intercessory-fur-black.jpg" alt="Intercessory Dept Fur Tee, 1NRI" /></div>
+        <h3 class="piece__name">Intercessory Dept Fur Tee</h3>
+        <p class="piece__meta">1NRI · Tee</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/flare-sweatpants-khaki.jpg" alt="Flare Sweatpants, 1NRI" /></div>
+        <h3 class="piece__name">Flare Sweatpants</h3>
+        <p class="piece__meta">1NRI · Sweatpants</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/acid-washed-shorts-red.jpg" alt="Acid Washed Shorts, 1NRI" /></div>
+        <h3 class="piece__name">Acid Washed Shorts</h3>
+        <p class="piece__meta">1NRI · Shorts</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/life-and-death-burgundy.jpg" alt="Life and Death Tee, 1NRI" /></div>
+        <h3 class="piece__name">Life and Death Tee</h3>
+        <p class="piece__meta">1NRI · Tee</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/varsity-jersey.jpg" alt="Varsity Jersey 2.0, 1NRI" /></div>
+        <h3 class="piece__name">Varsity Jersey 2.0</h3>
+        <p class="piece__meta">1NRI · Jersey</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- §8 WHAT HAPPENS NEXT (stepper) -->
+<section class="sec sec--paper">
+  <div class="wrap">
+    <h2 class="h-head" style="font-size:clamp(32px,4.5vw,44px);color:var(--ink);">What happens next.</h2>
+    <div class="steps">
+      <div class="step step--active">
+        <span class="step__dot"></span>
+        <div class="step__text">
+          <span class="step__when">Now</span>
+          <!-- FM_LAST_CLAIMED --><span class="step__what">Founding Crew window open. Closes June 14.</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__dot"></span>
+        <div class="step__text">
+          <span class="step__when">June 14</span>
+          <span class="step__what">Order placed in Berekuso.</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__dot"></span>
+        <div class="step__text">
+          <span class="step__when">July</span>
+          <span class="step__what">Drop 1 opens. Founding Crew first.</span>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__dot"></span>
+        <div class="step__text">
+          <span class="step__when">August</span>
+          <span class="step__what">First pieces ship from Austin.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §9 — A SECOND LETTER, FROM THE BRAND
+     Render only when Red confirms a verified quote from Nana Kwadwo Osei Nyarko.
+     Format: same asymmetrical letter layout as §3, image left, text right.
+-->
+
+<!-- §10 FINAL CTA -->
+<section class="final" id="claim">
+  <span class="label final__eye">The Founding Crew · 50 spots · Closes June 14, 2026</span>
+  <h2 class="final__h">Take a spot before the window closes.</h2>
+  <p class="final__body">Drop 1 opens in July. Founding Crew goes in at hour 00. Permanently — every drop, every year, twenty-four hours before anyone else.</p>
+  <div class="final__cta-wrap"><a class="cta" href="#claim">Join the Founding Crew — $20</a></div>
+  <p class="final__fine">Stripe-secured · Apple Pay · Google Pay · Refundable before Drop 1</p>
+</section>
+
+<!-- §11 FOOTER -->
+<footer class="foot">
+  <div class="foot__row">
+    <span class="foot__wm">Chariot</span>
+    <span class="foot__mid">Berekuso. Austin. Yours when you claim it.</span>
+    <span class="foot__r"><a href="#">Instagram</a></span>
+  </div>
+  <p class="foot__fine">Issue 00 · May 2026 · Wooster, Ohio · Made for the Crew</p>
+</footer>
+
+<!-- sticky mobile CTA -->
+<a class="mcta" id="mcta" href="#claim">Join the Founding Crew — $20</a>
+
+<script>
+  // async webfonts
+  (function(){var l=document.createElement('link');l.rel='stylesheet';
+    l.href='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Inter:wght@400;500&display=swap';
+    document.head.appendChild(l);})();
+  // nav scroll state
+  (function(){var nav=document.getElementById('nav'),hero=document.getElementById('top');
+    if(!nav||!hero)return;
+    var onScroll=function(){nav.classList.toggle('scrolled',window.scrollY>hero.offsetHeight-90);};
+    window.addEventListener('scroll',onScroll,{passive:true});onScroll();})();
+  // sticky mobile CTA hides over §10
+  (function(){var mcta=document.getElementById('mcta'),fin=document.getElementById('claim');
+    if(!mcta||!fin||!('IntersectionObserver'in window))return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){mcta.classList.toggle('hidden',e.isIntersecting);});},{threshold:0.12});
+    io.observe(fin);})();
+  // ambassador UTM handler
+  (function(){
+    var params=new URLSearchParams(window.location.search);
+    var ref=params.get('ref');
+    if(!ref)return;
+    var ambassadors={'jay':'Jayden','jayden':'Jayden','shaq':'Shaq','shaquille':'Shaq'};
+    var name=ambassadors[ref.toLowerCase()];
+    if(!name)return;
+    var banner=document.createElement('div');
+    banner.className='ambassador-banner';
+    banner.innerHTML='<span class="ambassador-banner__label">Referred by</span> <span class="ambassador-banner__name">'+name+'</span>';
+    document.body.classList.add('has-ambassador');
+    var hero=document.querySelector('.hero');
+    if(hero&&hero.parentNode){hero.parentNode.insertBefore(banner,hero.nextSibling);}
+    document.querySelectorAll('a[href="#claim"]').forEach(function(a){a.setAttribute('data-ref',ref);});
+  })();
+</script>
+
+</body>
+</html>

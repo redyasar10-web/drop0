@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120" role="img" aria-label="CHARIOT customs stamp">
+  
+  <rect x="4" y="4" width="352" height="112" fill="none" stroke="#111111" stroke-width="1"></rect>
+  <rect x="10" y="10" width="340" height="100" fill="none" stroke="#111111" stroke-width="0.5"></rect>
+  <text class="m" x="20" y="30">NO. 0001 · RETAILER OF RECORD</text>
+  <text class="w" x="20" y="78">CHARIOT</text>
+  <text class="m" x="20" y="100">ACCRA → NEW YORK · DUTIES PAID</text>
+</svg>

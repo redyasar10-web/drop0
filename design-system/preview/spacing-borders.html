@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Borders & radii</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5C5449; }
+  .row { display: flex; gap: 14px; align-items: flex-end; margin-top: 14px; }
+  .tile { width: 84px; height: 60px; background: #E4DDD4; border: 1px solid #C8C0B5; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5C5449; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5C5449; margin-top: 4px; }
+  .stack { display: flex; flex-direction: column; align-items: flex-start; }
+  .hair { border-width: 0.5px; }
+  .b1 { border-width: 1px; }
+  .b2 { border-width: 2px; border-color: #111; }
+  .r0 { border-radius: 0; }
+  .r1 { border-radius: 2px; }
+  .rp { border-radius: 9999px; width: 110px; height: 32px; background: #F2EBE0; }
+</style></head>
+<body>
+  <div class="eyebrow">Borders — hairline, 1px Ash, 2px Ink</div>
+  <div class="row">
+    <div class="stack"><div class="tile hair">0.5</div><div class="lbl">Hairline</div></div>
+    <div class="stack"><div class="tile b1">1</div><div class="lbl">Default · Ash</div></div>
+    <div class="stack"><div class="tile b2">2</div><div class="lbl">Strong · Ink</div></div>
+  </div>
+  <div class="eyebrow" style="margin-top: 18px">Radii — 0 is default</div>
+  <div class="row">
+    <div class="stack"><div class="tile r0 b1">0</div><div class="lbl">Default</div></div>
+    <div class="stack"><div class="tile r1 b1">2</div><div class="lbl">Inputs</div></div>
+    <div class="stack"><div class="tile rp b1">PILL</div><div class="lbl">Chips · Badges</div></div>
+  </div>
+</body></html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chariot — Founding Member</title>
+<!-- FM_COUNT: 47 of 50 remaining — update hero subline AND timeline node together -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style>
+  :root{
+    --ink:#14110F; --cream:#F2EBDD; --paper:#FAF6EC;
+    --gold:#B8862B; --gold-deep:#8B6420; --rule:rgba(20,17,15,0.12);
+    --rule-cream:rgba(242,235,221,0.16);
+    --font-d:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    --font-u:"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif;
+    --ease:cubic-bezier(.2,.6,.2,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--cream);color:var(--ink);
+    font-family:var(--font-u);font-size:16px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  img{display:block;max-width:100%;}
+  h1,h2,h3,h4{margin:0;font-weight:400;}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+  button{font:inherit;color:inherit;}
+  ::selection{background:var(--gold);color:var(--ink);}
+
+  .label{font-family:var(--font-u);font-size:11px;font-weight:500;
+    letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);}
+  .label--cream{color:rgba(242,235,221,0.70);}
+
+  /* CTA — rectangular, gold, ink text */
+  .cta{display:inline-flex;align-items:center;justify-content:center;
+    font-family:var(--font-u);font-size:14px;font-weight:500;
+    letter-spacing:0.12em;text-transform:uppercase;
+    background:var(--gold);color:var(--ink);border:0;border-radius:0;
+    padding:18px 36px;cursor:pointer;transition:background 160ms var(--ease);}
+  .cta:hover{background:var(--gold-deep);}
+
+  /* §0 NAV */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:80;
+    background:transparent;border-bottom:1px solid transparent;
+    transition:background 240ms var(--ease),border-color 240ms var(--ease);}
+  .nav__in{max-width:1280px;margin:0 auto;padding:22px 40px;}
+  .nav__wm{font-family:var(--font-d);font-variant-caps:small-caps;
+    font-weight:500;font-size:21px;letter-spacing:0.18em;color:var(--cream);
+    transition:color 240ms var(--ease);}
+  .nav.scrolled{background:var(--ink);border-bottom-color:var(--rule-cream);}
+
+  /* §1 HERO */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;
+    justify-content:center;text-align:center;overflow:hidden;background:var(--ink);}
+  .hero__bg{position:absolute;inset:0;}
+  .hero__bg img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;}
+  .hero__bg::after{content:"";position:absolute;inset:0;background:rgba(20,17,15,0.60);}
+  .hero__in{position:relative;z-index:2;max-width:880px;padding:120px 24px 92px;
+    color:var(--cream);display:flex;flex-direction:column;align-items:center;}
+  .hero__eye{color:rgba(242,235,221,0.70);margin-bottom:28px;}
+  .hero__num{font-family:var(--font-d);font-weight:300;
+    font-size:clamp(72px,14vw,220px);line-height:0.9;letter-spacing:0.01em;
+    color:var(--cream);white-space:nowrap;margin:0;}
+  .hero__h{font-family:var(--font-d);font-weight:300;
+    font-size:clamp(34px,6vw,72px);line-height:1.05;color:var(--cream);
+    margin:26px 0 0;max-width:16ch;}
+  .hero__body{font-family:var(--font-u);font-size:16px;line-height:1.6;
+    color:rgba(242,235,221,0.75);max-width:56ch;margin:22px 0 0;}
+  .hero__cta-wrap{margin-top:38px;}
+  .hero__fine{font-family:var(--font-u);font-size:12px;
+    color:rgba(242,235,221,0.60);margin-top:18px;letter-spacing:0.01em;}
+
+  /* generic section */
+  .sec{padding:96px 40px;}
+  .sec--ink{background:var(--ink);color:var(--cream);}
+  .sec--cream{background:var(--cream);}
+  .sec--paper{background:var(--paper);}
+  .wrap{max-width:1200px;margin:0 auto;}
+  .wrap--text{max-width:64ch;margin:0 auto;}
+  .h-head{font-family:var(--font-d);font-weight:300;font-size:clamp(34px,5vw,48px);
+    line-height:1.04;letter-spacing:0.01em;}
+  .sec--ink .h-head{color:var(--cream);}
+  .rule{height:1px;background:var(--rule);border:0;margin:28px 0 0;}
+  .sec--ink .rule{background:var(--rule-cream);}
+
+  /* §2 TRUST TRANSFER */
+  .tt{text-align:center;}
+  .tt__lead{font-family:var(--font-d);font-style:italic;font-weight:500;
+    font-size:clamp(28px,3.4vw,36px);line-height:1.25;color:var(--ink);
+    max-width:24ch;margin:0 auto;}
+  .tt__quote{font-family:var(--font-d);font-style:italic;font-weight:400;
+    font-size:clamp(22px,2.6vw,28px);line-height:1.4;color:var(--ink);
+    max-width:56ch;margin:40px auto 0;}
+  .tt__attr{display:block;margin-top:28px;font-family:var(--font-u);font-size:11px;
+    font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);
+    line-height:1.6;}
+
+  /* §3 MEANS — 3 col */
+  .means__grid{display:grid;grid-template-columns:repeat(3,1fr);
+    gap:48px;margin-top:48px;}
+  .means__col{display:flex;flex-direction:column;gap:14px;}
+  .means__label{font-family:var(--font-u);font-size:11px;font-weight:500;
+    letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);}
+  .means__h{font-family:var(--font-d);font-weight:400;font-size:22px;
+    line-height:1.2;color:var(--ink);}
+  .means__p{font-family:var(--font-u);font-size:14px;line-height:1.6;
+    color:rgba(20,17,15,0.80);}
+
+  /* §4 BRANDS */
+  .brands__eye{display:block;margin-bottom:40px;}
+  .brands__grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+  .bcard__img{aspect-ratio:4/3;overflow:hidden;background:#14110F;}
+  .bcard__img img{width:100%;height:100%;object-fit:cover;}
+  .bcard__name{font-family:var(--font-d);font-weight:400;font-size:32px;
+    color:var(--cream);margin:24px 0 0;}
+  .bcard__loc{font-family:var(--font-u);font-size:12px;font-weight:500;
+    letter-spacing:0.14em;text-transform:uppercase;color:rgba(242,235,221,0.70);
+    margin:8px 0 0;}
+  .bcard__p{font-family:var(--font-u);font-size:14px;line-height:1.6;
+    color:rgba(242,235,221,0.80);max-width:56ch;margin:14px 0 0;}
+
+  /* §5 PIECES */
+  .pieces__grid{display:grid;grid-template-columns:repeat(3,1fr);
+    gap:32px 28px;margin-top:48px;}
+  .piece__img{aspect-ratio:1/1;overflow:hidden;background:var(--paper);}
+  .piece__img img{width:100%;height:100%;object-fit:cover;transition:transform 700ms var(--ease);}
+  .piece:hover .piece__img img{transform:scale(1.03);}
+  .piece__name{font-family:var(--font-d);font-weight:400;font-size:18px;
+    color:var(--ink);margin:14px 0 0;}
+  .piece__meta{font-family:var(--font-u);font-size:11px;font-weight:400;
+    letter-spacing:0.12em;text-transform:uppercase;color:rgba(20,17,15,0.60);margin:5px 0 0;}
+
+  /* §6 RECEIPT */
+  .receipt__eye{display:block;}
+  .receipt__h{margin:18px 0 0;}
+  .receipt__sub{font-family:var(--font-d);font-style:italic;font-weight:400;
+    font-size:clamp(20px,2.4vw,22px);line-height:1.45;color:rgba(242,235,221,0.80);
+    max-width:56ch;margin:18px 0 0;}
+  .receipt{margin:44px 0 0;max-width:560px;}
+  .receipt__row{display:flex;justify-content:space-between;align-items:baseline;
+    gap:24px;padding:13px 0;border-bottom:1px solid var(--rule-cream);}
+  .receipt__row:last-child{border-bottom:0;}
+  .receipt__row span{font-family:var(--font-u);font-size:13px;font-weight:400;
+    color:rgba(242,235,221,0.78);}
+  .receipt__row b{font-family:var(--font-u);font-size:13px;font-weight:400;
+    color:rgba(242,235,221,0.50);font-variant-numeric:tabular-nums;}
+  .receipt__row--total{border-top:1px solid var(--rule-cream);margin-top:6px;}
+  .receipt__close{font-family:var(--font-d);font-style:italic;font-weight:400;
+    font-size:20px;line-height:1.45;color:rgba(242,235,221,0.80);
+    max-width:56ch;margin:44px auto 0;text-align:center;}
+
+  /* §7 HOW */
+  .how__rows{margin-top:40px;max-width:64ch;}
+  .how__row{display:grid;grid-template-columns:48px 1fr;align-items:baseline;
+    gap:20px;padding:20px 0;border-bottom:1px solid var(--rule);}
+  .how__row:last-child{border-bottom:0;}
+  .how__n{font-family:var(--font-d);font-weight:300;font-size:24px;color:var(--gold);}
+  .how__t{font-family:var(--font-u);font-size:16px;color:var(--ink);}
+
+  /* §8 WINDOW */
+  .win__grid{display:grid;grid-template-columns:repeat(4,1fr);
+    margin-top:48px;border-top:1px solid var(--rule);}
+  .win__node{padding:28px 24px 28px 0;border-right:1px solid var(--rule);}
+  .win__node:last-child{border-right:0;padding-right:0;}
+  .win__when{font-family:var(--font-u);font-size:11px;font-weight:500;
+    letter-spacing:0.14em;text-transform:uppercase;color:rgba(20,17,15,0.55);}
+  .win__what{font-family:var(--font-d);font-weight:400;font-size:21px;
+    line-height:1.2;color:rgba(20,17,15,0.60);margin:12px 0 0;}
+  .win__sub{font-family:var(--font-u);font-size:13px;line-height:1.5;
+    color:rgba(20,17,15,0.55);margin:8px 0 0;}
+  .win__node--now .win__when{color:var(--gold);}
+  .win__node--now .win__what{color:var(--gold);font-size:24px;}
+  .win__node--now .win__sub{color:rgba(20,17,15,0.75);}
+
+  /* §9 FINAL */
+  .final{min-height:100svh;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;text-align:center;background:var(--ink);padding:96px 40px;}
+  .final__h{font-family:var(--font-d);font-weight:300;font-size:clamp(40px,7vw,64px);
+    line-height:1.05;color:var(--cream);margin:0;}
+  .final__body{font-family:var(--font-u);font-size:16px;line-height:1.6;
+    color:rgba(242,235,221,0.70);max-width:56ch;margin:24px 0 0;}
+  .final__cta-wrap{margin-top:38px;}
+  .final__fine{font-family:var(--font-u);font-size:11px;font-weight:400;
+    letter-spacing:0.16em;text-transform:uppercase;color:rgba(242,235,221,0.50);margin-top:20px;}
+
+  /* §10 FOOTER */
+  .foot{background:var(--ink);color:var(--cream);padding:32px 40px;
+    display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;
+    border-top:1px solid var(--rule-cream);}
+  .foot__wm{font-family:var(--font-d);font-variant-caps:small-caps;font-weight:500;
+    font-size:18px;letter-spacing:0.18em;color:var(--cream);}
+  .foot__mid{font-family:var(--font-d);font-style:italic;font-size:14px;
+    color:rgba(242,235,221,0.50);text-align:center;}
+  .foot__r{justify-self:end;}
+  .foot__r a{font-family:var(--font-u);font-size:11px;font-weight:400;
+    letter-spacing:0.14em;text-transform:uppercase;color:rgba(242,235,221,0.50);}
+  .foot__r a:hover{color:var(--gold);}
+
+  /* sticky mobile CTA */
+  .mcta{display:none;}
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:900px){
+    .means__grid{grid-template-columns:1fr;gap:36px;}
+    .brands__grid{grid-template-columns:1fr;gap:48px;}
+    .pieces__grid{grid-template-columns:1fr;gap:32px;}
+    .win__grid{grid-template-columns:1fr;border-top:0;}
+    .win__node{border-right:0;border-bottom:1px solid var(--rule);padding:22px 0;}
+    .win__node:last-child{border-bottom:0;}
+  }
+  @media(max-width:768px){
+    .sec{padding:64px 22px;}
+    .nav__in{padding:18px 22px;}
+    .hero__in{padding:104px 20px 96px;}
+    .foot{grid-template-columns:1fr;text-align:center;gap:14px;justify-items:center;}
+    .foot__r{justify-self:center;}
+    .final{padding:80px 22px 120px;}
+    /* sticky mobile CTA */
+    .mcta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:90;
+      align-items:center;justify-content:center;height:56px;width:100%;
+      background:var(--gold);color:var(--ink);border:0;border-radius:0;
+      font-family:var(--font-u);font-size:14px;font-weight:500;
+      letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;
+      transition:opacity 200ms var(--ease),transform 200ms var(--ease);}
+    .mcta.hidden{opacity:0;transform:translateY(100%);pointer-events:none;}
+  }
+  @media(max-width:420px){
+    .hero__num{font-size:clamp(58px,17vw,90px);}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================ §0 NAV ============================ -->
+<header class="nav" id="nav">
+  <div class="nav__in"><a class="nav__wm" href="#top">Chariot</a></div>
+</header>
+
+<!-- ============================ §1 HERO ============================ -->
+<header class="hero" id="top">
+  <div class="hero__bg"><img src="assets/jireh/battle-angel-black-yellow.jpg" alt="A Jireh piece worn in Accra" /></div>
+  <div class="hero__in">
+    <span class="label hero__eye">Drop 0 · 50 Founding Spots · Closes June 14</span>
+    <p class="hero__num">#001 — #050</p>
+    <h1 class="hero__h">This is your number. Take one.</h1>
+    <p class="hero__body">Founding Member of Chariot. Permanent. Non-transferable. Yours when you claim it.</p>
+    <div class="hero__cta-wrap"><a class="cta" href="#claim">Claim Your Number — $20</a></div>
+    <!-- FM_COUNT --><p class="hero__fine">47 of 50 remaining · Stripe-secured · Refundable before Drop 1</p>
+  </div>
+</header>
+
+<!-- ===================== §2 TRUST TRANSFER ===================== -->
+<section class="sec sec--cream">
+  <div class="wrap tt">
+    <p class="tt__lead">1NRI's first US drop. Through Chariot.</p>
+    <p class="tt__quote">Maybe this is an unpopular opinion, but if your idea is really powerful and strong, why are you part-timing it?</p>
+    <span class="tt__attr">Nana Kwadwo Osei Nyarko · Founder, 1NRI · Ashesi University · Berekuso, Ghana</span>
+  </div>
+</section>
+
+<!-- ================= §3 WHAT BEING FOUNDING MEANS ================= -->
+<section class="sec sec--cream">
+  <div class="wrap">
+    <h2 class="h-head">What being founding means.</h2>
+    <hr class="rule" />
+    <div class="means__grid">
+      <div class="means__col">
+        <span class="means__label">Your Number</span>
+        <h3 class="means__h">A number between 001 and 050.</h3>
+        <p class="means__p">Engraved into your Chariot account. Printed on the hangtag of every Chariot piece you ever buy. Never reissued.</p>
+      </div>
+      <div class="means__col">
+        <span class="means__label">First Access</span>
+        <h3 class="means__h">Every drop, before anyone else.</h3>
+        <p class="means__p">Twenty-four hours before public. Permanently. Not a launch — a head start.</p>
+      </div>
+      <div class="means__col">
+        <span class="means__label">Drop 1 Entitlement</span>
+        <h3 class="means__h">Credit toward 1NRI and Jireh, applied at checkout.</h3>
+        <p class="means__p">Locked to your account. Use it on Drop 1 in July, or roll it forward. Never expires.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= §4 THE BRANDS ========================= -->
+<section class="sec sec--ink">
+  <div class="wrap">
+    <span class="label brands__eye">The brands that chose Chariot for their first US drop</span>
+    <div class="brands__grid">
+      <article class="bcard">
+        <div class="bcard__img"><img src="assets/products/sackcloth-clay.jpg" alt="1NRI piece" /></div>
+        <h3 class="bcard__name">1NRI</h3>
+        <p class="bcard__loc">Berekuso, Ghana · Since 2018</p>
+        <p class="bcard__p">Faith-based streetwear by Nana Kwadwo Osei Nyarko. Cut and sewn in Ghana. Tees, jerseys, sweatpants, shorts. Run from Ashesi University since 2018.</p>
+      </article>
+      <article class="bcard">
+        <div class="bcard__img"><img src="assets/jireh/campaign-01.jpg" alt="Jireh Battle Angel series" /></div>
+        <h3 class="bcard__name">Jireh</h3>
+        <p class="bcard__loc">East Legon, Accra</p>
+        <p class="bcard__p">Streetwear with the Battle Angel series. Graphic tees, long sleeves, high-contrast colorways. Available through Chariot for the first time in the US.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= §5 THE PIECES ========================= -->
+<section class="sec sec--cream">
+  <div class="wrap">
+    <h2 class="h-head">Some of what's coming in Drop 1.</h2>
+    <div class="pieces__grid">
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/dusk-tee-black.jpg" alt="SMS Tee, 1NRI" /></div>
+        <h3 class="piece__name">SMS Tee</h3>
+        <p class="piece__meta">1NRI · Tee</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/intercessory-fur-black.jpg" alt="Intercessory Dept Fur Tee, 1NRI" /></div>
+        <h3 class="piece__name">Intercessory Dept Fur Tee</h3>
+        <p class="piece__meta">1NRI · Tee</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/flare-sweatpants-khaki.jpg" alt="Flare Sweatpants, 1NRI" /></div>
+        <h3 class="piece__name">Flare Sweatpants</h3>
+        <p class="piece__meta">1NRI · Sweatpants</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/acid-washed-shorts-red.jpg" alt="Acid Washed Shorts, 1NRI" /></div>
+        <h3 class="piece__name">Acid Washed Shorts</h3>
+        <p class="piece__meta">1NRI · Shorts</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/life-and-death-burgundy.jpg" alt="Life and Death Tee, 1NRI" /></div>
+        <h3 class="piece__name">Life and Death Tee</h3>
+        <p class="piece__meta">1NRI · Tee</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/varsity-jersey.jpg" alt="Varsity Jersey 2.0, 1NRI" /></div>
+        <h3 class="piece__name">Varsity Jersey 2.0</h3>
+        <p class="piece__meta">1NRI · Jersey</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= §6 THE RECEIPT ========================= -->
+<section class="sec sec--ink">
+  <div class="wrap">
+    <span class="label receipt__eye">How we built this price</span>
+    <h2 class="h-head receipt__h">The math is the trust.</h2>
+    <p class="receipt__sub">We don't hide the numbers. Most brands do. This is what every Chariot piece actually costs to bring to your door.</p>
+    <div class="receipt">
+      <div class="receipt__row"><span>Wholesale (Accra)</span><b>$12.39</b></div>
+      <div class="receipt__row"><span>Shipping via Aquantuo (Nii Okaiman → Austin)</span><b>$10.00</b></div>
+      <div class="receipt__row"><span>AGOA tariff (Ghana cotton, signed Feb 2026)</span><b>0%</b></div>
+      <div class="receipt__row"><span>Fulfillment (Austin, Texas)</span><b>$9.00</b></div>
+      <div class="receipt__row"><span>Packaging</span><b>$3.00</b></div>
+      <div class="receipt__row"><span>Stripe processing</span><b>$2.19</b></div>
+      <div class="receipt__row"><span>Returns reserve</span><b>$1.50</b></div>
+      <div class="receipt__row receipt__row--total"><span>Chariot retail</span><b>$65.00</b></div>
+    </div>
+    <p class="receipt__close">Your founding number gets you in. The full math arrives when Drop 1 opens.</p>
+  </div>
+</section>
+
+<!-- ========================= §7 HOW IT WORKS ========================= -->
+<section class="sec sec--cream">
+  <div class="wrap">
+    <h2 class="h-head">How Chariot works.</h2>
+    <div class="how__rows">
+      <div class="how__row"><span class="how__n">1</span><span class="how__t">We go to Accra. We work with the brand directly.</span></div>
+      <div class="how__row"><span class="how__n">2</span><span class="how__t">We handle customs, duties, and import. You do not.</span></div>
+      <div class="how__row"><span class="how__n">3</span><span class="how__t">Your piece ships from Austin, Texas. Not Accra.</span></div>
+      <div class="how__row"><span class="how__n">4</span><span class="how__t">The price you see is the price you pay. Returns are free.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= §8 THE WINDOW ========================= -->
+<section class="sec sec--cream">
+  <div class="wrap">
+    <h2 class="h-head">The window.</h2>
+    <div class="win__grid">
+      <div class="win__node win__node--now">
+        <span class="win__when">Now · May 2026</span>
+        <h3 class="win__what">Founding Member window</h3>
+        <!-- FM_COUNT --><p class="win__sub">47 of 50 spots remain. Closes June 14.</p>
+      </div>
+      <div class="win__node">
+        <span class="win__when">Jun 14, 2026</span>
+        <h3 class="win__what">Wholesale order placed in Accra.</h3>
+      </div>
+      <div class="win__node">
+        <span class="win__when">July 2026</span>
+        <h3 class="win__what">Drop 1 opens. Founding Members at hour 00.</h3>
+      </div>
+      <div class="win__node">
+        <span class="win__when">August 2026</span>
+        <h3 class="win__what">First pieces ship from Austin.</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= §9 FINAL CTA ========================= -->
+<section class="final" id="claim">
+  <h2 class="final__h">Your number is still open.</h2>
+  <p class="final__body">47 of 50 remaining. Window closes June 14, 2026. Stripe-secured. Refundable anytime before Drop 1.</p>
+  <div class="final__cta-wrap"><a class="cta" href="#claim">Claim Your Number — $20</a></div>
+  <p class="final__fine">Stripe-secured · Refundable before Drop 1 · No subscription</p>
+</section>
+
+<!-- ========================= §10 FOOTER ========================= -->
+<footer class="foot">
+  <span class="foot__wm">Chariot</span>
+  <span class="foot__mid">Accra. Austin. What the rest of the world is already wearing.</span>
+  <span class="foot__r"><a href="#">Instagram</a></span>
+</footer>
+
+<!-- sticky mobile CTA -->
+<a class="mcta" id="mcta" href="#claim">Claim Your Number — $20</a>
+
+<script>
+  // Async webfonts (non-blocking)
+  (function(){
+    var l=document.createElement('link');l.rel='stylesheet';
+    l.href='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Inter:wght@400;500&display=swap';
+    document.head.appendChild(l);
+  })();
+  // Nav: transparent over hero -> ink on scroll
+  (function(){
+    var nav=document.getElementById('nav'),hero=document.getElementById('top');
+    if(!nav||!hero)return;
+    var onScroll=function(){nav.classList.toggle('scrolled',window.scrollY>hero.offsetHeight-90);};
+    window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  })();
+  // Sticky mobile CTA hides while §9 (final) is in view
+  (function(){
+    var mcta=document.getElementById('mcta'),final=document.getElementById('claim');
+    if(!mcta||!final||!('IntersectionObserver'in window))return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){mcta.classList.toggle('hidden',e.isIntersecting);});
+    },{threshold:0.12});
+    io.observe(final);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Chariot — Founding Member</title>
+<!-- THRESHOLD_RULE: hero/close/stepper counts driven by founding-count.json (Red edits claimed count). -->
+<!-- STRIPE_INTEGRATION: all CTAs route to #claim until Stripe is wired. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="image" href="assets/1nri/olive-grove-jersey-blue-01.jpg" />
+<style>
+  :root{
+    --ink:#14110F; --paper:#FAF6EC; --cream:#F2EBDD;
+    --ink-70:rgba(20,17,15,0.70); --ink-50:rgba(20,17,15,0.50);
+    --cream-75:rgba(242,235,221,0.75); --cream-50:rgba(242,235,221,0.50); --cream-35:rgba(242,235,221,0.35);
+    --gold:#B8862B; --gold-deep:#8B6420;
+    --rule:rgba(20,17,15,0.12); --rule-cream:rgba(242,235,221,0.22);
+    --serif:"Cormorant Garamond",Georgia,serif;
+    --sans:"Inter",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    --ease:cubic-bezier(.2,.6,.2,1);
+    --site-max:1440px; --pad-x:clamp(20px,4vw,64px);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  img{display:block;max-width:100%;}
+  h1,h2,h3,h4{margin:0;font-weight:400;}
+  p{margin:0;}
+  a{color:inherit;text-decoration:none;}
+
+  ::selection{background:var(--gold);color:var(--paper);}
+  .hero ::selection,.brandhero ::selection,.get ::selection,.close ::selection,.foot ::selection{background:var(--cream);color:var(--ink);}
+
+  .cta:focus-visible,.mcta:focus-visible,.foot__r a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+
+  .count{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--gold);}
+  .eye{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:0.18em;
+    text-transform:uppercase;color:var(--gold);}
+
+  .cta{display:inline-flex;align-items:center;justify-content:center;
+    font-family:var(--sans);font-size:16px;font-weight:500;letter-spacing:0.12em;
+    text-transform:uppercase;background:var(--gold);color:var(--ink);
+    border:0;border-radius:0;padding:20px 48px;cursor:pointer;
+    transition:background 160ms var(--ease);}
+  .cta:hover{background:var(--gold-deep);}
+  .finep{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--cream-50);margin-top:16px;}
+
+  /* §0 NAV */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:80;
+    background:linear-gradient(to bottom,rgba(20,17,15,0.45),rgba(20,17,15,0));
+    transition:background 240ms var(--ease);}
+  .nav__in{max-width:var(--site-max);margin:0 auto;padding:22px var(--pad-x);}
+  .nav__wm{display:inline-flex;align-items:center;}
+  .nav__logo{width:130px;height:auto;display:block;}
+  .nav.scrolled{background:var(--ink);}
+
+  /* §1 HERO */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;
+    text-align:center;overflow:hidden;background:var(--ink);padding:120px var(--pad-x) 80px;}
+  .hero__bg{position:absolute;inset:0;background:url('assets/1nri/olive-grove-jersey-blue-01.jpg') center/cover no-repeat;
+    background-position:50% 30%;}
+  .hero__bg::after{content:"";position:absolute;inset:0;background:rgba(20,17,15,0.62);}
+  .hero__in{position:relative;z-index:2;max-width:680px;display:flex;flex-direction:column;align-items:center;color:var(--cream);}
+  .hero__count{margin-bottom:26px;}
+  .hero__h{font-family:var(--serif);font-weight:300;font-size:clamp(52px,8vw,88px);line-height:1.0;
+    letter-spacing:0.005em;color:var(--cream);max-width:14ch;margin:0;}
+  .hero__sub{font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--cream-75);
+    max-width:44ch;margin:24px 0 0;}
+  .hero__cta-wrap{margin-top:40px;}
+
+  /* §2 BRAND */
+  .brandhero{background:var(--ink);color:var(--cream);}
+  .brandhero__img{width:100%;height:65vh;min-height:420px;object-fit:cover;object-position:50% 28%;}
+  .brandhero__text{max-width:680px;margin:0 auto;padding:64px var(--pad-x);text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:20px;}
+  .brandhero__copy{font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.55;
+    color:var(--cream);max-width:44ch;}
+
+  /* §3 PITCH */
+  .pitch{background:var(--paper);padding:96px var(--pad-x);}
+  .pitch__in{max-width:680px;margin:0 auto;}
+  .pitch__eye{display:block;margin-bottom:32px;}
+  .pitch__body{display:flex;flex-direction:column;gap:22px;}
+  .pitch__body p{font-family:var(--serif);font-weight:400;font-size:20px;line-height:1.65;color:var(--ink);}
+  .pitch__sign{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink-70);margin-top:32px;}
+
+  /* §4 WHAT YOU GET */
+  .get{background:var(--ink);color:var(--cream);padding:96px var(--pad-x);text-align:center;}
+  .get__in{max-width:680px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
+  .get__eye{margin-bottom:40px;}
+  .get__line{font-family:var(--serif);font-weight:300;font-size:clamp(28px,4vw,40px);line-height:1.2;
+    color:var(--cream);max-width:18ch;}
+  .get__sep{width:60px;height:1px;background:var(--gold);margin:28px auto;display:block;}
+  .get__rule{width:100%;height:1px;background:var(--rule-cream);border:0;margin:48px 0 0;}
+  .get__cta-wrap{margin-top:48px;}
+
+  /* §5 PREVIEW */
+  .preview{background:var(--paper);padding:96px var(--pad-x);}
+  .preview__in{max-width:var(--site-max);margin:0 auto;}
+  .preview__h{font-family:var(--serif);font-weight:300;font-size:clamp(36px,5vw,48px);
+    letter-spacing:0.01em;color:var(--ink);}
+  .preview__sub{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--ink-50);margin:8px 0 0;}
+  .preview__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 28px;margin-top:48px;}
+  .piece__img{aspect-ratio:3/4;overflow:hidden;background:var(--ink);}
+  .piece__img img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;transition:transform 600ms var(--ease);}
+  .piece:hover .piece__img img{transform:scale(1.03);}
+  .piece__name{font-family:var(--serif);font-weight:400;font-size:17px;color:var(--ink);margin:14px 0 0;}
+  .piece__meta{font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--ink-50);margin:4px 0 0;}
+
+  /* §6 TIMELINE */
+  .tl-sec{background:var(--paper);padding:0 var(--pad-x) 96px;}
+  .tl-in{max-width:var(--site-max);margin:0 auto;}
+  .tl-h{font-family:var(--serif);font-weight:300;font-size:clamp(32px,4.5vw,44px);color:var(--ink);}
+  .steps{display:flex;margin-top:48px;position:relative;}
+  .steps::before{content:"";position:absolute;top:7px;left:7px;right:7px;height:1px;background:var(--rule);}
+  .step{flex:1;display:flex;flex-direction:column;gap:14px;padding-right:24px;position:relative;}
+  .step__dot{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(20,17,15,0.25);
+    background:var(--paper);position:relative;z-index:1;}
+  .step--active .step__dot{border-color:var(--gold);background:var(--gold);}
+  .step__text{display:flex;flex-direction:column;gap:8px;}
+  .step__when{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--ink-50);}
+  .step--active .step__when{color:var(--gold);}
+  .step__what{font-family:var(--serif);font-size:18px;line-height:1.35;color:var(--ink-70);}
+  .step--active .step__what{color:var(--ink);}
+
+  /* §7 CLOSE */
+  .close{background:var(--ink);color:var(--cream);min-height:100svh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;padding:96px var(--pad-x);}
+  .close__count{margin-bottom:24px;}
+  .close__h{font-family:var(--serif);font-weight:300;font-size:clamp(40px,6vw,64px);line-height:1.05;
+    color:var(--cream);max-width:20ch;margin:0;}
+  .close__body{font-family:var(--sans);font-size:15px;line-height:1.6;color:var(--cream-75);max-width:44ch;margin:20px 0 0;}
+  .close__recap{margin-top:28px;display:flex;flex-direction:column;gap:2px;}
+  .close__recap span{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.8;color:var(--cream-75);}
+  .close__cta-wrap{margin-top:40px;}
+
+  /* §8 FOOTER */
+  .foot{background:var(--ink);color:var(--cream);padding:36px var(--pad-x) 30px;}
+  .foot__row{max-width:var(--site-max);margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;}
+  .foot__wm{font-family:var(--serif);font-variant-caps:small-caps;font-weight:500;font-size:18px;letter-spacing:0.18em;color:var(--cream);}
+  .foot__mid{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--cream-50);text-align:center;}
+  .foot__r{justify-self:end;}
+  .foot__r a{font-family:var(--sans);font-size:11px;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--cream-50);}
+  .foot__r a:hover{color:var(--gold);}
+  .foot__fine{text-align:center;margin-top:20px;display:flex;flex-direction:column;gap:6px;}
+  .foot__fine span{font-family:var(--sans);font-size:10px;font-weight:400;letter-spacing:0.10em;text-transform:uppercase;color:var(--cream-35);}
+
+  /* ambassador banner */
+  .ambassador-banner{background:var(--paper);border-bottom:1px solid var(--rule);padding:14px 24px;
+    text-align:center;font-family:var(--sans);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);}
+  .ambassador-banner__label{color:var(--ink-50);margin-right:6px;}
+  .ambassador-banner__name{color:var(--gold);font-weight:500;}
+
+  /* sticky mobile CTA */
+  .mcta{display:none;}
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:900px){
+    .preview__grid{grid-template-columns:repeat(2,1fr);gap:32px 20px;}
+    .foot__row{grid-template-columns:1fr 1fr;grid-template-areas:"wm links" "mid mid";
+      text-align:left;gap:18px 16px;justify-items:start;}
+    .foot__wm{grid-area:wm;}
+    .foot__r{grid-area:links;justify-self:end;}
+    .foot__mid{grid-area:mid;text-align:center;grid-column:1 / -1;margin-top:6px;}
+  }
+  @media(max-width:768px){
+    .nav__in{padding:18px 22px;}
+    .hero{padding:108px 22px 72px;}
+    .pitch,.get,.preview,.close{padding-left:22px;padding-right:22px;}
+    .steps{flex-direction:column;gap:0;}
+    .steps::before{top:7px;bottom:auto;height:calc(100% - 28px);left:7px;right:auto;width:1px;}
+    .step{flex-direction:row;align-items:flex-start;gap:18px;padding:0 0 28px 0;}
+    .step__dot{flex-shrink:0;margin-top:2px;}
+    .preview__grid{grid-template-columns:1fr;gap:28px;}
+    .mcta{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:90;align-items:flex-start;justify-content:center;
+      height:calc(56px + env(safe-area-inset-bottom));padding-top:18px;padding-bottom:env(safe-area-inset-bottom);
+      background:var(--gold);color:var(--ink);font-family:var(--sans);font-size:14px;font-weight:500;
+      letter-spacing:0.12em;text-transform:uppercase;
+      transition:opacity 200ms var(--ease),transform 200ms var(--ease);}
+    .mcta.hidden{opacity:0;transform:translateY(100%);pointer-events:none;}
+  }
+  @media(prefers-reduced-motion:reduce){.piece__img img{transition:none;}html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+
+<!-- §0 NAV -->
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a class="nav__wm" href="#top" aria-label="Chariot home"><img class="nav__logo" src="assets/chariot-logo-white.png" alt="Chariot" /></a>
+  </div>
+</header>
+
+<!-- §1 HERO -->
+<header class="hero" id="top">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__in" style="width: 700px">
+    <p class="count hero__count" id="hero-count-text">48 of 50 founding member spots remain · Closes June 14</p>
+    <h1 class="hero__h" style="font-size: 62px; width: 6000px; font-weight: 400; text-align: center">Drop 1 opens in July. 
+
+
+Founding Members go first.</h1>
+    <p class="hero__sub">1NRI. Made in Accra since 2018. Through Chariot, in the United States for the first time. Your number is permanent. Every drop, every year, twenty-four hours before anyone else.</p>
+    <div class="hero__cta-wrap"><a class="cta" href="#claim">Claim your spot — $20</a></div>
+    <p class="finep">Refundable until Drop 1 opens · Stripe · Apple Pay · Google Pay</p>
+  </div>
+</header>
+
+<!-- §2 THE BRAND -->
+<section class="brandhero">
+  <img class="brandhero__img" src="assets/1nri/dusk-button-up-01.jpg" alt="1NRI Dusk Button-Up, FW25, photographed in studio" />
+  <div class="brandhero__text">
+    <span class="eye">1NRI · Osu, Accra · Since 2018</span>
+    <p class="brandhero__copy">The cutting tables are old. The work is good. You won't find this at a US retailer. That is the point.</p>
+  </div>
+</section>
+
+<!-- §3 THE PITCH -->
+<section class="pitch">
+  <div class="pitch__in">
+    <span class="eye pitch__eye">A LETTER FROM THE FOUNDERS · CHARIOT · JUNE 2026</span>
+    <div class="pitch__body">
+      <p>Chariot is not a marketplace. We are not a wholesaler. We bridge what the world is wearing to America.</p>
+      <p>The Founding Members are the first fifty people who put their hand up before any of this proves out. You will be on the hangtag of every Chariot piece, in the order you joined. The numbers stay private. The trust does not.</p>
+      <p>When Drop 1 opens in July, you go first. Twenty-four hours before anyone else. Every drop after that, same thing. Permanently.</p>
+    </div>
+    <p class="pitch__sign">Sincerely,
+The Chariot Team</p>
+  </div>
+</section>
+
+<!-- §4 WHAT YOU GET -->
+<section class="get">
+  <div class="get__in">
+    <span class="eye get__eye">Founding Member · $20</span>
+    <p class="get__line">Hangtag with your number, in the order you joined</p>
+    <span class="get__sep" aria-hidden="true"></span>
+    <p class="get__line">24 hours early on every drop. Permanently.</p>
+    <span class="get__sep" aria-hidden="true"></span>
+    <p class="get__line">$30 credit toward Drop 1 <!-- $30 CREDIT CONFIRM — remove if not real --></p>
+    <hr class="get__rule" />
+    <div class="get__cta-wrap"><a class="cta" href="#claim">Claim your spot — $20</a></div>
+    <p class="finep">Refundable until Drop 1 opens · Stripe handles the rest</p>
+  </div>
+</section>
+
+<!-- §5 DROP 1 PREVIEW -->
+<section class="preview">
+  <div class="preview__in">
+    <h2 class="preview__h">1NRI · Drop 1</h2>
+    <p class="preview__sub">Founding Members shop 24 hours before anyone else</p>
+    <div class="preview__grid">
+      <article class="piece">
+        <div class="piece__img"><img src="assets/1nri/distressed-caps-01.jpg" alt="Distressed Caps, 1NRI" /></div>
+        <h3 class="piece__name">Distressed Caps</h3>
+        <p class="piece__meta">1NRI · Accessories</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/flare-sweatpants-khaki.jpg" alt="Flare Sweatpants Black, 1NRI" /></div>
+        <h3 class="piece__name">Flare Sweatpants Black</h3>
+        <p class="piece__meta">1NRI · Sweatpants</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/varsity-jersey.jpg" alt="Varsity Jersey 2.0, 1NRI" /></div>
+        <h3 class="piece__name">Varsity Jersey 2.0</h3>
+        <p class="piece__meta">1NRI · Jersey</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/life-and-death-burgundy.jpg" alt="Life and Death Tee, 1NRI" /></div>
+        <h3 class="piece__name">Life and Death Tee</h3>
+        <p class="piece__meta">1NRI · Tee</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/1nri/olive-grove-jersey-blue-01.jpg" alt="Olive Grove Jersey Blue, 1NRI" /></div>
+        <h3 class="piece__name">Olive Grove Jersey Blue</h3>
+        <p class="piece__meta">1NRI · Jersey</p>
+      </article>
+      <article class="piece">
+        <div class="piece__img"><img src="assets/products/acid-washed-shorts-red.jpg" alt="Acid Washed Shorts, 1NRI" /></div>
+        <h3 class="piece__name">Acid Washed Shorts</h3>
+        <p class="piece__meta">1NRI · Shorts</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- §6 TIMELINE -->
+<section class="tl-sec">
+  <div class="tl-in">
+    <h2 class="tl-h">What happens next.</h2>
+    <div class="steps" role="list">
+      <div class="step step--active" role="listitem">
+        <span class="step__dot"></span>
+        <div class="step__text">
+          <span class="step__when">Now</span>
+          <span class="step__what" id="step-count-text">Founding Member window open. 48 of 50 remain.</span>
+        </div>
+      </div>
+      <div class="step" role="listitem">
+        <span class="step__dot"></span>
+        <div class="step__text">
+          <span class="step__when">June 14</span>
+          <span class="step__what">Window closes.</span>
+        </div>
+      </div>
+      <div class="step" role="listitem">
+        <span class="step__dot"></span>
+        <div class="step__text">
+          <span class="step__when">July</span>
+          <span class="step__what">Drop 1 opens. Founding Members first.</span>
+        </div>
+      </div>
+      <div class="step" role="listitem">
+        <span class="step__dot"></span>
+        <div class="step__text">
+          <span class="step__when">August</span>
+          <span class="step__what">First pieces ship from Austin.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §7 THE CLOSE -->
+<section class="close" id="claim">
+  <p class="count close__count" id="close-count-text">48 of 50 founding member spots remain · Closes June 14</p>
+  <h2 class="close__h">Take a spot before the window closes.</h2>
+  <p class="close__body">Drop 1 opens in July. Founding Members go in at hour 00. Every drop after that, same thing. Permanently.</p>
+  <div class="close__recap">
+    <span>Hangtag with your number</span>
+    <span>24 hours early on every drop</span>
+    <span>$30 credit toward Drop 1 <!-- $30 CREDIT CONFIRM --></span>
+  </div>
+  <div class="close__cta-wrap"><a class="cta" href="#claim">Claim your spot — $20</a></div>
+  <p class="finep">Refundable until Drop 1 opens · Stripe handles the rest</p>
+</section>
+
+<!-- §8 FOOTER -->
+<footer class="foot">
+  <div class="foot__row">
+    <span class="foot__wm">Chariot</span>
+    <span class="foot__mid">Accra. America. Yours when you claim it.</span>
+    <span class="foot__r"><a href="#" aria-label="Chariot on Instagram">Instagram</a></span>
+  </div>
+  <div class="foot__fine">
+    <span>Issue 00 · May 2026 · Made for the Members</span>
+    <span>The Archive — {{ARCHIVE_URL}}</span>
+  </div>
+</footer>
+
+<!-- sticky mobile CTA -->
+<a class="mcta" id="mcta" href="#claim">Claim your spot — $20</a>
+
+<script>
+  // async webfonts
+  (function(){var l=document.createElement('link');l.rel='stylesheet';
+    l.href='https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Inter:wght@400;500&display=swap';
+    document.head.appendChild(l);})();
+
+  // nav scroll state
+  (function(){var nav=document.getElementById('nav'),hero=document.getElementById('top');
+    if(!nav||!hero)return;
+    var onScroll=function(){nav.classList.toggle('scrolled',window.scrollY>hero.offsetHeight-90);};
+    window.addEventListener('scroll',onScroll,{passive:true});onScroll();})();
+
+  // live founding count (hero + close + stepper)
+  (function(){
+    fetch('founding-count.json',{cache:'no-cache'})
+      .then(function(r){return r.ok?r.json():null;})
+      .then(function(data){
+        if(!data||typeof data.claimed!=='number')return;
+        var r=Math.max(0,50-data.claimed);
+        var msg=r===0
+          ?'Founding member spots have been claimed'
+          :(r<=15?'Only '+r+' of 50 founding member spots remain · Closes June 14'
+                 :r+' of 50 founding member spots remain · Closes June 14');
+        var hero=document.getElementById('hero-count-text');
+        var close=document.getElementById('close-count-text');
+        var step=document.getElementById('step-count-text');
+        if(hero)hero.textContent=msg;
+        if(close)close.textContent=msg;
+        if(step)step.textContent=(r===0?'Founding member spots have been claimed.':'Founding Member window open. '+r+' of 50 remain.');
+      })
+      .catch(function(){});
+  })();
+
+  // sticky mobile CTA hides over the close section
+  (function(){var mcta=document.getElementById('mcta'),fin=document.getElementById('claim');
+    if(!mcta||!fin||!('IntersectionObserver'in window))return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){mcta.classList.toggle('hidden',e.isIntersecting);});},{threshold:0.12});
+    io.observe(fin);})();
+
+  // ambassador UTM handler
+  (function(){
+    var params=new URLSearchParams(window.location.search);
+    var ref=params.get('ref');
+    if(!ref)return;
+    var ambassadors={'jay':'Jayden','jayden':'Jayden','shaq':'Shaq','shaquille':'Shaq'};
+    var name=ambassadors[ref.toLowerCase()];
+    if(!name)return;
+    var banner=document.createElement('div');
+    banner.className='ambassador-banner';
+    banner.innerHTML='<span class="ambassador-banner__label">Referred by</span> <span class="ambassador-banner__name">'+name+'</span>';
+    document.body.classList.add('has-ambassador');
+    var nav=document.getElementById('nav');
+    if(nav&&nav.parentNode){nav.parentNode.insertBefore(banner,nav.nextSibling);}
+    document.querySelectorAll('a[href="#claim"]').forEach(function(a){a.setAttribute('data-ref',ref);});
+  })();
+</script>
+
+</body>
+</html>

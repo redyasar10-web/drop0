@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Buttons</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5C5449; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+  button { font: inherit; cursor: pointer; }
+  .btn {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 14px 22px; border-radius: 0; border: 1px solid #111; transition: opacity 120ms cubic-bezier(.2,.6,.2,1), background 120ms, color 120ms;
+  }
+  .btn--primary   { background: #111; color: #FAFAF8; }
+  .btn--primary:hover { background: #5C5449; border-color: #5C5449; }
+  .btn--ghost     { background: transparent; color: #111; }
+  .btn--ghost:hover { background: #111; color: #FAFAF8; }
+  .btn--urgent    { background: #9B4523; color: #FAFAF8; border-color: #9B4523; }
+  .btn--disabled  { background: transparent; color: #C8C0B5; border-color: #C8C0B5; cursor: not-allowed; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5C5449; margin-top: 6px; }
+  .stack { display: flex; flex-direction: column; align-items: flex-start; }
+</style></head>
+<body>
+  <div class="eyebrow">Buttons — Mono, uppercase, no radius</div>
+  <div class="row">
+    <div class="stack"><button class="btn btn--primary">Reserve — 50% deposit</button><div class="lbl">Primary</div></div>
+    <div class="stack"><button class="btn btn--ghost">Join the form</button><div class="lbl">Ghost</div></div>
+  </div>
+  <div class="row">
+    <div class="stack"><button class="btn btn--urgent">Closing Friday</button><div class="lbl">Urgent · Laterite</div></div>
+    <div class="stack"><button class="btn btn--disabled" disabled>Sold out</button><div class="lbl">Disabled</div></div>
+  </div>
+</body></html>

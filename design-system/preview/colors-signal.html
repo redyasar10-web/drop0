@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Signal colors</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .swatch { border: 1px solid var(--border); padding: 16px; aspect-ratio: 1.8 / 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .swatch .name { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .swatch .meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+  .role { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .kente { background: #C9921E; color: #111; border-color: #9B4523; }
+  .later { background: #9B4523; color: #FAFAF8; border-color: #9B4523; }
+  .rule { font-family: var(--font-body); font-style: italic; font-size: 12px; line-height: 1.35; }
+</style></head>
+<body>
+  <div class="pair">
+    <div class="swatch kente">
+      <div class="role">Signal · Headlines & badges</div>
+      <div>
+        <div class="name">Kente</div>
+        <div class="meta">#C9921E · Max one per section. Never body text.</div>
+      </div>
+    </div>
+    <div class="swatch later">
+      <div class="role">Signal · Urgency & sold‑out</div>
+      <div>
+        <div class="name">Laterite</div>
+        <div class="meta">#9B4523 · Never paired with Kente on the same surface.</div>
+      </div>
+    </div>
+  </div>
+</body></html>

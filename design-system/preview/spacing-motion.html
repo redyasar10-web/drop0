@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Motion & states</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5C5449; }
+  .row { display: grid; grid-template-columns: 160px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid #C8C0B5; }
+  .row:last-child { border-bottom: 0; }
+  .tok { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: #111; }
+  .desc { font-family: var(--font-body); font-size: 13px; color: #111; }
+  .desc em { font-style: italic; color: #5C5449; }
+</style></head>
+<body>
+  <div class="eyebrow">Motion — calm, not playful</div>
+  <div style="margin-top: 8px">
+    <div class="row"><div class="tok">--ease-calm</div><div class="desc">cubic‑bezier(.2, .6, .2, 1) · <em>the only easing</em></div></div>
+    <div class="row"><div class="tok">--dur-state  120ms</div><div class="desc">Hover, focus, press.</div></div>
+    <div class="row"><div class="tok">--dur-move   220ms</div><div class="desc">Position, panel open, nav scroll.</div></div>
+    <div class="row"><div class="tok">--dur-reveal 400ms</div><div class="desc">Page entry, drop reveal.</div></div>
+    <div class="row"><div class="tok">Hover</div><div class="desc">Opacity 0.7 on links · Ink → Shadow on buttons · <em>no scale, no shadow</em></div></div>
+    <div class="row"><div class="tok">Press</div><div class="desc">Opacity 0.85 · <em>no scale‑down</em></div></div>
+    <div class="row"><div class="tok">Focus</div><div class="desc">2px Ink outline, 2px offset · <em>never browser‑blue</em></div></div>
+  </div>
+</body></html>

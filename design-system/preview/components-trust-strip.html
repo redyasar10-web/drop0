@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Trust strip</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 0; background: #F2EBE0; }
+  .strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid #C8C0B5; border-bottom: 1px solid #C8C0B5;
+  }
+  .cell { padding: 20px 18px; border-right: 1px solid #C8C0B5; }
+  .cell:last-child { border-right: 0; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5C5449; }
+  .val { font-family: var(--font-display); font-size: 18px; font-weight: 500; letter-spacing: -0.01em; color: #111; margin-top: 6px; }
+  .note { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: #5C5449; margin: 18px 24px; text-transform: uppercase; }
+</style></head>
+<body>
+  <div class="strip">
+    <div class="cell"><div class="lbl">Shipping</div><div class="val">From New York</div></div>
+    <div class="cell"><div class="lbl">Duties</div><div class="val">Paid at checkout</div></div>
+    <div class="cell"><div class="lbl">Returns</div><div class="val">Free · 14 days</div></div>
+    <div class="cell"><div class="lbl">Retailer of record</div><div class="val">Chariot, NYC</div></div>
+  </div>
+  <div class="note">Trust strip · lives above footer on product pages</div>
+</body></html>

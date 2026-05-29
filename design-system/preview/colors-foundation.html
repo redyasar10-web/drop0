@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Foundation colors</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .swatch { border: 1px solid var(--border); padding: 16px; aspect-ratio: 1.8 / 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .swatch .name { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .swatch .meta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; }
+  .ink { background: #111; color: #FAFAF8; border-color: #111; }
+  .harm { background: #F2EBE0; color: #111; }
+</style></head>
+<body>
+  <div class="pair">
+    <div class="swatch ink">
+      <div class="meta">Foundation · Authority</div>
+      <div>
+        <div class="name">Ink</div>
+        <div class="meta">#111111 · Pantone Black 6 C</div>
+      </div>
+    </div>
+    <div class="swatch harm">
+      <div class="meta">Foundation · Page</div>
+      <div>
+        <div class="name">Harmattan</div>
+        <div class="meta">#F2EBE0 · Pantone 9183 C</div>
+      </div>
+    </div>
+  </div>
+</body></html>

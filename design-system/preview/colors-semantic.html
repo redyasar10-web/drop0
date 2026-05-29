@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Semantic roles</title>
+<link rel="stylesheet" href="_card.css">
+<style>
+  .list { display: grid; grid-template-columns: 160px 1fr 140px; row-gap: 8px; column-gap: 12px; align-items: center; }
+  .tok { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; }
+  .demo { display: flex; align-items: center; gap: 10px; font-family: var(--font-body); font-size: 14px; }
+  .chip { width: 28px; height: 18px; border: 1px solid #C8C0B5; }
+  .hex { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: #5C5449; text-transform: uppercase; }
+  .eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5C5449; margin-bottom: 8px; }
+</style></head>
+<body>
+  <div class="eyebrow">Semantic roles — how tokens map</div>
+  <div class="list">
+    <div class="tok">--bg-page</div>      <div class="demo"><span class="chip" style="background:#F2EBE0"></span>Harmattan — the page.</div> <div class="hex">#F2EBE0</div>
+    <div class="tok">--bg-surface</div>   <div class="demo"><span class="chip" style="background:#E4DDD4"></span>Dust — cards, secondary.</div> <div class="hex">#E4DDD4</div>
+    <div class="tok">--bg-inverse</div>   <div class="demo"><span class="chip" style="background:#111"></span>Ink — reversed surface.</div> <div class="hex">#111111</div>
+    <div class="tok">--fg-1</div>         <div class="demo"><span class="chip" style="background:#111"></span>Ink — primary text.</div> <div class="hex">#111111</div>
+    <div class="tok">--fg-2</div>         <div class="demo"><span class="chip" style="background:#5C5449"></span>Shadow — metadata, captions.</div> <div class="hex">#5C5449</div>
+    <div class="tok">--border</div>       <div class="demo"><span class="chip" style="background:#C8C0B5"></span>Ash — 1px hairlines only.</div> <div class="hex">#C8C0B5</div>
+    <div class="tok">--signal-gold</div>  <div class="demo"><span class="chip" style="background:#C9921E"></span>Kente — brand partner, drop badge.</div> <div class="hex">#C9921E</div>
+    <div class="tok">--signal-urgent</div><div class="demo"><span class="chip" style="background:#9B4523"></span>Laterite — closing, sold‑out.</div> <div class="hex">#9B4523</div>
+  </div>
+</body></html>

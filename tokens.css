@@ -1,0 +1,300 @@
+/* ============================================================
+   Chariot Design System — Tokens
+   Source: CHARIOT_BRAND_V3_SYSTEM.md (Apr 2026, ground truth)
+   ============================================================ */
+
+/* ---- Fonts --------------------------------------------------
+   Display: Inter (variable, opsz+wght) — user-uploaded, served locally.
+            Stands in for Monument Grotesk / Söhne until licensed.
+   Body:    Spectral — Google Fonts (warm serif, stands in for Freight Text).
+   Mono:    DM Mono — Google Fonts (stands in for Söhne Mono).
+   Substitutions flagged in README.
+*/
+@font-face {
+  font-family: "Inter Variable";
+  src: url("fonts/Inter-opsz-wght.ttf") format("truetype-variations"),
+       url("fonts/Inter-opsz-wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-stretch: 75% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+@import url("https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Mono:wght@400;500&display=swap");
+
+/* ============================================================
+   1. BASE TOKENS — palette, type, space, motion
+   ============================================================ */
+:root {
+  /* --- Color: Foundation ------------------------------------ */
+  --color-ink:       #111111;  /* warm printing-ink dark. NEVER pure #000 */
+  --color-harmattan: #F2EBE0;  /* signature page background */
+
+  /* --- Color: Neutrals -------------------------------------- */
+  --color-dust:    #E4DDD4;    /* secondary surface / cards */
+  --color-ash:     #C8C0B5;    /* borders, dividers, inactive. NEVER a fill */
+  --color-shadow:  #5C5449;    /* secondary text, captions, metadata */
+
+  /* --- Color: Signal (use sparingly) ------------------------ */
+  --color-kente:    #C9921E;   /* headlines, drop badges, brand partner names. 18pt+ only */
+  --color-laterite: #9B4523;   /* urgency, closing, sold-out. Never paired with Kente */
+
+  /* --- Color: Functional ------------------------------------ */
+  --color-salt:    #FAFAF8;    /* reversed type on dark. NEVER pure #fff */
+
+  /* --- Semantic color roles --------------------------------- */
+  --bg-page:        var(--color-harmattan);
+  --bg-surface:     var(--color-dust);
+  --bg-inverse:     var(--color-ink);
+
+  --fg-1:           var(--color-ink);      /* primary text */
+  --fg-2:           var(--color-shadow);   /* secondary, captions */
+  --fg-3:           var(--color-ash);      /* tertiary, disabled */
+  --fg-inverse:     var(--color-salt);     /* on inverse surface */
+
+  --border:         var(--color-ash);
+  --border-strong:  var(--color-ink);
+
+  --signal-gold:    var(--color-kente);
+  --signal-urgent:  var(--color-laterite);
+
+  /* --- Type families ---------------------------------------- */
+  --font-display: "Inter Variable", "Inter Tight", "Monument Grotesk", "Söhne", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body:    "Spectral", "Freight Text Pro", Georgia, "Times New Roman", serif;
+  --font-mono:    "DM Mono", "Söhne Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* --- Type scale (px) -------------------------------------- */
+  --fs-12: 0.75rem;    /* 12 — micro mono label */
+  --fs-13: 0.8125rem;  /* 13 — small caption */
+  --fs-14: 0.875rem;   /* 14 — body small, trust signals */
+  --fs-16: 1rem;       /* 16 — body default */
+  --fs-18: 1.125rem;   /* 18 — body editorial */
+  --fs-20: 1.25rem;    /* 20 — lead paragraph */
+  --fs-24: 1.5rem;     /* 24 — h4, section eyebrow */
+  --fs-32: 2rem;       /* 32 — h3 */
+  --fs-44: 2.75rem;    /* 44 — h2, drop title */
+  --fs-64: 4rem;       /* 64 — h1, hero */
+  --fs-96: 6rem;       /* 96 — editorial display */
+  --fs-128: 8rem;      /* 128 — wordmark moment */
+
+  /* --- Line heights ----------------------------------------- */
+  --lh-tight:  1.02;
+  --lh-snug:   1.15;
+  --lh-normal: 1.4;
+  --lh-body:   1.55;
+  --lh-loose:  1.7;
+
+  /* --- Letter spacing --------------------------------------- */
+  --ls-tight:   -0.02em;
+  --ls-normal:   0em;
+  --ls-wide:     0.04em;
+  --ls-wider:    0.08em;
+  --ls-wordmark: 0.18em;    /* the famous +80 tracking */
+
+  /* --- Weights ---------------------------------------------- */
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+  --fw-bold:    700;
+
+  /* --- Space (4px baseline) --------------------------------- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+  --space-10: 128px;
+
+  /* --- Layout widths ---------------------------------------- */
+  --width-measure: 560px;    /* editorial text column */
+  --width-content: 960px;
+  --width-site:    1280px;
+  --width-bleed:   1440px;
+
+  /* --- Radii ------------------------------------------------ */
+  --radius-0:    0px;        /* default — print-rooted */
+  --radius-1:    2px;        /* inputs */
+  --radius-pill: 9999px;     /* filter chips, trust pills ONLY */
+
+  /* --- Border widths ---------------------------------------- */
+  --bw-hairline: 0.5px;
+  --bw-1:        1px;
+  --bw-2:        2px;
+
+  /* --- Motion ----------------------------------------------- */
+  --ease-calm:   cubic-bezier(.2, .6, .2, 1);
+  --dur-state:   120ms;
+  --dur-move:    220ms;
+  --dur-reveal:  400ms;
+
+  /* --- Elevation (rarely used; Chariot is flat) ------------- */
+  --overlay-scrim: rgba(17, 17, 17, 0.72);
+  --overlay-blur:  12px;
+}
+
+/* ============================================================
+   2. BASE RESET + DOCUMENT
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-page);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-16);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+::selection { background: var(--color-ink); color: var(--color-salt); }
+
+/* ============================================================
+   3. SEMANTIC TYPE — elements + utility classes
+   ============================================================ */
+
+h1, .h1, .display-1 {
+  font-family: var(--font-display);
+  font-size: clamp(var(--fs-44), 6vw, var(--fs-96));
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  margin: 0 0 var(--space-5);
+  text-wrap: balance;
+}
+
+h2, .h2 {
+  font-family: var(--font-display);
+  font-size: clamp(var(--fs-32), 3.5vw, var(--fs-64));
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  margin: 0 0 var(--space-5);
+  text-wrap: balance;
+}
+
+h3, .h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-32);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  margin: 0 0 var(--space-4);
+}
+
+h4, .h4 {
+  font-family: var(--font-display);
+  font-size: var(--fs-24);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-normal);
+  margin: 0 0 var(--space-3);
+}
+
+p, .body {
+  font-family: var(--font-body);
+  font-size: var(--fs-18);
+  line-height: var(--lh-body);
+  margin: 0 0 var(--space-4);
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+.lead {
+  font-family: var(--font-body);
+  font-size: var(--fs-20);
+  line-height: var(--lh-body);
+  color: var(--fg-1);
+}
+
+small, .caption {
+  font-family: var(--font-body);
+  font-size: var(--fs-14);
+  color: var(--fg-2);
+  line-height: var(--lh-normal);
+}
+
+/* ---- Eyebrow / uppercase label — Mono, tracked out ---- */
+.eyebrow, .label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  font-weight: var(--fw-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--fg-2);
+}
+
+/* ---- Trust signals — always Mono ---- */
+.trust, .price, .meta, code, kbd {
+  font-family: var(--font-mono);
+  font-size: var(--fs-14);
+  letter-spacing: var(--ls-wide);
+  color: var(--fg-1);
+}
+
+.trust--urgent { color: var(--signal-urgent); }
+.trust--gold   { color: var(--signal-gold); }
+
+/* ---- Founders' names are italic Freight Text ---- */
+.founder-name { font-family: var(--font-body); font-style: italic; }
+
+/* ---- Wordmark moment ---- */
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semi);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wordmark);
+}
+
+/* ---- Links ---- */
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: opacity var(--dur-state) var(--ease-calm);
+}
+a:hover   { opacity: 0.7; }
+a:active  { opacity: 0.85; }
+a:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* ---- Horizontal rule ---- */
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: var(--space-6) 0;
+}
+
+/* ============================================================
+   4. LAYOUT HELPERS
+   ============================================================ */
+.container { max-width: var(--width-site); margin-inline: auto; padding-inline: var(--space-5); }
+.container--content { max-width: var(--width-content); margin-inline: auto; padding-inline: var(--space-5); }
+.container--measure { max-width: var(--width-measure); margin-inline: auto; padding-inline: var(--space-5); }
+
+.stack > * + * { margin-top: var(--space-4); }
+.stack-lg > * + * { margin-top: var(--space-6); }
+
+/* ============================================================
+   5. UTILITIES
+   ============================================================ */
+.fg-2 { color: var(--fg-2); }
+.fg-inverse { color: var(--fg-inverse); }
+.bg-surface { background: var(--bg-surface); }
+.bg-inverse { background: var(--bg-inverse); color: var(--fg-inverse); }
+.border-ash { border: 1px solid var(--border); }
+.hairline-bottom { border-bottom: 1px solid var(--border); }
+
+/* Kente / Laterite are rare — these helpers exist so usage is deliberate */
+.signal-gold   { color: var(--signal-gold); }
+.signal-urgent { color: var(--signal-urgent); }
