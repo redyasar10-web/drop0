@@ -25,11 +25,18 @@ export default async function AccountPage({
 
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', user.id)
-    .single<UserProfile>()
+  const [{ data: profile }, { count: referralCount }] = await Promise.all([
+    supabase
+      .from('users')
+      .select('*')
+      .eq('id', user.id)
+      .single<UserProfile>(),
+    supabase
+      .from('referrals')
+      .select('*', { count: 'exact', head: true })
+      .eq('referrer_id', user.id)
+      .eq('credited', true),
+  ])
 
   const orderConfirmed = searchParams.order === 'confirmed'
 
@@ -105,14 +112,16 @@ export default async function AccountPage({
           <>
             <p className="account-section-label">Referral</p>
             <div className="account-referral-block">
-              <p className="account-referral-label">Your Code</p>
-              <p className="account-referral-code">{profile.referral_code}</p>
+              <p className="account-referral-label">Your link</p>
               {referralLink && (
                 <>
                   <p className="account-referral-link">{referralLink}</p>
                   <CopyButton text={referralLink} />
                 </>
               )}
+              <p className="account-referral-meta">
+                {referralCount ?? 0} of 3 referrals credited &mdash; $5 per friend who purchases
+              </p>
             </div>
           </>
         )}

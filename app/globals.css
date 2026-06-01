@@ -427,6 +427,16 @@ input, textarea, select { font: inherit; }
   word-break: break-all;
 }
 
+.account-referral-meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  color: rgba(250, 250, 248, 0.3);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(250, 250, 248, 0.08);
+}
+
 .account-copy-btn {
   font-family: var(--font-mono);
   font-size: var(--fs-12);
@@ -540,6 +550,32 @@ input, textarea, select { font: inherit; }
   color: rgba(250, 250, 248, 0.35);
   text-transform: none;
   font-weight: var(--fw-regular);
+}
+
+/* Store credit notice */
+.checkout-credit-notice {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  border: 1px solid rgba(201, 146, 30, 0.25);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.checkout-credit-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: rgba(201, 146, 30, 0.7);
+}
+
+.checkout-credit-value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-13);
+  letter-spacing: var(--ls-wide);
+  color: var(--signal-gold);
 }
 
 /* auth-* overrides for dark checkout shell */

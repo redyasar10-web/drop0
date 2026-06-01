@@ -33,6 +33,8 @@ export async function POST(request: Request) {
   const session = event.data.object as Stripe.Checkout.Session
   const userId = session.metadata?.user_id
   const promoCode = (session.metadata?.promo_code ?? '').trim().toLowerCase()
+  const appliedCreditCents = parseInt(session.metadata?.applied_credit_cents ?? '0')
+  const appliedCredit = Math.floor(appliedCreditCents / 100)
 
   if (!userId) {
     console.error('[webhook] checkout.session.completed missing user_id:', session.id)
@@ -41,7 +43,21 @@ export async function POST(request: Request) {
 
   const admin = createAdminClient()
 
-  // ── 1. Assign member number (atomic + idempotent via Postgres function) ──
+  // ── 1. Fetch user first — need member_number to detect first purchase ─────
+  const { data: user } = await admin
+    .from('users')
+    .select('email, credit_balance, referred_by, founder_status, referral_code, member_number')
+    .eq('id', userId)
+    .single()
+
+  if (!user) {
+    console.error('[webhook] user not found:', userId)
+    return new NextResponse('User not found', { status: 404 })
+  }
+
+  const isFirstPurchase = user.member_number == null
+
+  // ── 2. Assign member number (atomic + idempotent via Postgres function) ──
   const { data: memberNumber, error: rpcError } = await admin.rpc(
     'assign_member_number',
     { p_user_id: userId }
@@ -52,36 +68,33 @@ export async function POST(request: Request) {
     return new NextResponse('Member number assignment failed', { status: 500 })
   }
 
-  // ── 2. Fetch user for downstream logic ────────────────────────────────────
-  const { data: user } = await admin
-    .from('users')
-    .select('email, credit_balance, referred_by, founder_status, referral_code')
-    .eq('id', userId)
-    .single()
-
-  if (!user) {
-    console.error('[webhook] user not found:', userId)
-    return new NextResponse('User not found', { status: 404 })
-  }
-
-  // ── 3. Set credit_balance = 30 if not already at or above it ─────────────
+  // ── 3. Build credit and status updates ────────────────────────────────────
   const updates: Record<string, unknown> = {}
+  let grantedFounderStatus = user.founder_status === true
 
-  if ((user.credit_balance ?? 0) < 30) {
-    updates.credit_balance = 30
+  if (isFirstPurchase) {
+    // Add the $30 base credit on top of any referral credits already held,
+    // then deduct whatever was spent as a discount at this checkout.
+    // Ceiling: $30 base + $15 max referral credits = $45.
+    const newBalance = (user.credit_balance ?? 0) + 30 - appliedCredit
+    updates.credit_balance = Math.max(0, newBalance)
+  } else if (appliedCredit > 0) {
+    // Subsequent purchase: just deduct used credits
+    const newBalance = (user.credit_balance ?? 0) - appliedCredit
+    updates.credit_balance = Math.max(0, newBalance)
   }
 
   // ── 4. Handle zarathustra promo ───────────────────────────────────────────
-  let grantedFounderStatus = user.founder_status === true
-
   if (promoCode === 'zarathustra') {
     const { data: redeemed } = await admin.rpc('redeem_promo_code', {
       p_code: 'zarathustra',
     })
 
     if (redeemed) {
-      updates.founder_status = true
+      // Founder credit: always 30 (does not stack with the base credit above
+      // because zarathustra bypasses normal checkout credit application)
       updates.credit_balance = 30
+      updates.founder_status = true
       grantedFounderStatus = true
     }
   }
@@ -91,13 +104,17 @@ export async function POST(request: Request) {
     await admin.from('users').update(updates).eq('id', userId)
   }
 
-  // ── 6. Credit referrer (if applicable) ───────────────────────────────────
-  if (user.referred_by) {
+  // ── 6. Credit referrer (if applicable, first purchase only) ──────────────
+  if (isFirstPurchase && user.referred_by) {
     await creditReferrer({ admin, referralCode: user.referred_by, referredId: userId })
   }
 
   // ── 7. Send confirmation email ────────────────────────────────────────────
   const emailAddress = session.customer_email ?? user.email
+  const finalCreditBalance = (updates.credit_balance as number | undefined)
+    ?? user.credit_balance
+    ?? 0
+
   if (emailAddress && user.referral_code) {
     try {
       await sendOrderConfirmation({
@@ -105,7 +122,7 @@ export async function POST(request: Request) {
         memberNumber,
         isFounder: grantedFounderStatus,
         referralCode: user.referral_code,
-        creditBalance: 30,
+        creditBalance: finalCreditBalance,
       })
     } catch (err) {
       // Email failure is non-fatal — log and continue
@@ -125,7 +142,7 @@ async function creditReferrer({
   referralCode: string
   referredId: string
 }) {
-  // Find referrer by code
+  // Find referrer by their referral code
   const { data: referrer } = await admin
     .from('users')
     .select('id, credit_balance')
@@ -134,10 +151,10 @@ async function creditReferrer({
 
   if (!referrer) return
 
-  // Idempotency: skip if referral already recorded
+  // Idempotency: skip if referral already recorded and credited
   const { data: existing } = await admin
     .from('referrals')
-    .select('id, credited')
+    .select('credited')
     .eq('referrer_id', referrer.id)
     .eq('referred_id', referredId)
     .maybeSingle()
@@ -153,13 +170,9 @@ async function creditReferrer({
 
   if ((count ?? 0) >= 3) return
 
-  // Record referral and credit $5
+  // Record referral (unique constraint prevents double-insert) and credit $5
   await admin.from('referrals').upsert(
-    {
-      referrer_id: referrer.id,
-      referred_id: referredId,
-      credited: true,
-    },
+    { referrer_id: referrer.id, referred_id: referredId, credited: true },
     { onConflict: 'referrer_id,referred_id' }
   )
 
