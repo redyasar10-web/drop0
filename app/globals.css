@@ -455,6 +455,125 @@ input, textarea, select { font: inherit; }
   margin-bottom: var(--space-7);
 }
 
+/* ============================================================
+   CHECKOUT PAGE
+   ============================================================ */
+
+.checkout-shell {
+  min-height: 100svh;
+  background: var(--bg-inverse);
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-header {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid rgba(250, 250, 248, 0.1);
+}
+
+.checkout-wordmark {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semi);
+  font-size: var(--fs-16);
+  letter-spacing: var(--ls-wordmark);
+  text-transform: uppercase;
+  color: var(--fg-inverse);
+  text-decoration: none;
+  display: inline-block;
+}
+.checkout-wordmark:hover { opacity: 0.7; }
+
+.checkout-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-7) var(--space-5);
+}
+
+.checkout-card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.checkout-product {
+  margin-bottom: var(--space-6);
+}
+
+.checkout-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: rgba(250, 250, 248, 0.4);
+  margin: 0 0 var(--space-2);
+}
+
+.checkout-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-32);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-tight);
+  line-height: var(--lh-snug);
+  color: var(--fg-inverse);
+  margin: 0 0 var(--space-4);
+}
+
+.checkout-desc {
+  font-family: var(--font-body);
+  font-size: var(--fs-16);
+  line-height: var(--lh-body);
+  color: rgba(250, 250, 248, 0.6);
+  margin: 0;
+}
+
+.checkout-divider {
+  border: none;
+  border-top: 1px solid rgba(250, 250, 248, 0.1);
+  margin: var(--space-6) 0;
+}
+
+.checkout-optional {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  color: rgba(250, 250, 248, 0.35);
+  text-transform: none;
+  font-weight: var(--fw-regular);
+}
+
+/* auth-* overrides for dark checkout shell */
+.checkout-card .auth-input {
+  background: rgba(250, 250, 248, 0.05);
+  border-color: rgba(250, 250, 248, 0.18);
+  color: var(--fg-inverse);
+}
+.checkout-card .auth-input:focus { border-color: rgba(250, 250, 248, 0.6); }
+.checkout-card .auth-input::placeholder { color: rgba(250, 250, 248, 0.25); }
+.checkout-card .auth-label { color: rgba(250, 250, 248, 0.5); }
+.checkout-card .auth-links { border-top-color: rgba(250, 250, 248, 0.1); }
+.checkout-card .auth-link { color: rgba(250, 250, 248, 0.4); }
+.checkout-card .auth-link span { color: var(--fg-inverse); }
+.checkout-card .auth-link:hover { color: var(--fg-inverse); }
+
+/* ============================================================
+   ACCOUNT — purchase success banner
+   ============================================================ */
+
+.account-success-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: rgba(201, 146, 30, 0.1);
+  border: 1px solid rgba(201, 146, 30, 0.3);
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--fs-13);
+  letter-spacing: var(--ls-wide);
+  color: var(--signal-gold);
+}
+
 /* ---- Verify email page ------------------------------------ */
 .verify-icon {
   font-size: 2rem;

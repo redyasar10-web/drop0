@@ -31,8 +31,8 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // Protect /account/* — redirect to /login if unauthenticated
-  if (pathname.startsWith('/account') && !user) {
+  // Protect /account/* and /checkout — redirect to /login if unauthenticated
+  if ((pathname.startsWith('/account') || pathname.startsWith('/checkout')) && !user) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 

@@ -1,5 +1,6 @@
 import { createServerClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import CopyButton from './CopyButton'
 
 interface UserProfile {
@@ -14,7 +15,11 @@ interface UserProfile {
   tc_agreed_at: string
 }
 
-export default async function AccountPage() {
+export default async function AccountPage({
+  searchParams,
+}: {
+  searchParams: { order?: string }
+}) {
   const supabase = createServerClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -25,6 +30,8 @@ export default async function AccountPage() {
     .select('*')
     .eq('id', user.id)
     .single<UserProfile>()
+
+  const orderConfirmed = searchParams.order === 'confirmed'
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://chariotarchive.com'
   const referralLink = profile?.referral_code
@@ -41,6 +48,12 @@ export default async function AccountPage() {
   return (
     <main className="account-page">
       <div className="account-inner">
+        {orderConfirmed && (
+          <div className="account-success-banner">
+            Order confirmed — your member number has been assigned.
+          </div>
+        )}
+
         <h1 className="account-heading">Account</h1>
         <p className="account-email">{user.email}</p>
 
@@ -61,7 +74,7 @@ export default async function AccountPage() {
               </span>
             ) : (
               <span className="account-stat-value account-stat-value--muted">
-                Assigned at Drop 1
+                Assigned at purchase
               </span>
             )}
           </div>
@@ -101,6 +114,15 @@ export default async function AccountPage() {
                 </>
               )}
             </div>
+          </>
+        )}
+
+        {profile?.member_number == null && (
+          <>
+            <p className="account-section-label">Drop 0</p>
+            <Link href="/checkout" className="auth-btn" style={{ display: 'inline-flex', width: 'auto', textDecoration: 'none' }}>
+              Shop Drop 0
+            </Link>
           </>
         )}
 
