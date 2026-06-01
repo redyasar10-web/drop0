@@ -1,0 +1,469 @@
+/* ============================================================
+   Chariot — App Globals
+   Pulls in all design-system tokens then adds app-specific
+   component styles. Do not deviate from token values.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap');
+
+/* ---- Design system tokens --------------------------------- */
+:root {
+  --color-ink:       #111111;
+  --color-harmattan: #F2EBE0;
+  --color-dust:      #E4DDD4;
+  --color-ash:       #C8C0B5;
+  --color-shadow:    #5C5449;
+  --color-kente:     #C9921E;
+  --color-laterite:  #9B4523;
+  --color-salt:      #FAFAF8;
+
+  --bg-page:     var(--color-harmattan);
+  --bg-surface:  var(--color-dust);
+  --bg-inverse:  var(--color-ink);
+
+  --fg-1:        var(--color-ink);
+  --fg-2:        var(--color-shadow);
+  --fg-3:        var(--color-ash);
+  --fg-inverse:  var(--color-salt);
+
+  --border:       var(--color-ash);
+  --border-strong: var(--color-ink);
+
+  --signal-gold:   var(--color-kente);
+  --signal-urgent: var(--color-laterite);
+
+  --font-display: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body:    "Spectral", "Freight Text Pro", Georgia, serif;
+  --font-mono:    "DM Mono", "Söhne Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --fs-12: 0.75rem;
+  --fs-13: 0.8125rem;
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-18: 1.125rem;
+  --fs-20: 1.25rem;
+  --fs-24: 1.5rem;
+  --fs-32: 2rem;
+
+  --lh-tight:  1.02;
+  --lh-snug:   1.15;
+  --lh-normal: 1.4;
+  --lh-body:   1.55;
+
+  --ls-tight:    -0.02em;
+  --ls-normal:    0em;
+  --ls-wide:      0.04em;
+  --ls-wider:     0.08em;
+  --ls-wordmark:  0.18em;
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semi:    600;
+
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+
+  --radius-0:    0px;
+  --radius-1:    2px;
+  --radius-pill: 9999px;
+
+  --ease-calm:  cubic-bezier(.2, .6, .2, 1);
+  --dur-state:  120ms;
+  --dur-move:   220ms;
+}
+
+/* ---- Base reset ------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-page);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-16);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+a:hover { opacity: 0.7; }
+button { font: inherit; cursor: pointer; }
+input, textarea, select { font: inherit; }
+
+::selection { background: var(--color-ink); color: var(--color-salt); }
+
+/* ============================================================
+   AUTH PAGES
+   ============================================================ */
+
+.auth-shell {
+  min-height: 100svh;
+  background: var(--bg-inverse);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+}
+
+.auth-wordmark {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semi);
+  font-size: var(--fs-18);
+  letter-spacing: var(--ls-wordmark);
+  text-transform: uppercase;
+  color: var(--fg-inverse);
+  text-decoration: none;
+  margin-bottom: var(--space-8);
+  display: block;
+  text-align: center;
+}
+.auth-wordmark:hover { opacity: 0.7; }
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-page);
+  padding: var(--space-7) var(--space-6);
+}
+
+.auth-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-24);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-tight);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+  margin: 0 0 var(--space-6);
+}
+
+.auth-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--fs-16);
+  line-height: var(--lh-body);
+  color: var(--fg-2);
+  margin: calc(-1 * var(--space-4)) 0 var(--space-6);
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.auth-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  font-weight: var(--fw-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wider);
+  color: var(--fg-2);
+}
+
+.auth-input {
+  font-family: var(--font-body);
+  font-size: var(--fs-16);
+  color: var(--fg-1);
+  background: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-1);
+  padding: var(--space-3) var(--space-4);
+  width: 100%;
+  outline: none;
+  transition: border-color var(--dur-state) var(--ease-calm);
+  appearance: none;
+  -webkit-appearance: none;
+}
+.auth-input:focus { border-color: var(--border-strong); }
+.auth-input::placeholder { color: var(--fg-3); }
+
+/* T&C checkbox row */
+.auth-tc-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+}
+
+.auth-tc-checkbox {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 3px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-0);
+  cursor: pointer;
+  accent-color: var(--signal-gold);
+}
+
+.auth-tc-label {
+  font-family: var(--font-body);
+  font-size: var(--fs-14);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+.auth-tc-label a { color: var(--fg-1); }
+
+.auth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  background: var(--signal-gold);
+  color: var(--fg-1);
+  font-family: var(--font-display);
+  font-size: var(--fs-13);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--radius-0);
+  cursor: pointer;
+  transition: background var(--dur-state) var(--ease-calm), opacity var(--dur-state);
+  margin-top: var(--space-5);
+  text-decoration: none;
+}
+.auth-btn:hover:not(:disabled) { background: #A57A18; }
+.auth-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.auth-error {
+  font-family: var(--font-mono);
+  font-size: var(--fs-13);
+  color: var(--signal-urgent);
+  margin-bottom: var(--space-4);
+  line-height: var(--lh-normal);
+}
+
+.auth-success {
+  font-family: var(--font-mono);
+  font-size: var(--fs-13);
+  color: var(--signal-gold);
+  margin-bottom: var(--space-4);
+  line-height: var(--lh-normal);
+}
+
+.auth-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.auth-link {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  color: var(--fg-2);
+  text-decoration: none;
+}
+.auth-link:hover { color: var(--fg-1); opacity: 1; }
+.auth-link span { color: var(--fg-1); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ============================================================
+   ACCOUNT DASHBOARD
+   ============================================================ */
+
+.account-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg-inverse);
+  border-bottom: 1px solid rgba(250, 250, 248, 0.12);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.account-nav-wordmark {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semi);
+  font-size: var(--fs-16);
+  letter-spacing: var(--ls-wordmark);
+  text-transform: uppercase;
+  color: var(--fg-inverse);
+  text-decoration: none;
+}
+
+.account-signout-btn {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--fg-inverse);
+  background: none;
+  border: 1px solid rgba(250, 250, 248, 0.25);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: border-color var(--dur-state) var(--ease-calm), opacity var(--dur-state);
+  opacity: 0.7;
+}
+.account-signout-btn:hover { opacity: 1; border-color: rgba(250, 250, 248, 0.6); }
+
+.account-page {
+  min-height: calc(100svh - 57px);
+  background: var(--bg-inverse);
+  padding: var(--space-9) var(--space-5) var(--space-9);
+}
+
+.account-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.account-heading {
+  font-family: var(--font-display);
+  font-size: var(--fs-32);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-tight);
+  color: var(--fg-inverse);
+  margin: 0 0 var(--space-1);
+}
+
+.account-email {
+  font-family: var(--font-mono);
+  font-size: var(--fs-13);
+  letter-spacing: var(--ls-wide);
+  color: rgba(250, 250, 248, 0.5);
+  margin: 0 0 var(--space-7);
+}
+
+.account-section-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  font-weight: var(--fw-regular);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: rgba(250, 250, 248, 0.4);
+  margin: 0 0 var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid rgba(250, 250, 248, 0.10);
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(250, 250, 248, 0.10);
+  border: 1px solid rgba(250, 250, 248, 0.10);
+  margin-bottom: var(--space-7);
+}
+
+.account-stat {
+  background: rgba(250, 250, 248, 0.03);
+  padding: var(--space-5) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.account-stat-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: rgba(250, 250, 248, 0.4);
+}
+
+.account-stat-value {
+  font-family: var(--font-display);
+  font-size: var(--fs-20);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-tight);
+  color: var(--fg-inverse);
+  line-height: 1;
+}
+
+.account-stat-value--gold { color: var(--signal-gold); }
+.account-stat-value--muted { color: rgba(250, 250, 248, 0.35); font-size: var(--fs-16); }
+
+.account-referral-block {
+  border: 1px solid rgba(250, 250, 248, 0.12);
+  padding: var(--space-5);
+  margin-bottom: var(--space-7);
+}
+
+.account-referral-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: rgba(250, 250, 248, 0.4);
+  margin-bottom: var(--space-3);
+}
+
+.account-referral-code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-20);
+  letter-spacing: var(--ls-wider);
+  color: var(--signal-gold);
+  margin-bottom: var(--space-3);
+}
+
+.account-referral-link {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  color: rgba(250, 250, 248, 0.5);
+  margin-bottom: var(--space-4);
+  word-break: break-all;
+}
+
+.account-copy-btn {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--fg-inverse);
+  background: none;
+  border: 1px solid rgba(250, 250, 248, 0.25);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: border-color var(--dur-state) var(--ease-calm);
+}
+.account-copy-btn:hover { border-color: rgba(250, 250, 248, 0.6); }
+
+.account-founder-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--signal-gold);
+  border: 1px solid var(--signal-gold);
+  padding: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-7);
+}
+
+/* ---- Verify email page ------------------------------------ */
+.verify-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-5);
+  display: block;
+}
+
+/* ---- Responsive ------------------------------------------ */
+@media (max-width: 480px) {
+  .auth-card { padding: var(--space-6) var(--space-5); }
+  .account-grid { grid-template-columns: 1fr; }
+}
