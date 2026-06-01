@@ -55,7 +55,7 @@ export async function POST(request: Request) {
   // ── 2. Fetch user for downstream logic ────────────────────────────────────
   const { data: user } = await admin
     .from('users')
-    .select('email, credit_balance, referred_by, founder_status')
+    .select('email, credit_balance, referred_by, founder_status, referral_code')
     .eq('id', userId)
     .single()
 
@@ -98,12 +98,14 @@ export async function POST(request: Request) {
 
   // ── 7. Send confirmation email ────────────────────────────────────────────
   const emailAddress = session.customer_email ?? user.email
-  if (emailAddress) {
+  if (emailAddress && user.referral_code) {
     try {
       await sendOrderConfirmation({
         to: emailAddress,
         memberNumber,
         isFounder: grantedFounderStatus,
+        referralCode: user.referral_code,
+        creditBalance: 30,
       })
     } catch (err) {
       // Email failure is non-fatal — log and continue
