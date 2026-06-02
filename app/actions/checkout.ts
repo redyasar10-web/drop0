@@ -65,7 +65,7 @@ export async function createCheckoutSession(
     }
   }
 
-  const priceInCents = parseInt(process.env.DROP0_PRICE_CENTS ?? '15000')
+  const priceInCents = parseInt(process.env.DROP0_PRICE_CENTS ?? '2000')
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
   // ── Apply store credit ────────────────────────────────────────────────────
