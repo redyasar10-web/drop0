@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
 import { createServerClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import CheckoutForm from './CheckoutForm'
+import './checkout.css'
 
 export default async function CheckoutPage() {
   const supabase = createServerClient()
@@ -11,21 +12,18 @@ export default async function CheckoutPage() {
 
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('users')
-    .select('credit_balance')
-    .eq('id', user.id)
-    .single()
+  const admin = createAdminClient()
+
+  const [{ data: profile }, { data: seq }] = await Promise.all([
+    admin.from('users').select('credit_balance').eq('id', user.id).single(),
+    admin.from('member_sequence').select('next_val').single(),
+  ])
 
   return (
-    <div className="checkout-shell">
-      <header className="checkout-header">
-        <Link href="/account" className="checkout-wordmark">Chariot</Link>
-      </header>
-
-      <main className="checkout-main">
-        <CheckoutForm creditBalance={profile?.credit_balance ?? 0} />
-      </main>
-    </div>
+    <CheckoutForm
+      creditBalance={profile?.credit_balance ?? 0}
+      userEmail={user.email ?? ''}
+      nextMemberNo={seq?.next_val ?? 1}
+    />
   )
 }
