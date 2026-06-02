@@ -1,0 +1,246 @@
+/* ============================================================
+   CHARIOT — Drop 0 Founding Member landing page
+   Scoped under .lp to prevent conflicts with app globals.css.
+   Mirrors page.css exactly; only selector structure changed.
+   ============================================================ */
+
+/* ---- Scoped custom properties + base reset ---- */
+.lp {
+  --ink:         #14110F;
+  --cream:       #F2EBDD;
+  --paper:       #FAF6EC;
+  --gold:        #B8862B;
+  --gold-deep:   #8B6420;
+  --muted-ink:   rgba(20,17,15,0.60);
+  --muted-cream: rgba(242,235,221,0.72);
+  --line-light:  rgba(20,17,15,0.16);
+  --line-dark:   rgba(242,235,221,0.20);
+  --font-display: "Cormorant Garamond", "Cinzel", Georgia, "Times New Roman", serif;
+  --font-ui:      "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ease-calm: cubic-bezier(.2,.6,.2,1);
+  --maxw: 1280px;
+
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+
+.lp *, .lp *::before, .lp *::after { box-sizing: border-box; }
+.lp img { display: block; max-width: 100%; }
+.lp h1, .lp h2, .lp h3, .lp h4 { margin: 0; font-weight: 400; }
+.lp p { margin: 0; }
+.lp button { font: inherit; color: inherit; }
+.lp a { color: inherit; text-decoration: none; }
+.lp a:hover { opacity: 1; }
+.lp *::selection { background: var(--gold); color: var(--ink); }
+
+/* ---- shared ---- */
+.lp .eyebrow {
+  font-family: var(--font-ui);
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold);
+  display: inline-block;
+}
+.lp .ital { font-style: italic; }
+
+/* ---- CTA button: rectangular, gold, ink text ---- */
+.lp .btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--font-ui); font-size: 13px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 19px 34px;
+  border: 1px solid var(--gold);
+  border-radius: 0;
+  background: var(--gold); color: var(--ink);
+  cursor: pointer;
+  transition: background 160ms var(--ease-calm), border-color 160ms var(--ease-calm);
+}
+.lp .btn .arr { font-size: 15px; line-height: 1; }
+.lp .btn:hover { background: var(--gold-deep); border-color: var(--gold-deep); opacity: 1; }
+
+/* ============================================================
+   1. NAV — wordmark only
+   ============================================================ */
+.lp .nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  color: var(--cream);
+  border-bottom: 1px solid transparent;
+  transition: background 240ms var(--ease-calm), color 240ms var(--ease-calm), border-color 240ms var(--ease-calm);
+}
+.lp .nav__row { max-width: var(--maxw); margin: 0 auto; padding: 22px 40px; }
+.lp .nav__wordmark {
+  font-family: var(--font-display);
+  font-variant-caps: small-caps;
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 0.18em;
+  color: var(--cream);
+  background: none; border: 0; padding: 0; cursor: pointer;
+  text-decoration: none;
+}
+.lp .nav.is-scrolled { background: var(--ink); border-bottom-color: var(--line-dark); }
+
+/* ============================================================
+   2. HERO — darkened full-bleed photo, centered
+   ============================================================ */
+.lp .hero {
+  position: relative; min-height: 100svh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; overflow: hidden;
+  background: var(--ink);
+}
+.lp .hero__bg { position: absolute; inset: 0; }
+.lp .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
+.lp .hero::after { content: ""; position: absolute; inset: 0; background: rgba(20,17,15,0.60); }
+.lp .hero__inner {
+  position: relative; z-index: 2;
+  max-width: 760px; padding: 120px 24px 64px;
+  color: var(--cream);
+  display: flex; flex-direction: column; align-items: center;
+}
+.lp .hero__mark {
+  font-family: var(--font-display); font-variant-caps: small-caps;
+  font-weight: 500; font-size: 14px; letter-spacing: 0.18em;
+  color: var(--cream); margin-bottom: 30px;
+}
+.lp .hero__eyebrow { color: var(--gold); margin-bottom: 22px; }
+.lp .hero__headline {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(40px, 5vw, 72px); line-height: 1.04;
+  letter-spacing: 0.005em; color: var(--cream);
+  max-width: 15ch; margin: 0;
+  text-wrap: balance;
+}
+.lp .hero__sub {
+  font-family: var(--font-ui); font-size: 16px; line-height: 1.6;
+  color: rgba(242,235,221,0.80); max-width: 560px; margin: 26px 0 0;
+}
+.lp .hero__cta-wrap { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.lp .hero__line { font-family: var(--font-ui); font-size: 13px; color: rgba(242,235,221,0.50); letter-spacing: 0.01em; }
+
+/* ============================================================
+   SECTION shell + heads
+   ============================================================ */
+.lp .section { padding: clamp(72px, 8vw, 120px) 40px; }
+.lp .section--paper { background: var(--paper); }
+.lp .section--cream { background: var(--cream); }
+.lp .section--ink   { background: var(--ink); color: var(--cream); }
+.lp .section__wrap  { max-width: var(--maxw); margin: 0 auto; }
+.lp .section__head  { margin-bottom: clamp(40px, 5vw, 64px); }
+.lp .section__head .eyebrow { margin-top: 16px; }
+.lp .section__title {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(40px, 5vw, 76px); line-height: 1.02;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  color: var(--ink);
+}
+.lp .section--ink .section__title { color: var(--cream); }
+.lp .section__title--light { font-weight: 300; }
+.lp .section__title .amt { color: var(--gold); }
+
+/* ============================================================
+   3. PRODUCT — 2-col, ink cards with prices
+   ============================================================ */
+.lp .pgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+.lp .pcard { background: var(--ink); border-radius: 0; display: flex; flex-direction: column; }
+.lp .pcard__img { aspect-ratio: 4 / 3; overflow: hidden; background: var(--ink); }
+.lp .pcard__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms var(--ease-calm); }
+.lp .pcard:hover .pcard__img img { transform: scale(1.03); }
+.lp .pcard__meta { padding: 24px 26px 28px; display: flex; flex-direction: column; gap: 8px; }
+.lp .pcard__brand { font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
+.lp .pcard__name { font-family: var(--font-ui); font-size: 16px; font-weight: 500; letter-spacing: 0.02em; color: var(--cream); }
+.lp .pcard__prices { display: flex; align-items: baseline; gap: 14px; margin-top: 4px; }
+.lp .pcard__retail { font-family: var(--font-ui); font-size: 14px; color: rgba(242,235,221,0.60); text-decoration: line-through; }
+.lp .pcard__credit { font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: 24px; color: var(--gold); line-height: 1; }
+.lp .product__note { text-align: center; font-family: var(--font-ui); font-size: 14px; color: var(--muted-ink); margin-top: clamp(36px, 4vw, 56px); }
+
+/* ============================================================
+   4. FOUNDING MEMBER — ink
+   ============================================================ */
+.lp .offer__sub { font-family: var(--font-ui); font-size: 18px; color: var(--muted-cream); margin-top: 18px; max-width: 40ch; }
+.lp .offer__counter { font-family: var(--font-ui); font-size: 13px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-top: 22px; display: inline-block; }
+.lp .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px; }
+.lp .benefit { border: 1px solid var(--line-dark); border-radius: 0; padding: 32px 30px; display: flex; flex-direction: column; gap: 14px; min-height: 220px; }
+.lp .benefit__h { font-family: var(--font-display); font-weight: 400; font-size: 28px; letter-spacing: 0.01em; color: var(--cream); line-height: 1.1; }
+.lp .benefit__p { font-family: var(--font-ui); font-size: 15px; line-height: 1.6; color: var(--muted-cream); margin-top: auto; }
+.lp .referral { border: 1px solid var(--line-dark); border-radius: 0; padding: 30px; margin-bottom: clamp(40px, 5vw, 64px); display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.lp .referral__tag { font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
+.lp .referral__body { font-family: var(--font-ui); font-size: 16px; line-height: 1.6; color: var(--muted-cream); flex: 1; min-width: 280px; }
+.lp .offer__cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+.lp .offer__note { font-family: var(--font-ui); font-size: 13px; color: rgba(242,235,221,0.40); letter-spacing: 0.02em; }
+
+/* ============================================================
+   5. BRANDS — cream, two ink cards
+   ============================================================ */
+.lp .brands { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.lp .brandcard { background: var(--ink); color: var(--cream); border-radius: 0; display: flex; flex-direction: column; }
+.lp .brandcard__body { padding: 40px 38px 34px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.lp .brandcard__name { font-family: var(--font-display); font-weight: 400; font-size: clamp(44px, 4.5vw, 68px); letter-spacing: 0.02em; line-height: 1; color: var(--cream); }
+.lp .brandcard__loc { font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+.lp .brandcard__p { font-family: var(--font-ui); font-size: 15.5px; line-height: 1.6; color: var(--muted-cream); max-width: 44ch; }
+.lp .brandcard__img { aspect-ratio: 16 / 10; overflow: hidden; background: var(--ink); }
+.lp .brandcard__img img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ============================================================
+   6. HOW IT WORKS — paper, 4 steps
+   ============================================================ */
+.lp .hiw { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(24px, 3vw, 44px); }
+.lp .hiw__step { border-top: 1.5px solid var(--ink); padding-top: 22px; }
+.lp .hiw__n { font-family: var(--font-ui); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+.lp .hiw__step p { font-family: var(--font-display); font-weight: 400; font-size: clamp(22px, 2vw, 28px); letter-spacing: 0.01em; line-height: 1.18; color: var(--ink); }
+.lp .hiw__note { font-family: var(--font-ui); font-size: 13.5px; line-height: 1.6; color: var(--muted-ink); max-width: 78ch; margin-top: clamp(40px, 5vw, 60px); }
+
+/* ============================================================
+   7. TIMELINE — ink, 4 nodes
+   ============================================================ */
+.lp .timeline { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line-dark); }
+.lp .tl { padding: 30px 26px 34px; border-right: 1px solid var(--line-dark); }
+.lp .tl:last-child { border-right: 0; }
+.lp .tl__what { font-family: var(--font-display); font-weight: 400; font-size: clamp(21px, 1.9vw, 27px); letter-spacing: 0.01em; line-height: 1.14; color: var(--cream); margin-bottom: 14px; }
+.lp .tl__when { font-family: var(--font-ui); font-size: 12px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-cream); }
+.lp .tl--now .tl__when { color: var(--gold); }
+.lp .timeline__line { font-family: var(--font-ui); font-size: 15px; color: var(--muted-cream); margin: clamp(36px, 4vw, 52px) 0; }
+.lp .timeline__cta { display: flex; }
+
+/* ============================================================
+   8. FOOTER — ink, centered
+   ============================================================ */
+.lp .footer { background: var(--ink); color: var(--cream); padding: clamp(64px, 7vw, 96px) 40px 48px; text-align: center; }
+.lp .footer__mark { font-family: var(--font-display); font-variant-caps: small-caps; font-weight: 500; font-size: 30px; letter-spacing: 0.18em; color: var(--cream); margin-bottom: 22px; }
+.lp .footer__links { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+.lp .footer__links a,
+.lp .footer__links span { font-family: var(--font-ui); font-size: 13px; letter-spacing: 0.04em; color: var(--muted-cream); }
+.lp .footer__links a:hover { color: var(--gold); opacity: 1; }
+.lp .footer__slogan { font-family: var(--font-display); font-style: italic; font-size: 18px; color: var(--cream); margin-top: 6px; }
+.lp .footer__copy { font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(242,235,221,0.45); margin-top: 14px; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .lp .benefits,
+  .lp .hiw,
+  .lp .timeline,
+  .lp .brands { grid-template-columns: 1fr; }
+  .lp .tl { border-right: 0; border-bottom: 1px solid var(--line-dark); }
+  .lp .tl:last-child { border-bottom: 0; }
+  .lp .hiw__step { border-top: 1.5px solid var(--ink); }
+}
+@media (max-width: 640px) {
+  .lp .section { padding: 60px 20px; }
+  .lp .nav__row { padding: 18px 20px; }
+  .lp .hero__inner { padding: 104px 20px 48px; }
+  .lp .footer { padding: 56px 20px 40px; }
+  .lp .pgrid { grid-template-columns: 1fr; gap: 24px; }
+  .lp .hero__cta-wrap .btn,
+  .lp .offer__cta-wrap .btn,
+  .lp .timeline__cta .btn { width: 100%; justify-content: center; }
+  .lp .timeline__cta { display: block; }
+  .lp .referral { flex-direction: column; gap: 12px; }
+}
