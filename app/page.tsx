@@ -288,6 +288,7 @@ export default async function HomePage() {
           <a href="https://chariotarchive.com">chariotarchive.com</a>
           <a href="https://instagram.com">Instagram</a>
           <Link href="/terms">Terms</Link>
+          <Link href="/privacy">Privacy</Link>
         </div>
         <span className="footer__copy">© 2026 Chariot Archive Inc.</span>
       </footer>

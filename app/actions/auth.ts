@@ -1,6 +1,7 @@
 'use server'
 
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 
@@ -17,7 +18,11 @@ export async function signupAction(prevState: AuthState, formData: FormData): Pr
   const password = formData.get('password') as string
   const confirmPassword = formData.get('confirm_password') as string
   const tcAgreed = formData.get('tc_agreed') === 'on'
-  const referredBy = (formData.get('referred_by') as string) || null
+  const cookieStore = cookies()
+  const referredBy =
+    ((formData.get('referred_by') as string) || '').trim().toUpperCase() ||
+    cookieStore.get('chariot_ref')?.value ||
+    null
 
   if (!tcAgreed) {
     return { error: 'You must agree to the Terms & Conditions to create an account.' }
@@ -53,23 +58,38 @@ export async function signupAction(prevState: AuthState, formData: FormData): Pr
     return { error: 'Failed to create account. Please try again.' }
   }
 
-  // Insert user profile using service role to bypass RLS
+  // Insert user profile using service role to bypass RLS.
+  // Retry on referral_code unique collisions; if it still fails, roll back the
+  // auth user so we never strand an account with no profile row (which would
+  // silently break /account and checkout fulfillment).
   const admin = createAdminClient()
-  const referralCode = generateReferralCode()
   const tcAgreedAt = new Date().toISOString()
 
-  const { error: profileError } = await admin.from('users').insert({
-    id: data.user.id,
-    email,
-    referral_code: referralCode,
-    referred_by: referredBy,
-    tc_agreed_at: tcAgreedAt,
-  })
-
-  if (profileError) {
-    // Auth user created but profile failed — log and continue so the user isn't blocked
+  let profileCreated = false
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const { error: profileError } = await admin.from('users').insert({
+      id: data.user.id,
+      email,
+      referral_code: generateReferralCode(),
+      referred_by: referredBy,
+      tc_agreed_at: tcAgreedAt,
+    })
+    if (!profileError) { profileCreated = true; break }
+    // 23505 = unique_violation. A referral_code collision is retryable; a
+    // duplicate id/email means the row already exists (treat as created).
+    if (profileError.code === '23505' && /referral_code/.test(profileError.message)) continue
+    if (profileError.code === '23505') { profileCreated = true; break }
     console.error('[signup] profile insert failed:', profileError.message)
+    break
   }
+
+  if (!profileCreated) {
+    await admin.auth.admin.deleteUser(data.user.id).catch(() => {})
+    return { error: 'We could not finish creating your account. Please try again.' }
+  }
+
+  // Referral captured — clear the cookie so it can't leak into a later signup.
+  cookieStore.set('chariot_ref', '', { path: '/', maxAge: 0 })
 
   redirect(`/verify-email?email=${encodeURIComponent(email)}`)
 }
@@ -134,10 +154,18 @@ export async function resetPasswordAction(prevState: AuthState, formData: FormDa
   }
 
   const supabase = createServerClient()
+  // Guard: updateUser only works with a valid recovery session (set by the
+  // /auth/callback recovery link). Without it, surface a friendly message
+  // instead of leaking Supabase's raw "Auth session missing!" error.
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { error: 'Your reset link has expired or is invalid. Please request a new password reset.' }
+  }
+
   const { error } = await supabase.auth.updateUser({ password })
 
   if (error) {
-    return { error: error.message }
+    return { error: 'Could not update your password. Please request a new reset link.' }
   }
 
   redirect('/account')

@@ -16,14 +16,14 @@ export default async function CheckoutPage() {
 
   const [{ data: profile }, { data: seq }] = await Promise.all([
     admin.from('users').select('credit_balance').eq('id', user.id).single(),
-    admin.from('member_sequence').select('next_val').single(),
+    admin.from('member_sequence').select('next_number').single(),
   ])
 
   return (
     <CheckoutForm
       creditBalance={profile?.credit_balance ?? 0}
       userEmail={user.email ?? ''}
-      nextMemberNo={seq?.next_val ?? 1}
+      nextMemberNo={seq?.next_number ?? 1}
     />
   )
 }

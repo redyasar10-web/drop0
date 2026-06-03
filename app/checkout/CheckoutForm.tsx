@@ -181,6 +181,7 @@ interface InnerFormProps {
   errorBody: string
   setErrorBody: (v: string) => void
   setSuccessMemberNo: (v: number) => void
+  setNumberPending: (v: boolean) => void
   nextMemberNo: number
   effectiveTotal: number
 }
@@ -196,6 +197,7 @@ function InnerForm({
   errorTitle, setErrorTitle,
   errorBody, setErrorBody,
   setSuccessMemberNo,
+  setNumberPending,
   nextMemberNo,
   effectiveTotal,
 }: InnerFormProps) {
@@ -219,6 +221,27 @@ function InnerForm({
       return null
     }
     return piData.clientSecret as string
+  }
+
+  // Fulfillment (member-number assignment) happens asynchronously in the Stripe
+  // webhook, so after a paid/wallet payment we poll for the REAL assigned number
+  // instead of showing a guessed one. Falls back to a "check your email" state.
+  const pollAssignedNumber = async () => {
+    setNumberPending(true)
+    for (let i = 0; i < 8; i++) {
+      try {
+        const r = await fetch('/api/member-number', { cache: 'no-store' })
+        if (r.ok) {
+          const d = await r.json()
+          if (d.memberNumber != null) {
+            setSuccessMemberNo(d.memberNumber)
+            setNumberPending(false)
+            return
+          }
+        }
+      } catch { /* keep polling */ }
+      await new Promise((res) => setTimeout(res, 1500))
+    }
   }
 
   // Apple Pay / Google Pay confirmation. Billing details come from the wallet;
@@ -253,6 +276,7 @@ function InnerForm({
     }
 
     setCoState('success')
+    pollAssignedNumber()
   }
 
   const applyPromo = async () => {
@@ -349,6 +373,7 @@ function InnerForm({
       }
 
       setCoState('success')
+      pollAssignedNumber()
     } catch {
       setErrorTitle('Something went wrong.')
       setErrorBody('Unable to reach our payment processor. Please try again.')
@@ -563,6 +588,7 @@ export default function CheckoutForm({ creditBalance, userEmail, nextMemberNo }:
   const [errorTitle, setErrorTitle] = useState('Payment failed.')
   const [errorBody, setErrorBody]   = useState("Your card wasn't charged. Check the details and try again.")
   const [successMemberNo, setSuccessMemberNo] = useState(nextMemberNo)
+  const [numberPending, setNumberPending] = useState(false)
   const [msumOpen, setMsumOpen]     = useState(false)
 
   useEffect(() => {
@@ -570,6 +596,20 @@ export default function CheckoutForm({ creditBalance, userEmail, nextMemberNo }:
     if (params.get('paid') === '1') {
       setCoState('success')
       window.history.replaceState({}, '', '/checkout')
+      // Redirect-based payment returned — fetch the real assigned number.
+      ;(async () => {
+        setNumberPending(true)
+        for (let i = 0; i < 8; i++) {
+          try {
+            const r = await fetch('/api/member-number', { cache: 'no-store' })
+            if (r.ok) {
+              const d = await r.json()
+              if (d.memberNumber != null) { setSuccessMemberNo(d.memberNumber); setNumberPending(false); return }
+            }
+          } catch { /* keep polling */ }
+          await new Promise((res) => setTimeout(res, 1500))
+        }
+      })()
     }
   }, [])
 
@@ -677,6 +717,7 @@ export default function CheckoutForm({ creditBalance, userEmail, nextMemberNo }:
               errorTitle={errorTitle} setErrorTitle={setErrorTitle}
               errorBody={errorBody} setErrorBody={setErrorBody}
               setSuccessMemberNo={setSuccessMemberNo}
+              setNumberPending={setNumberPending}
               nextMemberNo={nextMemberNo}
               effectiveTotal={effectiveTotal}
             />
@@ -699,8 +740,14 @@ export default function CheckoutForm({ creditBalance, userEmail, nextMemberNo }:
             <span className="co-eye co-succ__eye">You&rsquo;re in</span>
             <h2 className="co-succ__h">Welcome to the founding fifty.</h2>
             <p className="co-succ__no">
-              Founding Member No.{' '}
-              <span style={{ fontVariantNumeric: 'tabular-nums' }}>{pad3(successMemberNo)}</span>
+              {numberPending ? (
+                <>Your founding number is being assigned — it&rsquo;s on its way to your inbox.</>
+              ) : (
+                <>
+                  Founding Member No.{' '}
+                  <span style={{ fontVariantNumeric: 'tabular-nums' }}>{pad3(successMemberNo)}</span>
+                </>
+              )}
             </p>
             <p className="co-succ__body">
               Your number is permanent — yours, in the order you joined. A receipt and welcome

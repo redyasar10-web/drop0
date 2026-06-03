@@ -44,6 +44,7 @@ export async function POST(request: Request) {
       userId,
       promoCode,
       appliedCreditCents,
+      idempotencyKey: pi.id,
       emailOverride: pi.receipt_email,
     })
   } catch (err) {

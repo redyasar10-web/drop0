@@ -54,6 +54,7 @@ export async function POST(request: Request) {
         userId: user.id,
         promoCode: 'zarathustra',
         appliedCreditCents: 0,
+        idempotencyKey: `zara:${user.id}`,
         emailOverride: user.email,
       })
       return NextResponse.json({ free: true, memberNumber: result.memberNumber })

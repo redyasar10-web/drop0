@@ -11,93 +11,144 @@ export interface FulfillOrderResult {
  * Called by both the Stripe webhook (paid path) and the payment-intent
  * API route (zarathustra free path). Never call this from client code.
  *
- * Assigns the member number, updates credits, redeems promos, credits
- * referrers, and sends the confirmation email — in that order.
+ * Idempotent: the first thing it does is claim `idempotencyKey` in
+ * `fulfilled_orders`. Stripe delivers `payment_intent.succeeded` at-least-once
+ * and retries on any non-2xx, so without this the incremental credit math would
+ * be re-applied on every retry and corrupt balances. On a duplicate key it
+ * returns the already-computed state without mutating anything.
+ *
+ * idempotencyKey: the PaymentIntent id for paid orders, `zara:<userId>` for the
+ * zarathustra free path.
  */
 export async function fulfillOrder({
   userId,
   promoCode,
   appliedCreditCents,
+  idempotencyKey,
   emailOverride,
 }: {
   userId: string
   promoCode: string           // lowercase, empty string if none
   appliedCreditCents: number  // cents already deducted as a discount at this payment
+  idempotencyKey: string
   emailOverride?: string | null
 }): Promise<FulfillOrderResult> {
   const admin = createAdminClient()
-  const appliedCredit = Math.floor(appliedCreditCents / 100)
+  const appliedCredit = Math.round(appliedCreditCents / 100)
+  const isZarathustra = promoCode === 'zarathustra'
 
-  // 1. Fetch user
-  const { data: user } = await admin
-    .from('users')
-    .select('email, credit_balance, referred_by, founder_status, referral_code, member_number')
-    .eq('id', userId)
-    .single()
+  // 0. Idempotency claim — exactly-once gate for all mutations below.
+  const { error: claimError } = await admin
+    .from('fulfilled_orders')
+    .insert({ idempotency_key: idempotencyKey, user_id: userId })
 
-  if (!user) throw new Error(`User not found: ${userId}`)
-
-  const isFirstPurchase = user.member_number == null
-
-  // 2. Assign member number — idempotent RPC; safe to call even if already assigned
-  const { data: memberNumber, error: rpcError } = await admin.rpc('assign_member_number', {
-    p_user_id: userId,
-  })
-  if (rpcError || memberNumber == null) {
-    throw new Error(`assign_member_number failed: ${rpcError?.message ?? 'null result'}`)
+  if (claimError) {
+    // 23505 = unique_violation -> already fulfilled. Return current state, no mutation.
+    if ((claimError as { code?: string }).code === '23505') {
+      const { data: u } = await admin
+        .from('users')
+        .select('member_number, credit_balance, founder_status')
+        .eq('id', userId)
+        .single()
+      return {
+        memberNumber: u?.member_number ?? 0,
+        founderStatus: u?.founder_status === true,
+        creditBalance: u?.credit_balance ?? 0,
+      }
+    }
+    throw new Error(`fulfillment idempotency claim failed: ${claimError.message}`)
   }
 
-  // 3. Compute updates
-  const updates: Record<string, unknown> = {}
-  let grantedFounderStatus = user.founder_status === true
+  // Helper: release the claim so a transient failure can be retried by Stripe.
+  const releaseClaim = () =>
+    admin.from('fulfilled_orders').delete().eq('idempotency_key', idempotencyKey)
 
-  if (isFirstPurchase) {
-    // $30 base credit + any referral credits already held, minus whatever was applied as discount
-    updates.credit_balance = Math.max(0, (user.credit_balance ?? 0) + 30 - appliedCredit)
-  } else if (appliedCredit > 0) {
-    updates.credit_balance = Math.max(0, (user.credit_balance ?? 0) - appliedCredit)
-  }
+  try {
+    // 1. Zarathustra: redeem the promo FIRST (authoritative, atomic). Abort before
+    //    assigning a member number if the code is exhausted/invalid.
+    if (isZarathustra) {
+      const { data: redeemed } = await admin.rpc('redeem_promo_code', { p_code: 'zarathustra' })
+      if (!redeemed) {
+        await releaseClaim()
+        throw new Error('This promo code is no longer available.')
+      }
+    }
 
-  // 4. Zarathustra: redeem the promo and override credits
-  if (promoCode === 'zarathustra') {
-    const { data: redeemed } = await admin.rpc('redeem_promo_code', { p_code: 'zarathustra' })
-    if (redeemed) {
+    // 2. Fetch user
+    const { data: user } = await admin
+      .from('users')
+      .select('email, credit_balance, referred_by, founder_status, referral_code, member_number')
+      .eq('id', userId)
+      .single()
+
+    if (!user) {
+      await releaseClaim()
+      throw new Error(`User not found: ${userId}`)
+    }
+
+    const isFirstPurchase = user.member_number == null
+
+    // 3. Assign member number — idempotent RPC.
+    const { data: memberNumber, error: rpcError } = await admin.rpc('assign_member_number', {
+      p_user_id: userId,
+    })
+    if (rpcError || memberNumber == null) {
+      await releaseClaim()
+      throw new Error(`assign_member_number failed: ${rpcError?.message ?? 'null result'}`)
+    }
+
+    // 4. Compute updates
+    const updates: Record<string, unknown> = {}
+    let grantedFounderStatus = user.founder_status === true
+
+    if (isZarathustra) {
+      // Free founding spot: fixed grant (absolute, so idempotent by value).
       updates.credit_balance = 30
       updates.founder_status = true
       grantedFounderStatus = true
+    } else if (isFirstPurchase) {
+      // $30 base credit + any referral credits already held, minus discount applied.
+      updates.credit_balance = Math.max(0, (user.credit_balance ?? 0) + 30 - appliedCredit)
+    } else if (appliedCredit > 0) {
+      updates.credit_balance = Math.max(0, (user.credit_balance ?? 0) - appliedCredit)
     }
-  }
 
-  // 5. Apply user updates
-  if (Object.keys(updates).length > 0) {
-    await admin.from('users').update(updates).eq('id', userId)
-  }
-
-  // 6. Referral credit (first purchase only)
-  if (isFirstPurchase && user.referred_by) {
-    await creditReferrer({ admin, referralCode: user.referred_by, referredId: userId })
-  }
-
-  const finalCreditBalance =
-    (updates.credit_balance as number | undefined) ?? user.credit_balance ?? 0
-  const emailAddress = emailOverride ?? user.email
-
-  // 7. Confirmation email — non-fatal
-  if (emailAddress && user.referral_code) {
-    try {
-      await sendOrderConfirmation({
-        to: emailAddress,
-        memberNumber,
-        isFounder: grantedFounderStatus,
-        referralCode: user.referral_code,
-        creditBalance: finalCreditBalance,
-      })
-    } catch (err) {
-      console.error('[fulfillOrder] confirmation email failed:', err)
+    // 5. Apply user updates
+    if (Object.keys(updates).length > 0) {
+      await admin.from('users').update(updates).eq('id', userId)
     }
-  }
 
-  return { memberNumber, founderStatus: grantedFounderStatus, creditBalance: finalCreditBalance }
+    // 6. Referral credit (first purchase only)
+    if (isFirstPurchase && user.referred_by) {
+      await creditReferrer({ admin, referralCode: user.referred_by, referredId: userId })
+    }
+
+    const finalCreditBalance =
+      (updates.credit_balance as number | undefined) ?? user.credit_balance ?? 0
+    const emailAddress = emailOverride ?? user.email
+
+    // 7. Confirmation email — non-fatal
+    if (emailAddress && user.referral_code) {
+      try {
+        await sendOrderConfirmation({
+          to: emailAddress,
+          memberNumber,
+          isFounder: grantedFounderStatus,
+          referralCode: user.referral_code,
+          creditBalance: finalCreditBalance,
+        })
+      } catch (err) {
+        console.error('[fulfillOrder] confirmation email failed:', err)
+      }
+    }
+
+    return { memberNumber, founderStatus: grantedFounderStatus, creditBalance: finalCreditBalance }
+  } catch (err) {
+    // Any failure after the claim (other than the explicit releases above) must
+    // release the claim so Stripe's retry can complete the order.
+    try { await releaseClaim() } catch { /* ignore */ }
+    throw err
+  }
 }
 
 async function creditReferrer({
@@ -116,6 +167,9 @@ async function creditReferrer({
     .single()
 
   if (!referrer) return
+
+  // No self-referral — a user cannot credit themselves.
+  if (referrer.id === referredId) return
 
   // Idempotency guard
   const { data: existing } = await admin
