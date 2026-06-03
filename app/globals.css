@@ -410,7 +410,7 @@ input, textarea, select { font: inherit; }
 
 .account-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: rgba(250, 250, 248, 0.10);
   border: 1px solid rgba(250, 250, 248, 0.10);
@@ -444,6 +444,63 @@ input, textarea, select { font: inherit; }
 
 .account-stat-value--gold { color: var(--signal-gold); }
 .account-stat-value--muted { color: rgba(250, 250, 248, 0.35); font-size: var(--fs-16); }
+.account-stat-value--sm { font-size: var(--fs-16); }
+.account-stat-sub { color: rgba(250, 250, 248, 0.35); font-size: var(--fs-14); }
+
+/* ---- Membership credential card ---- */
+.cred {
+  border: 1px solid rgba(201, 146, 30, 0.55);
+  background: rgba(250, 250, 248, 0.025);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+.cred__head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: var(--space-8);
+}
+.cred__brand {
+  font-family: var(--font-display); font-weight: var(--fw-semi);
+  letter-spacing: var(--ls-wordmark); text-transform: uppercase;
+  font-size: var(--fs-14); color: var(--fg-inverse);
+}
+.cred__tier {
+  font-family: var(--font-mono); font-size: var(--fs-12);
+  letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--signal-gold);
+}
+.cred__numberwrap { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-7); }
+.cred__kicker {
+  font-family: var(--font-mono); font-size: var(--fs-12);
+  letter-spacing: var(--ls-wider); text-transform: uppercase; color: rgba(250, 250, 248, 0.4);
+}
+.cred__number {
+  font-family: var(--font-mono); font-size: clamp(3.25rem, 11vw, 5.5rem); line-height: 1;
+  letter-spacing: 0.04em; color: var(--signal-gold); font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+}
+.cred__number--pending { color: rgba(250, 250, 248, 0.22); }
+.cred__pendingnote { font-family: var(--font-body); font-size: var(--fs-14); color: rgba(250, 250, 248, 0.45); }
+.cred__foot {
+  display: flex; justify-content: space-between; gap: var(--space-4);
+  border-top: 1px solid rgba(250, 250, 248, 0.1); padding-top: var(--space-4);
+}
+.cred__field { display: flex; flex-direction: column; gap: 4px; }
+.cred__field--right { text-align: right; }
+.cred__label {
+  font-family: var(--font-mono); font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide); text-transform: uppercase; color: rgba(250, 250, 248, 0.4);
+}
+.cred__value { font-family: var(--font-body); font-size: var(--fs-14); color: var(--fg-inverse); }
+
+.account-cta { margin-bottom: var(--space-7); }
+.account-cta-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: var(--fs-13); font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wide); text-transform: uppercase; text-decoration: none;
+  background: var(--signal-gold); color: var(--color-ink); padding: var(--space-4) var(--space-6);
+  transition: background var(--dur-state) var(--ease-calm);
+}
+.account-cta-btn:hover { background: #A57A18; opacity: 1; }
+.account-fallback { font-family: var(--font-mono); font-size: var(--fs-13); color: rgba(250, 250, 248, 0.4); }
 
 .account-referral-block {
   border: 1px solid rgba(250, 250, 248, 0.12);

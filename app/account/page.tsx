@@ -15,6 +15,10 @@ interface UserProfile {
   tc_agreed_at: string
 }
 
+function pad3(n: number) {
+  return String(n).padStart(3, '0')
+}
+
 export default async function AccountPage({
   searchParams,
 }: {
@@ -26,11 +30,7 @@ export default async function AccountPage({
   if (!user) redirect('/login')
 
   const [{ data: profile }, { count: referralCount }] = await Promise.all([
-    supabase
-      .from('users')
-      .select('*')
-      .eq('id', user.id)
-      .single<UserProfile>(),
+    supabase.from('users').select('*').eq('id', user.id).single<UserProfile>(),
     supabase
       .from('referrals')
       .select('*', { count: 'exact', head: true })
@@ -39,17 +39,11 @@ export default async function AccountPage({
   ])
 
   const orderConfirmed = searchParams.order === 'confirmed'
-
+  const hasNumber = profile?.member_number != null
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://chariotarchive.com'
-  const referralLink = profile?.referral_code
-    ? `${siteUrl}/ref/${profile.referral_code}`
-    : null
-
+  const referralLink = profile?.referral_code ? `${siteUrl}/ref/${profile.referral_code}` : null
   const memberSince = profile?.created_at
-    ? new Date(profile.created_at).toLocaleDateString('en-US', {
-        month: 'long',
-        year: 'numeric',
-      })
+    ? new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
     : null
 
   return (
@@ -61,83 +55,79 @@ export default async function AccountPage({
           </div>
         )}
 
-        <h1 className="account-heading">Account</h1>
-        <p className="account-email">{user.email}</p>
-
-        {profile?.founder_status && (
-          <div className="account-founder-badge">
-            Founding Member
+        {/* Membership credential */}
+        <section className="cred" aria-label="Membership credential">
+          <div className="cred__head">
+            <span className="cred__brand">Chariot</span>
+            <span className="cred__tier">{profile?.founder_status ? 'Founding Member' : 'Member'}</span>
           </div>
-        )}
 
-        <p className="account-section-label">Member Details</p>
-
-        <div className="account-grid">
-          <div className="account-stat">
-            <span className="account-stat-label">Member No.</span>
-            {profile?.member_number != null ? (
-              <span className="account-stat-value account-stat-value--gold">
-                #{String(profile.member_number).padStart(3, '0')}
-              </span>
+          <div className="cred__numberwrap">
+            <span className="cred__kicker">Member Number</span>
+            {hasNumber ? (
+              <span className="cred__number">{pad3(profile!.member_number!)}</span>
             ) : (
-              <span className="account-stat-value account-stat-value--muted">
-                Assigned at purchase
-              </span>
+              <span className="cred__number cred__number--pending">— — —</span>
+            )}
+            {!hasNumber && (
+              <span className="cred__pendingnote">Assigned the moment you claim your spot</span>
             )}
           </div>
 
+          <div className="cred__foot">
+            <div className="cred__field">
+              <span className="cred__label">Holder</span>
+              <span className="cred__value">{user.email}</span>
+            </div>
+            <div className="cred__field cred__field--right">
+              <span className="cred__label">Member Since</span>
+              <span className="cred__value">{memberSince ?? '—'}</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Stats */}
+        <div className="account-grid">
           <div className="account-stat">
             <span className="account-stat-label">Credit Balance</span>
-            <span className="account-stat-value">
+            <span className="account-stat-value account-stat-value--gold">
               ${profile?.credit_balance ?? 0}
             </span>
           </div>
-
           <div className="account-stat">
-            <span className="account-stat-label">Member Since</span>
-            <span className="account-stat-value" style={{ fontSize: 'var(--fs-16)' }}>
-              {memberSince ?? '—'}
-            </span>
+            <span className="account-stat-label">Referrals Credited</span>
+            <span className="account-stat-value">{referralCount ?? 0}<span className="account-stat-sub"> / 3</span></span>
           </div>
-
           <div className="account-stat">
             <span className="account-stat-label">Status</span>
-            <span className="account-stat-value" style={{ fontSize: 'var(--fs-14)' }}>
-              {profile?.founder_status ? 'Founding Member' : 'Member'}
+            <span className="account-stat-value account-stat-value--sm">
+              {profile?.founder_status ? 'Founding Member' : hasNumber ? 'Member' : 'Pending'}
             </span>
           </div>
         </div>
 
-        {profile?.referral_code && (
-          <>
-            <p className="account-section-label">Referral</p>
-            <div className="account-referral-block">
-              <p className="account-referral-label">Your link</p>
-              {referralLink && (
-                <>
-                  <p className="account-referral-link">{referralLink}</p>
-                  <CopyButton text={referralLink} />
-                </>
-              )}
-              <p className="account-referral-meta">
-                {referralCount ?? 0} of 3 referrals credited &mdash; $5 per friend who purchases
-              </p>
-            </div>
-          </>
+        {/* Referral */}
+        {referralLink && (
+          <div className="account-referral-block">
+            <p className="account-referral-label">Your referral link</p>
+            <p className="account-referral-link">{referralLink}</p>
+            <CopyButton text={referralLink} />
+            <p className="account-referral-meta">
+              {referralCount ?? 0} of 3 credited &mdash; $5 credit per friend who claims a spot
+            </p>
+          </div>
         )}
 
-        {profile?.member_number == null && (
-          <>
-            <p className="account-section-label">Drop 0</p>
-            <Link href="/checkout" className="auth-btn" style={{ display: 'inline-flex', width: 'auto', textDecoration: 'none' }}>
-              Shop Drop 0
-            </Link>
-          </>
+        {/* CTA — only before purchase */}
+        {!hasNumber && (
+          <div className="account-cta">
+            <Link href="/checkout" className="account-cta-btn">Claim your founding spot — $20</Link>
+          </div>
         )}
 
         {!profile && (
-          <p style={{ color: 'rgba(250,250,248,0.4)', fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-13)' }}>
-            Profile loading. If this persists, contact seth@chariotarchive.com.
+          <p className="account-fallback">
+            Profile loading. If this persists, contact support@chariotarchive.com.
           </p>
         )}
       </div>
