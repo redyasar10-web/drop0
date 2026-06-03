@@ -132,6 +132,7 @@ input, textarea, select { font: inherit; }
   font-size: var(--fs-18); letter-spacing: var(--ls-wordmark); text-transform: uppercase;
   color: var(--color-salt); text-decoration: none;
 }
+.auth-logo { height: 28px; width: auto; display: block; }
 .auth-aside__eyebrow {
   font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wider);
   text-transform: uppercase; color: var(--signal-gold);

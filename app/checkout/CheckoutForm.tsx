@@ -152,7 +152,7 @@ function SummaryPanel({ nextMemberNo, creditCents, promo, promoLabel, effectiveT
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M8 2 3 4v3.5C3 11 5.2 13.3 8 14c2.8-.7 5-3 5-6.5V4L8 2z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
           </svg>
-          Refundable until Drop 1 opens
+          Your founding number is permanent
         </span>
       </div>
     </div>
@@ -562,7 +562,7 @@ function InnerForm({
             </span>
           </button>
           <p className="co-pay-note" style={{ textTransform: 'none', letterSpacing: '0.04em' }}>
-            Refundable until Drop&nbsp;1 opens. By claiming you agree to Chariot&rsquo;s{' '}
+            All sales final. By claiming you agree to Chariot&rsquo;s{' '}
             <Link href="/terms">terms</Link>.
           </p>
         </div>

@@ -2,6 +2,7 @@ import './landing.css'
 import { createServerClient } from '@/lib/supabase/server'
 import LandingNav from './LandingNav'
 import Reveal from './Reveal'
+import HeroSlideshow from './HeroSlideshow'
 import Link from 'next/link'
 
 const PRODUCTS = [
@@ -41,19 +42,7 @@ export default async function HomePage() {
 
       {/* 1 · HERO */}
       <header className="hero" id="top">
-        <div className="hero__media">
-          <video
-            className="hero__video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/hero/hero-1nri.jpg"
-          >
-            <source src="/hero/hero.mp4" type="video/mp4" />
-          </video>
-          <img className="hero__poster" src="/hero/hero-1nri.jpg" alt="1NRI, worn in Accra" />
-        </div>
+        <HeroSlideshow />
         <div className="hero__scrim" />
         <div className="hero__inner">
           <span className="eyebrow eyebrow--light">Drop 0 · The Founding Fifty · Closes June 14</span>
@@ -72,7 +61,7 @@ export default async function HomePage() {
             </Link>
           </div>
           <p className="hero__trust">
-            Ships from Austin · Duties included · Free returns · Refundable anytime before Drop&nbsp;1
+            Ships from Austin · Duties included · Free returns on Drop&nbsp;1 · Stripe-secured
           </p>
         </div>
       </header>
@@ -276,7 +265,7 @@ export default async function HomePage() {
           <Link href={ctaHref} className="btn btn--lg">
             Claim Your Spot — $20 <span className="arr" aria-hidden="true">→</span>
           </Link>
-          <p className="hero__trust">Stripe-secured · Refundable anytime before Drop&nbsp;1 · No subscription · Stays $20</p>
+          <p className="hero__trust">Stripe-secured · One-time $20 · No subscription · Your founding spot is locked in</p>
         </Reveal>
       </section>
 
