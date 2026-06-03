@@ -31,12 +31,12 @@ export default async function HomePage() {
 
   return (
     <div className="lp">
-      <LandingNav />
+      <LandingNav isAuthed={!!user} />
 
       {/* 1. Hero */}
       <header className="hero" id="top">
         <div className="hero__bg">
-          <img src="/assets/jireh/campaign-10.jpg" alt="1NRI and Jireh pieces worn in Accra" />
+          <img src="/jireh/campaign-10.jpg" alt="1NRI and Jireh pieces worn in Accra" />
         </div>
         <div className="hero__inner">
           <div className="hero__mark">Chariot</div>
@@ -68,7 +68,7 @@ export default async function HomePage() {
           <div className="pgrid">
             <article className="pcard">
               <div className="pcard__img">
-                <img src="/assets/products/dusk-tee-black.jpg" alt="SMS Tee, 1NRI" />
+                <img src="/products/dusk-tee-black.jpg" alt="SMS Tee, 1NRI" />
               </div>
               <div className="pcard__meta">
                 <span className="pcard__brand">1NRI</span>
@@ -82,7 +82,7 @@ export default async function HomePage() {
 
             <article className="pcard">
               <div className="pcard__img">
-                <img src="/assets/products/intercessory-fur-black.jpg" alt="Intercessory Dept Fur Tee, 1NRI" />
+                <img src="/products/intercessory-fur-black.jpg" alt="Intercessory Dept Fur Tee, 1NRI" />
               </div>
               <div className="pcard__meta">
                 <span className="pcard__brand">1NRI</span>
@@ -96,7 +96,7 @@ export default async function HomePage() {
 
             <article className="pcard">
               <div className="pcard__img">
-                <img src="/assets/products/flare-sweatpants-khaki.jpg" alt="Flare Sweatpants, 1NRI" />
+                <img src="/products/flare-sweatpants-khaki.jpg" alt="Flare Sweatpants, 1NRI" />
               </div>
               <div className="pcard__meta">
                 <span className="pcard__brand">1NRI</span>
@@ -110,7 +110,7 @@ export default async function HomePage() {
 
             <article className="pcard">
               <div className="pcard__img">
-                <img src="/assets/products/acid-washed-shorts-red.jpg" alt="Acid Washed Shorts, 1NRI" />
+                <img src="/products/acid-washed-shorts-red.jpg" alt="Acid Washed Shorts, 1NRI" />
               </div>
               <div className="pcard__meta">
                 <span className="pcard__brand">1NRI</span>
@@ -124,7 +124,7 @@ export default async function HomePage() {
 
             <article className="pcard">
               <div className="pcard__img">
-                <img src="/assets/jireh/battle-angel-black-grey.jpg" alt="Battle Angel Tee, Jireh" />
+                <img src="/jireh/battle-angel-black-grey.jpg" alt="Battle Angel Tee, Jireh" />
               </div>
               <div className="pcard__meta">
                 <span className="pcard__brand">Jireh</span>
@@ -138,7 +138,7 @@ export default async function HomePage() {
 
             <article className="pcard">
               <div className="pcard__img">
-                <img src="/assets/products/varsity-jersey.jpg" alt="Varsity Jersey 2.0, 1NRI" />
+                <img src="/products/varsity-jersey.jpg" alt="Varsity Jersey 2.0, 1NRI" />
               </div>
               <div className="pcard__meta">
                 <span className="pcard__brand">1NRI</span>
@@ -215,7 +215,7 @@ export default async function HomePage() {
                 </p>
               </div>
               <div className="brandcard__img">
-                <img src="/assets/products/life-and-death-burgundy.jpg" alt="1NRI piece" />
+                <img src="/products/life-and-death-burgundy.jpg" alt="1NRI piece" />
               </div>
             </article>
             <article className="brandcard">
@@ -228,7 +228,7 @@ export default async function HomePage() {
                 </p>
               </div>
               <div className="brandcard__img">
-                <img src="/assets/jireh/campaign-01.jpg" alt="Jireh Battle Angel" />
+                <img src="/jireh/campaign-01.jpg" alt="Jireh Battle Angel" />
               </div>
             </article>
           </div>

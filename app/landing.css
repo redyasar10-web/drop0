@@ -73,17 +73,29 @@
   border-bottom: 1px solid transparent;
   transition: background 240ms var(--ease-calm), color 240ms var(--ease-calm), border-color 240ms var(--ease-calm);
 }
-.lp .nav__row { max-width: var(--maxw); margin: 0 auto; padding: 22px 40px; }
+.lp .nav__row {
+  max-width: var(--maxw); margin: 0 auto; padding: 22px 40px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
 .lp .nav__wordmark {
-  font-family: var(--font-display);
-  font-variant-caps: small-caps;
-  font-weight: 500;
-  font-size: 20px;
-  letter-spacing: 0.18em;
-  color: var(--cream);
+  display: inline-flex; align-items: center;
   background: none; border: 0; padding: 0; cursor: pointer;
   text-decoration: none;
 }
+.lp .nav__logo { height: 20px; width: auto; display: block; }
+.lp .nav__links { display: flex; align-items: center; gap: 22px; }
+.lp .nav__link {
+  font-family: var(--font-display);
+  font-variant-caps: small-caps;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--cream);
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 180ms var(--ease-calm);
+}
+.lp .nav__link:hover { opacity: 1; }
 .lp .nav.is-scrolled { background: var(--ink); border-bottom-color: var(--line-dark); }
 
 /* ============================================================

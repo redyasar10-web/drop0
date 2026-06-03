@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
-import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { Elements, PaymentElement, ExpressCheckoutElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -201,6 +201,59 @@ function InnerForm({
 }: InnerFormProps) {
   const stripe   = useStripe()
   const elements = useElements()
+  const [expressReady, setExpressReady] = useState(false)
+
+  // Create the PaymentIntent on the server and return its client secret.
+  // Shared by the card form and the Apple/Google Pay express path.
+  const startPaymentIntent = async (): Promise<string | null> => {
+    const piRes = await fetch('/api/payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ promoCode: promo.status === 'ok' ? promoInput.trim() : '' }),
+    })
+    const piData = await piRes.json()
+    if (!piRes.ok || !piData.clientSecret) {
+      setErrorTitle('Payment could not be started.')
+      setErrorBody(piData.error ?? 'Please try again.')
+      setCoState('error')
+      return null
+    }
+    return piData.clientSecret as string
+  }
+
+  // Apple Pay / Google Pay confirmation. Billing details come from the wallet;
+  // the order email is taken server-side from the authenticated session.
+  const onExpressConfirm = async () => {
+    if (!stripe || !elements) return
+    if (coState === 'processing') return
+    setCoState('processing')
+
+    const { error: submitError } = await elements.submit()
+    if (submitError) {
+      setErrorTitle(submitError.message ?? 'Payment validation failed.')
+      setErrorBody("You weren't charged. Please try again.")
+      setCoState('error')
+      return
+    }
+
+    const clientSecret = await startPaymentIntent()
+    if (!clientSecret) return
+
+    const { error: confirmError } = await stripe.confirmPayment({
+      elements,
+      clientSecret,
+      confirmParams: { return_url: `${window.location.origin}/checkout?paid=1` },
+      redirect: 'if_required',
+    })
+    if (confirmError) {
+      setErrorTitle(confirmError.message ?? 'Payment failed.')
+      setErrorBody("You weren't charged. Please try again.")
+      setCoState('error')
+      return
+    }
+
+    setCoState('success')
+  }
 
   const applyPromo = async () => {
     const code = promoInput.trim()
@@ -275,23 +328,12 @@ function InnerForm({
         return
       }
 
-      const piRes = await fetch('/api/payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ promoCode: promo.status === 'ok' ? promoInput.trim() : '' }),
-      })
-      const piData = await piRes.json()
-
-      if (!piRes.ok || !piData.clientSecret) {
-        setErrorTitle('Payment could not be started.')
-        setErrorBody(piData.error ?? 'Please try again.')
-        setCoState('error')
-        return
-      }
+      const clientSecret = await startPaymentIntent()
+      if (!clientSecret) return
 
       const { error: confirmError } = await stripe.confirmPayment({
         elements,
-        clientSecret: piData.clientSecret,
+        clientSecret,
         confirmParams: {
           return_url: `${window.location.origin}/checkout?paid=1`,
           payment_method_data: { billing_details: { name: name.trim(), email: email.trim() } },
@@ -420,29 +462,17 @@ function InnerForm({
             </div>
           ) : (
             <>
-              {/* Express pay row */}
-              <div className="co-expay-wrap">
-                <div className="co-expay-row">
-                  <button type="button" className="co-expay co-expay--apple" aria-label="Pay with Apple Pay">
-                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M17.05 12.04c-.02-2.06 1.68-3.05 1.76-3.1-.96-1.4-2.46-1.6-2.99-1.62-1.27-.13-2.48.75-3.13.75-.64 0-1.64-.73-2.7-.71-1.39.02-2.67.81-3.38 2.05-1.44 2.5-.37 6.2 1.04 8.23.69 1 1.51 2.12 2.58 2.08 1.04-.04 1.43-.67 2.69-.67 1.25 0 1.61.67 2.71.65 1.12-.02 1.83-1.02 2.51-2.02.79-1.16 1.12-2.28 1.14-2.34-.03-.01-2.18-.84-2.2-3.33zM15 6.2c.57-.69.95-1.65.85-2.6-.82.03-1.81.54-2.4 1.23-.53.61-.99 1.59-.87 2.52.91.07 1.85-.46 2.42-1.15z" />
-                    </svg>
-                    <span>Pay</span>
-                  </button>
-                  <button type="button" className="co-expay co-expay--gpay" aria-label="Pay with Google Pay">
-                    <svg viewBox="0 0 41 17" aria-hidden="true" height="18">
-                      <path fill="#5f6368" d="M19.5 8.3v4.9h-1.6V1.2h4.1c1 0 1.9.3 2.6 1 .7.6 1.1 1.5 1.1 2.4 0 1-.4 1.8-1.1 2.5-.7.6-1.6 1-2.6 1h-2.5zm0-5.6v4.1h2.6c.6 0 1.1-.2 1.5-.6.8-.8.8-2 0-2.8-.4-.4-.9-.6-1.5-.7h-2.6z" />
-                      <path fill="#5f6368" d="M30.3 4.5c1.2 0 2.1.3 2.8.9.7.6 1 1.5 1 2.6v5.2h-1.5v-1.2h-.1c-.7 1-1.5 1.4-2.6 1.4-1 0-1.7-.3-2.4-.8-.6-.6-.9-1.2-.9-2.1 0-.9.3-1.6 1-2.1.7-.5 1.6-.8 2.7-.8.9 0 1.7.2 2.3.5v-.4c0-.6-.2-1-.7-1.4-.4-.4-1-.6-1.6-.6-.9 0-1.6.4-2.1 1.1l-1.4-.9c.8-1.1 1.9-1.6 3.3-1.6zm-2.1 6.1c0 .4.2.8.5 1 .3.3.7.4 1.2.4.6 0 1.2-.2 1.7-.7.5-.5.8-1 .8-1.6-.5-.4-1.2-.6-2-.6-.6 0-1.2.2-1.6.5-.4.3-.6.6-.6 1.1z" />
-                      <path fill="#5f6368" d="M41 4.7l-5 11.5h-1.6l1.9-4-3.3-7.5h1.7l2.4 5.7 2.3-5.7z" />
-                      <path fill="#4285f4" d="M13.3 7.3c0-.5 0-1-.1-1.4H6.8v2.7h3.7c-.2.9-.6 1.6-1.4 2.1v1.8h2.3c1.3-1.2 2.1-3 2.1-5.2z" />
-                      <path fill="#34a853" d="M6.8 14c1.9 0 3.5-.6 4.7-1.7l-2.3-1.8c-.6.4-1.4.7-2.4.7-1.9 0-3.4-1.3-4-3H.4v1.8C1.6 12.5 4 14 6.8 14z" />
-                      <path fill="#fbbc04" d="M2.8 8.2c-.2-.5-.2-1-.2-1.6s.1-1.1.2-1.6V3.2H.4C-.1 4.3-.1 5.5-.1 6.6s0 2.3.5 3.4l2.4-1.8z" />
-                      <path fill="#ea4335" d="M6.8 2.6c1.1 0 2 .4 2.8 1.1l2-2C10.3.5 8.7-.1 6.8-.1 4 0 1.6 1.5.4 3.8l2.4 1.8c.6-1.7 2.1-3 4-3z" />
-                    </svg>
-                  </button>
-                </div>
+              {/* Express pay row — real Apple Pay / Google Pay via Stripe.
+                  Renders native buttons only on supported devices/browsers
+                  (HTTPS + registered domain); hides itself otherwise. */}
+              <div className="co-expay-wrap" style={expressReady ? undefined : { display: 'none' }}>
+                <ExpressCheckoutElement
+                  onReady={({ availablePaymentMethods }) => setExpressReady(!!availablePaymentMethods)}
+                  onConfirm={onExpressConfirm}
+                  options={{ buttonHeight: 48 }}
+                />
               </div>
-              <div className="co-ordiv">or pay with card</div>
+              {expressReady && <div className="co-ordiv">or pay with card</div>}
 
               <div id="payment-element">
                 <PaymentElement options={{ layout: 'accordion' }} />
@@ -589,9 +619,9 @@ export default function CheckoutForm({ creditBalance, userEmail, nextMemberNo }:
           <Link href="/" aria-label="Chariot home">
             <Image
               className="co-nav__logo"
-              src="/chariot-wordmark.svg"
+              src="/chariot-wordmark.png"
               alt="Chariot"
-              width={88}
+              width={80}
               height={20}
               priority
             />
