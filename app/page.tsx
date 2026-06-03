@@ -7,7 +7,7 @@ import Link from 'next/link'
 const PRODUCTS = [
   { img: '/products/dusk-tee-black.jpg', brand: '1NRI', name: 'Dusk Before Dawn Tee', retail: 65, credit: 35 },
   { img: '/products/intercessory-fur-black.jpg', brand: '1NRI', name: 'Intercessory Dept Fur Tee', retail: 65, credit: 35 },
-  { img: '/jireh/battle-angel-black-grey.jpg', brand: 'Jireh', name: 'Battle Angel Tee', retail: 58, credit: 28 },
+  { img: '/products/sackcloth-clay.jpg', brand: '1NRI', name: 'Sackcloth Tee', retail: 58, credit: 28 },
   { img: '/products/flare-sweatpants-khaki.jpg', brand: '1NRI', name: 'Flare Sweatpants', retail: 68, credit: 38 },
   { img: '/products/varsity-jersey.jpg', brand: '1NRI', name: 'Varsity Jersey 2.0', retail: 72, credit: 42 },
   { img: '/products/acid-washed-shorts-red.jpg', brand: '1NRI', name: 'Acid Washed Shorts', retail: 62, credit: 32 },
@@ -52,7 +52,7 @@ export default async function HomePage() {
           >
             <source src="/hero/hero.mp4" type="video/mp4" />
           </video>
-          <img className="hero__poster" src="/hero/hero-1nri.jpg" alt="1NRI and Jireh, worn in Accra" />
+          <img className="hero__poster" src="/hero/hero-1nri.jpg" alt="1NRI, worn in Accra" />
         </div>
         <div className="hero__scrim" />
         <div className="hero__inner">
@@ -62,7 +62,7 @@ export default async function HomePage() {
             <span className="ital">get in first — for life.</span>
           </h1>
           <p className="hero__sub">
-            1NRI and Jireh, direct from Accra. No customs, no three-week wait.
+            1NRI, direct from Accra. No customs, no three-week wait.
             $20 now gets you $30 in Drop&nbsp;1 credit, a permanent founding spot,
             and 24-hour early access to every drop.
           </p>
@@ -85,7 +85,7 @@ export default async function HomePage() {
               <span>Designed in Accra</span><span className="dot">✦</span>
               <span>Shipped from Austin</span><span className="dot">✦</span>
               <span>1NRI</span><span className="dot">✦</span>
-              <span>Jireh</span><span className="dot">✦</span>
+              <span>Made to order</span><span className="dot">✦</span>
               <span>AGOA 0% duty</span><span className="dot">✦</span>
               <span>Stripe-secured</span><span className="dot">✦</span>
             </span>
@@ -125,7 +125,7 @@ export default async function HomePage() {
         <div className="wrap">
           <Reveal className="head head--light">
             <span className="eyebrow">Their first US drop</span>
-            <h2 className="h2 h2--light">The labels Accra already wears.</h2>
+            <h2 className="h2 h2--light">The label Accra already wears.</h2>
           </Reveal>
 
           <Reveal className="brandfeat">
@@ -143,23 +143,11 @@ export default async function HomePage() {
                 &ldquo;If your idea is really powerful and strong, why are you part-timing it?&rdquo;
                 <cite>Nana Kwadwo Osei Nyarko · Founder, 1NRI</cite>
               </blockquote>
+              <Link href={ctaHref} className="link-arrow">Join 1NRI&rsquo;s first US drop <span aria-hidden="true">→</span></Link>
             </div>
           </Reveal>
 
-          <Reveal className="brandfeat brandfeat--rev">
-            <div className="brandfeat__img">
-              <img src="/brands/brand-jireh.jpg" alt="Jireh campaign, worn in Accra" loading="lazy" />
-            </div>
-            <div className="brandfeat__body">
-              <span className="brandfeat__name">Jireh</span>
-              <span className="brandfeat__loc">East Legon, Accra · Since 2021</span>
-              <p className="brandfeat__p">
-                Graphic sportswear. The Battle Angel series — high-contrast, character-driven artwork
-                on heavyweight cotton. Built for the street, shot on the street.
-              </p>
-              <Link href={ctaHref} className="link-arrow">Join their first US drop <span aria-hidden="true">→</span></Link>
-            </div>
-          </Reveal>
+          <Reveal as="p" className="brandfeat__more">More Accra labels join at Drop&nbsp;1 — founding members get them first.</Reveal>
         </div>
       </section>
 
@@ -228,7 +216,7 @@ export default async function HomePage() {
           </Reveal>
           <div className="dossier">
             {[
-              { k: 'Accra', t: 'The brands cut & sew', d: '1NRI and Jireh make to our wholesale order. Real product, made on demand — no dropshipping.' },
+              { k: 'Accra', t: 'The brand cuts & sews', d: '1NRI makes to our wholesale order. Real product, made on demand — no dropshipping.' },
               { k: 'Aquantuo', t: 'Diaspora courier', d: 'Consolidated freight from Accra to the US. We clear it. You never see a customs form.' },
               { k: 'AGOA', t: '0% import duty', d: 'Ghanaian cotton apparel enters duty-free under the AGOA treaty through December 2026. We pass the saving on.' },
               { k: 'Austin', t: 'Ships domestic', d: 'Warehoused in Texas. Your piece ships from Austin — not Accra. Free returns, like any US store.' },
@@ -276,7 +264,7 @@ export default async function HomePage() {
       {/* 8 · FINAL CTA */}
       <section className="section final" id="claim">
         <div className="hero__media final__media">
-          <img src="/hero/hero-jireh.jpg" alt="Worn in Accra" loading="lazy" />
+          <img src="/hero/cta-1nri.jpg" alt="Worn in Accra" loading="lazy" />
         </div>
         <div className="hero__scrim" />
         <Reveal className="final__inner">

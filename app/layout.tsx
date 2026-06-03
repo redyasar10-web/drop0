@@ -4,7 +4,7 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Chariot — Drop 0 · The Founding Fifty',
   description:
-    '1NRI and Jireh, direct from Accra. No customs, no three-week wait. $20 gets you a founding spot, $30 in Drop 1 credit, and first access to every drop — for life.',
+    '1NRI, direct from Accra. No customs, no three-week wait. $20 gets you a founding spot, $30 in Drop 1 credit, and first access to every drop — for life.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

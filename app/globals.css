@@ -118,7 +118,7 @@ input, textarea, select { font: inherit; }
   position: relative;
   display: flex;
   background: var(--color-ink) center 28% / cover no-repeat;
-  background-image: url('/hero/hero-jireh.jpg');
+  background-image: url('/auth/aside-1nri.jpg');
   color: var(--color-salt);
 }
 .auth-aside__scrim { position: absolute; inset: 0; background: rgba(17,17,17,0.52); }
