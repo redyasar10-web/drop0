@@ -4,20 +4,20 @@ import path from 'node:path'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import './legal.css'
+import '../terms/legal.css'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — Chariot',
-  description: 'Terms governing your use of chariotarchive.com and the Drop 0 Founding Member offer.',
+  title: 'Privacy Notice — Chariot',
+  description: 'How Chariot Archive Inc. collects, uses, and protects your information.',
 }
 
-export default function TermsPage() {
-  const md = fs.readFileSync(path.join(process.cwd(), 'content/legal/terms.md'), 'utf8')
+export default function PrivacyPage() {
+  const md = fs.readFileSync(path.join(process.cwd(), 'content/legal/privacy.md'), 'utf8')
   return (
     <div className="legal">
       <header className="legal__nav">
         <Link href="/" className="legal__wordmark">Chariot</Link>
-        <Link href="/privacy" className="legal__navlink">Privacy Notice</Link>
+        <Link href="/terms" className="legal__navlink">Terms of Service</Link>
       </header>
       <main className="legal__doc">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{md}</ReactMarkdown>

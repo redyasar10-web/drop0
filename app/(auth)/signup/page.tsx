@@ -82,7 +82,11 @@ function SignupForm() {
           <label htmlFor="tc_agreed" className="auth-tc-label">
             I have read and agree to the{' '}
             <Link href="/terms" target="_blank" rel="noopener noreferrer">
-              Terms &amp; Conditions
+              Terms of Service
+            </Link>{' '}
+            and{' '}
+            <Link href="/privacy" target="_blank" rel="noopener noreferrer">
+              Privacy Notice
             </Link>
             . I understand my email will be used to manage my account and send order updates.
           </label>
