@@ -239,7 +239,8 @@ input, textarea, select { font: inherit; }
 
 /* ---- Wordmark: real CHARIOT logotype that condenses into the real O mark on scroll ---- */
 .wm { position: relative; display: inline-flex; align-items: center; justify-content: center; height: 20px; }
-.wm__full, .wm__mark { display: block; transition: opacity .42s var(--ease-calm), transform .42s var(--ease-calm); }
+/* Decorative — the parent <a class="nav__wordmark"> owns the click target. */
+.wm__full, .wm__mark { display: block; pointer-events: none; transition: opacity .42s var(--ease-calm), transform .42s var(--ease-calm); }
 .wm__full { height: 20px; width: auto; }
 .wm__mark { position: absolute; left: 50%; top: 50%; height: 19px; width: auto;
   transform: translate(-50%, -50%) scale(0.72); opacity: 0; }

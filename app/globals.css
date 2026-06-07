@@ -113,6 +113,13 @@ html {
   text-size-adjust: 100%;
   /* Smooth anchor scrolling on Safari/Firefox. */
   scroll-behavior: smooth;
+  /* The .nav is fixed at the top — leave clear space so anchor jumps and
+     scrollIntoView() targets don't land underneath it. 96px desktop / 80px
+     mobile matches the nav's actual rendered height plus a 16px breath. */
+  scroll-padding-top: 96px;
+}
+@media (max-width: 720px) {
+  html { scroll-padding-top: 80px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
