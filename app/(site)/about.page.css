@@ -1,8 +1,11 @@
 /* ============================================================
    CHARIOT — About (the company) · Brand V3
    ============================================================ */
-.ab-hero { padding: clamp(150px, 20vh, 240px) 0 clamp(48px, 7vw, 96px); }
-.ab-hero__eyebrow { margin-bottom: clamp(36px, 5vw, 64px); }
+/* Top padding clears the sticky nav; previous 240px max gave the page an
+   uncomfortably large blank area before the headline. Trimmed to feel
+   intentional, still airy. */
+.ab-hero { padding: clamp(112px, 14vh, 168px) 0 clamp(48px, 7vw, 96px); }
+.ab-hero__eyebrow { margin-bottom: clamp(24px, 3vw, 40px); }
 .ab-manifesto { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: clamp(40px, 6.6vw, 96px);
   line-height: 1.0; letter-spacing: -0.025em; color: var(--color-ink); max-width: 16ch; text-wrap: balance; }
 .ab-manifesto .ital { font-family: var(--font-body); font-style: italic; font-weight: var(--fw-regular); letter-spacing: -0.01em; }

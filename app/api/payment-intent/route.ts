@@ -40,22 +40,30 @@ export async function POST(request: Request) {
   const { data: balanceCents } = await admin.rpc('available_balance', { p_user_id: user.id })
   const availableCreditCents = (balanceCents as number | null) ?? 0
 
-  // Validate promo code (server-side; client never determines validity — PROMO-1)
+  // Validate promo code (server-side; client never determines validity — PROMO-1).
+  // Case-insensitive so user typing ZARATHUSTRA / Zarathustra both work.
   let applyZarathustra = false
   if (cleanPromo) {
-    const { data: promo } = await admin
+    const { data: promo, error: promoErr } = await admin
       .from('promo_codes')
-      .select('active, use_count, max_uses')
-      .eq('code', cleanPromo)
-      .single()
+      .select('code, active, use_count, max_uses')
+      .ilike('code', cleanPromo)
+      .maybeSingle()
 
+    if (promoErr) {
+      console.error('[payment-intent] promo lookup failed:', promoErr)
+      return NextResponse.json(
+        { error: 'Could not validate promo code — please try again.' },
+        { status: 500 }
+      )
+    }
     if (!promo || !promo.active || promo.use_count >= promo.max_uses) {
       return NextResponse.json(
         { error: 'That promo code is invalid or has expired.' },
         { status: 400 }
       )
     }
-    if (cleanPromo === 'zarathustra') applyZarathustra = true
+    if ((promo.code ?? '').toLowerCase() === 'zarathustra') applyZarathustra = true
   }
 
   // Zarathustra: free path — fulfilled synchronously through the shared,

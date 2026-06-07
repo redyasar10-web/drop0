@@ -22,11 +22,21 @@ export async function POST(request: Request) {
   }
 
   const admin = createAdminClient()
-  const { data: promo } = await admin
+  // Case-insensitive lookup so ZARATHUSTRA / Zarathustra / zarathustra all match
+  // even if the row was seeded with a different casing in some environment.
+  const { data: promo, error: promoErr } = await admin
     .from('promo_codes')
     .select('active, use_count, max_uses')
-    .eq('code', cleanPromo)
-    .single()
+    .ilike('code', cleanPromo)
+    .maybeSingle()
+
+  if (promoErr) {
+    console.error('[promo/validate] lookup failed:', promoErr)
+    return NextResponse.json({
+      valid: false,
+      error: 'Could not validate code right now — please try again.',
+    })
+  }
 
   if (!promo || !promo.active || promo.use_count >= promo.max_uses) {
     return NextResponse.json({ valid: false, error: 'That code is invalid or has expired.' })

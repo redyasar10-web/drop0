@@ -22,6 +22,8 @@
 .mcard__no { position: relative; z-index: 1; text-align: right; }
 .mcard__no-k { display: block; font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--on-ink-3); margin-bottom: 6px; }
 .mcard__no-v { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: clamp(40px, 5vw, 60px); letter-spacing: var(--ls-tight); line-height: 0.9; color: var(--color-salt); }
+.mcard__no-v--pending { color: var(--on-ink-3); letter-spacing: 0.06em; }
+.mcard__no-note { display: block; margin-top: 12px; max-width: 22ch; margin-left: auto; font-family: var(--font-body); font-size: var(--fs-13); line-height: 1.5; color: var(--on-ink-3); }
 
 /* ---- Two quiet panels ---- */
 .acct-panels { display: grid; grid-template-columns: 1fr 1.2fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-top: 0; }
@@ -39,7 +41,11 @@
   transition: background var(--dur-move) var(--ease-calm); white-space: nowrap; }
 .refl__copy:hover { background: var(--color-shadow); }
 .refl__copy.is-done { background: var(--signal-gold); border-color: var(--signal-gold); color: var(--color-ink); }
-.refl__meta { font-family: var(--font-body); font-size: var(--fs-14); color: var(--fg-2); margin-top: var(--space-4); }
+.refl__how { font-family: var(--font-body); font-size: var(--fs-15, 0.9375rem); line-height: 1.55; color: var(--fg-2); margin: 0 0 var(--space-3); max-width: 44ch; }
+.refl__steps { list-style: none; counter-reset: refl; padding: 0; margin: var(--space-4) 0 0; display: grid; gap: 8px; }
+.refl__steps li { counter-increment: refl; position: relative; padding-left: 26px; font-family: var(--font-body); font-size: var(--fs-14); line-height: 1.55; color: var(--fg-1); }
+.refl__steps li::before { content: counter(refl, decimal-leading-zero); position: absolute; left: 0; top: 1px; font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--ls-wide); color: var(--signal-gold); }
+.refl__meta { font-family: var(--font-body); font-size: var(--fs-14); color: var(--fg-2); margin-top: var(--space-3); }
 .refl__progress { display: flex; gap: 6px; margin-top: var(--space-3); }
 .refl__pip { width: 100%; height: 3px; background: var(--border); }
 .refl__pip.is-on { background: var(--signal-gold); }

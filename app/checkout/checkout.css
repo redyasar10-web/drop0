@@ -48,7 +48,9 @@
   gap: 20px;
 }
 .co-nav__logo {
-  height: 20px;
+  /* Sized to match the rest of the site nav so the wordmark reads as the same
+     identity, not a vestigial favicon. Reduced slightly on small screens. */
+  height: clamp(28px, 3.4vw, 40px);
   width: auto;
   display: block;
 }

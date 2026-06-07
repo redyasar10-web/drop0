@@ -6,8 +6,18 @@ import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-
 import Link from 'next/link'
 import Image from 'next/image'
 
-const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+// Detect a real Stripe publishable key. Vercel preview/test envs sometimes ship
+// the placeholder "pk_test_51Dummy…" — Stripe will reject it and the SDK throws
+// "Stripe has not loaded". Catching it here surfaces a clearer error and stops
+// us from ever rendering <Elements> with a broken promise.
+const RAW_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ''
+const PK_LOOKS_REAL =
+  /^pk_(test|live)_[A-Za-z0-9]{20,}$/.test(RAW_PK) && !/dummy/i.test(RAW_PK)
+const stripePromise = PK_LOOKS_REAL
+  ? loadStripe(RAW_PK).catch((err) => {
+      console.error('[Stripe] loadStripe failed:', err)
+      return null
+    })
   : null
 
 const DROP0_PRICE_CENTS = 2000
@@ -202,6 +212,26 @@ function InnerForm({
   const stripe   = useStripe()
   const elements = useElements()
 
+  // The Stripe webhook assigns the real member number asynchronously, so the
+  // success screen polls /api/member-number until it sees the assigned value.
+  // Falls through silently after a few seconds — the user still gets the
+  // success UI; the number arrives by email.
+  const pollAssignedNumber = async () => {
+    for (let i = 0; i < 10; i++) {
+      try {
+        const r = await fetch('/api/member-number', { cache: 'no-store' })
+        if (r.ok) {
+          const d = await r.json()
+          if (d.memberNumber != null) {
+            setSuccessMemberNo(d.memberNumber)
+            return
+          }
+        }
+      } catch { /* keep polling */ }
+      await new Promise((res) => setTimeout(res, 1500))
+    }
+  }
+
   const applyPromo = async () => {
     const code = promoInput.trim()
     if (!code) return
@@ -240,8 +270,11 @@ function InnerForm({
     setCoState('processing')
 
     try {
-      // Zarathustra free path — skip Stripe
-      if (promo.isFree) {
+      // Any path with a $0 effective total (free promo OR full credit cover)
+      // skips Stripe entirely. Without this guard the paid path would clamp
+      // amount to the Stripe 50¢ minimum and charge the user's card despite
+      // the UI showing "$0".
+      if (promo.isFree || effectiveTotal === 0) {
         const res = await fetch('/api/payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -262,7 +295,11 @@ function InnerForm({
       // Paid path
       if (!stripe || !elements) {
         setErrorTitle('Payment unavailable.')
-        setErrorBody('Stripe has not loaded. Please refresh and try again.')
+        setErrorBody(
+          PK_LOOKS_REAL
+            ? 'Stripe is still loading. Please wait a moment and try again.'
+            : "Payments aren't configured for this site yet. Email caleb@chariotarchive.com to claim your spot."
+        )
         setCoState('error')
         return
       }
@@ -307,6 +344,7 @@ function InnerForm({
       }
 
       setCoState('success')
+      pollAssignedNumber()
     } catch {
       setErrorTitle('Something went wrong.')
       setErrorBody('Unable to reach our payment processor. Please try again.')
@@ -540,6 +578,20 @@ export default function CheckoutForm({ creditBalance, userEmail, nextMemberNo }:
     if (params.get('paid') === '1') {
       setCoState('success')
       window.history.replaceState({}, '', '/checkout')
+      // Redirect-based 3DS came back; fetch the assigned number so the success
+      // card shows the real member number, not the page-load estimate.
+      ;(async () => {
+        for (let i = 0; i < 10; i++) {
+          try {
+            const r = await fetch('/api/member-number', { cache: 'no-store' })
+            if (r.ok) {
+              const d = await r.json()
+              if (d.memberNumber != null) { setSuccessMemberNo(d.memberNumber); return }
+            }
+          } catch { /* keep polling */ }
+          await new Promise((res) => setTimeout(res, 1500))
+        }
+      })()
     }
   }, [])
 
@@ -586,13 +638,13 @@ export default function CheckoutForm({ creditBalance, userEmail, nextMemberNo }:
             <span>Back</span>
           </button>
 
-          <Link href="/" aria-label="Chariot home">
+          <Link href="/" aria-label="Chariot home" className="co-nav__home">
             <Image
               className="co-nav__logo"
               src="/chariot-wordmark.svg"
               alt="Chariot"
-              width={88}
-              height={20}
+              width={176}
+              height={40}
               priority
             />
           </Link>
