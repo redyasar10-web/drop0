@@ -3,16 +3,66 @@
    Loaded after chariot.css. Page-specific modules only.
    ============================================================ */
 
-/* ---- Sticky mobile claim bar ---- */
+/* ---- Sticky mobile claim bar ----
+   Mobile dock pattern inspired by Magic MCP bottom-nav components:
+   primary CTA gets the gold treatment, secondary metadata sits left,
+   and the entire bar honours iOS safe-area-inset so the home indicator
+   doesn't sit on top of it. The bar appears only below 720px (set in
+   the mobile media query block) — desktop hides it entirely. */
 .stickycta {
   position: fixed; inset: auto 0 0 0; z-index: 55; display: none;
-  align-items: center; justify-content: space-between; gap: 16px;
+  align-items: center; justify-content: space-between; gap: 14px;
   padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
-  background: var(--color-ink); color: var(--color-salt); border-top: 1px solid var(--line-ink);
+  background: var(--color-ink); color: var(--color-salt);
+  border-top: 1px solid var(--line-ink);
+  /* Subtle backdrop blur so the hero peeks through behind the bar at
+     scroll, gives a more premium feel. Falls back gracefully when
+     backdrop-filter isn't supported. */
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  background: rgba(17, 17, 17, 0.92);
+  /* Smooth slide-in when entering mobile breakpoints. */
+  transform: translateY(0);
+  transition: transform var(--dur-move) var(--ease-calm);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .stickycta { background: var(--color-ink); }
 }
 .stickycta__l { display: flex; flex-direction: column; line-height: 1.2; }
-.stickycta__price { font-family: var(--font-display); font-weight: var(--fw-semi); font-size: var(--fs-20); }
-.stickycta__note { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--on-ink-3); }
+.stickycta__price {
+  font-family: var(--font-display); font-weight: var(--fw-semi);
+  font-size: var(--fs-20);
+  /* Inline gold dot signals affordance — "this is the claim CTA". */
+  position: relative; padding-left: 14px;
+}
+.stickycta__price::before {
+  content: ''; position: absolute; left: 0; top: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--signal-gold); transform: translateY(-50%);
+  box-shadow: 0 0 0 2px rgba(201, 146, 30, 0.18);
+  animation: stickyPulse 2.6s ease-in-out infinite;
+}
+@keyframes stickyPulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(201, 146, 30, 0.18); }
+  50%      { box-shadow: 0 0 0 5px rgba(201, 146, 30, 0.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stickycta__price::before { animation: none; }
+}
+.stickycta__note {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  /* Bumped from --on-ink-3 (0.46 alpha) to a tighter on-ink-2-style alpha
+     for AA contrast on small caps copy. */
+  color: rgba(250, 250, 248, 0.72);
+  padding-left: 14px;
+}
+/* The button gets a comfortable tap area + native gold treatment. */
+.stickycta > .btn { min-height: 44px; }
+.stickycta > .btn:focus-visible {
+  outline: 2px solid var(--signal-gold);
+  outline-offset: 3px;
+}
 
 /* ============================================================ HERO — single committed frame */
 .hero { position: relative; min-height: 82svh; display: flex; align-items: flex-end; overflow: hidden; background: var(--color-ink); padding-top: 92px; }
@@ -77,7 +127,21 @@
 
 /* ============================================================ BENEFITS (what you get) */
 .b3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-.b3card { background: var(--bg-page); padding: clamp(30px, 4vw, 52px); display: flex; flex-direction: column; }
+.b3card {
+  background: var(--bg-page);
+  padding: clamp(30px, 4vw, 52px);
+  display: flex; flex-direction: column;
+  /* Subtle hover lift on the value-prop cards — adds tactility without layout
+     shift (transform on a non-positioned element doesn't reflow). */
+  transition: background var(--dur-state) var(--ease-calm), box-shadow var(--dur-state) var(--ease-calm);
+}
+.b3card:hover {
+  background: var(--color-salt);
+  box-shadow: 0 1px 0 var(--border);
+}
+@media (prefers-reduced-motion: reduce) {
+  .b3card { transition: none; }
+}
 .b3card__amt { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: clamp(52px, 7vw, 92px); line-height: 1; color: var(--signal-gold); letter-spacing: var(--ls-tight); }
 .b3card__h { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: var(--fs-24); letter-spacing: var(--ls-tight); margin: var(--space-5) 0 var(--space-3); }
 .b3card__p { font-family: var(--font-body); font-size: var(--fs-16); line-height: var(--lh-body); color: var(--fg-2); }
@@ -106,17 +170,48 @@
   scrollbar-width: none;
 }
 .lookrail::-webkit-scrollbar { display: none; }
-.lb { scroll-snap-align: start; display: flex; flex-direction: column; }
+.lb {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  /* Make the hover state pointer-obvious for cards rendered as <a>s. */
+  cursor: pointer;
+  transition: opacity var(--dur-state) var(--ease-calm);
+}
+.lb:focus-visible {
+  outline: 3px solid var(--signal-gold);
+  outline-offset: 2px;
+}
 .lb__img { position: relative; aspect-ratio: 4/5; overflow: hidden; background: var(--bg-surface); }
 .lb__img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-calm); }
 .lb:hover .lb__img img { transform: scale(1.05); }
+/* Calm hover affordance for the meta below the image (color-only, no layout shift). */
+.lb:hover .lb__name { color: var(--signal-gold); }
+@media (prefers-reduced-motion: reduce) {
+  .lb__img img { transition: none; }
+  .lb:hover .lb__img img { transform: none; }
+}
 .lb__brand { position: absolute; top: 12px; left: 12px; font-family: var(--font-mono); font-size: 10px;
   letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--color-salt);
   background: var(--overlay-scrim, rgba(17,17,17,0.72)); backdrop-filter: blur(8px); padding: 6px 10px; }
 .lb__meta { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: var(--space-4); }
 .lb__name { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: var(--fs-18); letter-spacing: var(--ls-tight); }
 .lb__price { text-align: right; white-space: nowrap; }
-.lb__credit { font-family: var(--font-mono); font-size: var(--fs-18); color: var(--signal-gold); }
+/* Gold (#C9921E) on dust (#E4DDD4) ≈ 3.5:1 — fails WCAG AA for body text.
+   Switch to ink for the price; the gold is reused on the dark/ink sections
+   where it has ~6:1 contrast and is fine. Keeps editorial aesthetic by
+   underlining + a small gold accent below. */
+.lb__credit {
+  font-family: var(--font-mono); font-size: var(--fs-18);
+  color: var(--color-ink); font-weight: var(--fw-medium);
+  position: relative; display: inline-block;
+}
+.lb__credit::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -3px;
+  height: 1px; background: var(--signal-gold);
+}
 .lb__retail { display: block; font-family: var(--font-mono); font-size: var(--fs-12); color: var(--fg-2); text-decoration: line-through; margin-top: 3px; }
 .railnav { display: flex; gap: 8px; }
 .railbtn { width: 46px; height: 46px; border: 1px solid var(--border-strong); display: inline-flex; align-items: center; justify-content: center; color: var(--fg-1); transition: background var(--dur-state) var(--ease-calm), color var(--dur-state); }
@@ -167,6 +262,11 @@
   display: grid; grid-template-columns: 62px 1fr auto; gap: var(--space-4); align-items: center;
   padding: var(--space-4) 0; border-top: 1px solid var(--border); text-decoration: none; color: inherit;
   transition: opacity var(--dur-state) var(--ease-calm);
+  cursor: pointer;
+}
+.stl__row:focus-visible {
+  outline: 3px solid var(--signal-gold);
+  outline-offset: -2px;
 }
 .stl__row:last-of-type { border-bottom: 1px solid var(--border); }
 .stl__row:hover { opacity: 0.66; }

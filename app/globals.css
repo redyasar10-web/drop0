@@ -79,8 +79,44 @@
   --dur-move:   220ms;
 }
 
+/* ---- Skip-to-content link (WCAG 2.4.1 bypass-blocks) ------ */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  padding: 12px 18px;
+  background: var(--color-ink);
+  color: var(--color-salt);
+  font-family: var(--font-mono);
+  font-size: var(--fs-13);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  /* Visually hidden until focused */
+  transform: translateY(-100%);
+  transition: transform 0.18s cubic-bezier(.2, .6, .2, 1);
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 3px solid var(--signal-gold);
+  outline-offset: 2px;
+}
+
 /* ---- Base reset ------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
+
+html {
+  /* Prevent iOS from inflating text after orientation change. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Smooth anchor scrolling on Safari/Firefox. */
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 
 html, body {
   margin: 0;
@@ -92,7 +128,31 @@ html, body {
   line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Stop horizontal page scroll if any descendant overshoots the viewport. */
+  overflow-x: hidden;
 }
+
+/* ---- Mobile baseline rules -------------------------------- */
+
+/* Replace the default ugly blue iOS tap highlight with a subtle ink wash. */
+* { -webkit-tap-highlight-color: rgba(17, 17, 17, 0.06); }
+
+/* Stop Safari rubber-band overscroll on the root — keeps the editorial
+   page from bouncing past the hero on a momentum flick. */
+body { overscroll-behavior-y: contain; }
+
+/* Inputs at 16px minimum — anything smaller triggers iOS auto-zoom on
+   focus, which jolts the layout. The design tokens already set fs-16,
+   but cover edge cases (login.page.css inputs use --fs-16, fine). */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="search"],
+input[type="number"],
+input[type="url"],
+textarea,
+select { font-size: max(16px, var(--fs-16)); }
 
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
@@ -180,13 +240,21 @@ input, textarea, select { font: inherit; }
   border-radius: var(--radius-1);
   padding: var(--space-3) var(--space-4);
   width: 100%;
-  outline: none;
-  transition: border-color var(--dur-state) var(--ease-calm);
+  transition: border-color var(--dur-state) var(--ease-calm), box-shadow var(--dur-state) var(--ease-calm);
   appearance: none;
   -webkit-appearance: none;
 }
-.auth-input:focus { border-color: var(--border-strong); }
-.auth-input::placeholder { color: var(--fg-3); }
+/* Visible focus ring for keyboard nav; calm border treatment for mouse. */
+.auth-input:focus-visible {
+  border-color: var(--signal-gold);
+  box-shadow: 0 0 0 3px rgba(201, 146, 30, 0.28);
+  outline: none;
+}
+.auth-input:focus:not(:focus-visible) {
+  border-color: var(--border-strong);
+  outline: none;
+}
+.auth-input::placeholder { color: var(--fg-2); }
 
 /* T&C checkbox row */
 .auth-tc-row {
@@ -671,11 +739,16 @@ input, textarea, select { font: inherit; }
 }
 
 /* ---- Verify email page ------------------------------------ */
+/* SVG envelope replaces emoji per UI guideline (no-emoji-icons). The
+   icon is positioned + scaled here; markup uses .verify-icon wrapper. */
 .verify-icon {
-  font-size: 2rem;
-  margin-bottom: var(--space-5);
   display: block;
+  width: 48px;
+  height: 48px;
+  color: var(--signal-gold);
+  margin-bottom: var(--space-5);
 }
+.verify-icon svg { width: 100%; height: 100%; }
 
 /* ---- Responsive ------------------------------------------ */
 @media (max-width: 480px) {
@@ -807,7 +880,9 @@ input, textarea, select { font: inherit; }
   font-size: var(--fs-12);
   letter-spacing: var(--ls-wide);
   text-transform: uppercase;
-  color: var(--fg-3);
+  /* --fg-3 (#C8C0B5) on --bg-page (#F2EBE0) was ~2:1 — fails AA.
+     --fg-2 (#5C5449) clears 6.1:1 for small text. */
+  color: var(--fg-2);
   margin: 0;
 }
 

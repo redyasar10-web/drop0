@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest) {
         app_metadata: {},
         user_metadata: {},
         created_at: new Date('2026-01-01T00:00:00Z').toISOString(),
-      } as typeof user
+      } as unknown as typeof user
     }
   }
 

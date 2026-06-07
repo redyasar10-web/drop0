@@ -911,6 +911,14 @@
   }
   .co-succ__cta { flex-direction: column; align-self: stretch; }
   .co-succ__cta a { width: 100%; text-align: center; }
+  /* Pay button respects iOS home indicator — otherwise on newer iPhones
+     the bottom edge of the CTA tucks under the indicator. */
+  .co-pay-wrap { margin-bottom: max(8px, env(safe-area-inset-bottom)); }
+  /* Ensure the Stripe iframe + inputs have breathing room above keyboard. */
+  .co-form { padding-bottom: 24px; }
+  /* The summary panel becomes a drawer on mobile — give the toggle a
+     comfortable tap area. */
+  .msum__bar { min-height: 56px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
