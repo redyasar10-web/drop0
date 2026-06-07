@@ -26,10 +26,15 @@ export default function SiteScripts() {
       }
 
       const burger = nav.querySelector<HTMLElement>('[data-burger]')
+      const overlayEl = nav.querySelector<HTMLElement>('.nav__overlay')
       if (burger) {
         const onBurger = () => {
           const open = nav.classList.toggle('is-open')
           burger.setAttribute('aria-expanded', open ? 'true' : 'false')
+          burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu')
+          // Flip the overlay's aria-hidden so screen readers see its links when
+          // it's actually open. Otherwise AT renders an unreachable menu.
+          if (overlayEl) overlayEl.setAttribute('aria-hidden', open ? 'false' : 'true')
           document.body.style.overflow = open ? 'hidden' : ''
         }
         burger.addEventListener('click', onBurger)
@@ -192,6 +197,23 @@ export default function SiteScripts() {
         window.removeEventListener('resize', update)
       })
     }
+
+    // ---- FAQ accordions ----
+    // The /support markup ships .acc with .acc__q buttons + aria-expanded
+    // + aria-controls pointing at the .acc__a region. The CSS animates the
+    // region open when .acc has `.is-open`. Without this handler the
+    // buttons were inert — clicking did nothing.
+    const accordions = document.querySelectorAll<HTMLElement>('.acc')
+    accordions.forEach((acc) => {
+      const q = acc.querySelector<HTMLButtonElement>('.acc__q')
+      if (!q) return
+      const onToggle = () => {
+        const isOpen = acc.classList.toggle('is-open')
+        q.setAttribute('aria-expanded', isOpen ? 'true' : 'false')
+      }
+      q.addEventListener('click', onToggle)
+      cleanups.push(() => q.removeEventListener('click', onToggle))
+    })
 
     // ---- Support contact form ----
     // The /support page ships with [data-form] + [data-ok] / [data-err]

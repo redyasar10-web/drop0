@@ -1,0 +1,47 @@
+.legal {
+  background: #FAFAF8;
+  color: #1F1F1F;
+  font-family: 'Spectral', Georgia, 'Times New Roman', serif;
+  padding: clamp(80px, 14vh, 160px) clamp(20px, 4vw, 56px) 96px;
+  min-height: 100vh;
+}
+.legal__inner { max-width: 760px; margin: 0 auto; }
+.legal__eyebrow {
+  font-family: 'Menlo', 'DM Mono', monospace;
+  font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #5C5449; margin: 0 0 18px;
+}
+.legal__title {
+  font-family: 'Cormorant Garamond', 'Spectral', Georgia, serif;
+  font-weight: 500; font-size: clamp(40px, 6vw, 64px);
+  line-height: 1.05; letter-spacing: -0.01em;
+  margin: 0 0 24px;
+}
+.legal__lede {
+  font-size: 19px; line-height: 1.6;
+  color: #1F1F1F; margin: 0 0 40px;
+  max-width: 60ch;
+}
+.legal h2 {
+  font-family: 'Cormorant Garamond', 'Spectral', Georgia, serif;
+  font-weight: 500; font-size: 26px; letter-spacing: -0.005em;
+  margin: 44px 0 14px;
+}
+.legal p, .legal li { font-size: 16.5px; line-height: 1.7; }
+.legal ul {
+  margin: 0 0 18px;
+  padding-left: 22px;
+}
+.legal li { margin-bottom: 8px; }
+.legal a {
+  color: #1F1F1F;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(0,0,0,0.25);
+}
+.legal a:hover { text-decoration-color: currentColor; }
+.legal__back {
+  margin-top: 56px;
+  font-family: 'Menlo', monospace; font-size: 13px;
+}

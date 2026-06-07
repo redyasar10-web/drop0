@@ -6,6 +6,13 @@
 // referrer policy. Adjust the CSP if you add an analytics pixel — the
 // landing page uses dangerouslySetInnerHTML, so a relaxed CSP is the
 // last line of defense against a future markup edit gone wrong.
+// Next dev mode evaluates code strings for HMR, which would be blocked by a
+// strict CSP. In production this isn't needed — Next ships pre-compiled code.
+const isDev = process.env.NODE_ENV !== 'production'
+const scriptSrc = isDev
+  ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com"
+  : "script-src 'self' 'unsafe-inline' https://js.stripe.com"
+
 const securityHeaders = [
   {
     key: 'Strict-Transport-Security',
@@ -27,7 +34,7 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://js.stripe.com",
+      scriptSrc,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://*.stripe.com",

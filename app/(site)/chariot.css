@@ -276,6 +276,10 @@ input, textarea, select { font: inherit; }
   opacity: 0; pointer-events: none; transition: opacity var(--dur-move) var(--ease-calm);
 }
 .nav.is-open .nav__overlay { opacity: 1; pointer-events: auto; }
+/* When the overlay is open the burger sits behind it (z-index 59 vs default),
+   so the close click is intercepted by the overlay. Bring the burger above
+   the overlay while it's open so the user can actually tap to close. */
+.nav.is-open .nav__burger { position: relative; z-index: 60; color: var(--color-salt); }
 .nav__overlaylink { font-family: var(--font-display); font-weight: var(--fw-medium);
   font-size: clamp(30px, 8vw, 46px); letter-spacing: var(--ls-tight); color: var(--color-salt); padding: 8px 0; }
 .nav__overlaylink:hover { color: var(--signal-gold); }
