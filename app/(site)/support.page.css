@@ -51,22 +51,41 @@
 .faq-group + .faq-group { margin-top: clamp(40px, 5vw, 64px); }
 .faq-group__h { font-family: var(--font-mono); font-size: var(--fs-13); letter-spacing: var(--ls-wider);
   text-transform: uppercase; color: var(--signal-gold); margin-bottom: var(--space-2); }
-.acc { border-top: 1px solid var(--border); }
+.acc { position: relative; border-top: 1px solid var(--border); transition: background var(--dur-state) var(--ease-calm); }
 .faq-group .acc:last-child { border-bottom: 1px solid var(--border); }
+/* When opened, the row carries a subtle harmattan tint and a 2px gold rail
+   on the left edge so the visitor's eye lands on the active question. */
+.acc.is-open { background: rgba(201, 146, 30, 0.04); }
+.acc.is-open::before {
+  content: ""; position: absolute; left: -8px; top: 16px; bottom: 16px;
+  width: 2px; background: var(--signal-gold);
+}
 .acc__q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: var(--space-5);
-  padding: var(--space-5) 0; text-align: left;
-  font-family: var(--font-body); font-size: var(--fs-20); line-height: var(--lh-snug); color: var(--fg-1); }
+  padding: var(--space-5) 0; text-align: left; cursor: pointer;
+  font-family: var(--font-body); font-size: var(--fs-20); line-height: var(--lh-snug); color: var(--fg-1);
+  transition: color var(--dur-state) var(--ease-calm), padding-left var(--dur-state) var(--ease-calm); }
 .acc__q:hover { color: var(--color-shadow); }
+.acc.is-open .acc__q { padding-left: 8px; color: var(--color-ink); }
+.acc__q:focus-visible {
+  outline: 2px solid var(--signal-gold); outline-offset: 4px; border-radius: 2px;
+}
 .acc__icon { position: relative; width: 16px; height: 16px; flex: none; }
 .acc__icon::before, .acc__icon::after { content: ""; position: absolute; background: currentColor; transition: transform var(--dur-move) var(--ease-calm); }
 .acc__icon::before { left: 0; right: 0; top: 50%; height: 1.25px; transform: translateY(-50%); }
 .acc__icon::after  { top: 0; bottom: 0; left: 50%; width: 1.25px; transform: translateX(-50%); }
+.acc.is-open .acc__icon { color: var(--signal-gold); }
 .acc.is-open .acc__icon::after { transform: translateX(-50%) scaleY(0); }
-.acc__a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-reveal) var(--ease-calm); }
-.acc.is-open .acc__a { grid-template-rows: 1fr; }
+/* Animate both height (grid trick) and opacity for a smoother reveal —
+   Magic MCP FAQ pattern uses an opacity fade alongside the height. */
+.acc__a {
+  display: grid; grid-template-rows: 0fr; opacity: 0;
+  transition: grid-template-rows var(--dur-reveal) var(--ease-calm),
+              opacity var(--dur-reveal) var(--ease-calm);
+}
+.acc.is-open .acc__a { grid-template-rows: 1fr; opacity: 1; }
 .acc__a-inner { overflow: hidden; }
 .acc__a p { font-family: var(--font-body); font-size: var(--fs-16); line-height: 1.66; color: var(--fg-2);
-  max-width: 64ch; padding-bottom: var(--space-5); }
+  max-width: 64ch; padding-bottom: var(--space-5); padding-left: 8px; }
 .acc__a p + p { padding-top: var(--space-3); }
 
 @media (prefers-reduced-motion: reduce) { .acc__a { transition: none; } }

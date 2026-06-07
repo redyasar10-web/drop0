@@ -143,7 +143,16 @@ input, textarea, select { font: inherit; }
   transition: background var(--dur-move) var(--ease-calm), color var(--dur-move) var(--ease-calm),
               border-color var(--dur-move) var(--ease-calm), opacity var(--dur-state) var(--ease-calm);
 }
-.btn .arr { font-size: 1.15em; line-height: 1; }
+/* Arrow nudge — Magic MCP "translate-x-0.5 on group-hover" pattern, ported
+   to vanilla CSS. Subtle 3px shift signals motion without slapstick. */
+.btn .arr {
+  font-size: 1.15em; line-height: 1; display: inline-block;
+  transition: transform var(--dur-move) var(--ease-calm);
+}
+.btn:hover .arr { transform: translateX(3px); }
+.btn:focus-visible {
+  outline: 2px solid var(--signal-gold); outline-offset: 3px;
+}
 .btn:hover { background: var(--color-shadow); border-color: var(--color-shadow); }
 .btn:active { opacity: 0.85; }
 .btn--lg { padding: 21px 38px; }

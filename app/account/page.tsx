@@ -208,6 +208,7 @@ export default async function AccountPage() {
           </div>
 
           <section className="mcard reveal" aria-label="Membership card">
+            <div className="mcard__corners" aria-hidden="true" />
             <div className="mcard__mark"><img src="/chariot-mark-tight.png" alt="" /></div>
             <div className="mcard__l">
               <span className="mcard__tier">{tier}</span>
@@ -281,8 +282,20 @@ export default async function AccountPage() {
                 </div>
               ))
             ) : (
-              <div className="acct-row">
-                <span className="acct-row__what">No activity yet.</span>
+              <div className="acct-empty" role="status" aria-live="polite">
+                <svg className="acct-empty__mark" viewBox="0 0 64 64" aria-hidden="true">
+                  {/* Editorial compass mark — points east (toward Austin from Accra). */}
+                  <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" strokeWidth="1.2" />
+                  <path d="M32 14 L34 32 L32 50 L30 32 Z" fill="currentColor" opacity="0.18" />
+                  <path d="M14 32 L32 30 L50 32 L32 34 Z" fill="currentColor" />
+                  <circle cx="32" cy="32" r="2" fill="currentColor" />
+                </svg>
+                <div className="acct-empty__copy">
+                  <h3 className="acct-empty__title">Your activity will show here.</h3>
+                  <p className="acct-empty__desc">
+                    Your first transaction lands when Drop&nbsp;1 opens. The window opens August&nbsp;2026 — we&rsquo;ll email you the moment it&rsquo;s live.
+                  </p>
+                </div>
               </div>
             )}
           </section>

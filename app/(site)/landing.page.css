@@ -95,8 +95,39 @@
 .hero__counter-n { font-family: var(--font-mono); font-size: var(--fs-13); letter-spacing: var(--ls-wide); color: var(--color-salt); white-space: nowrap; }
 .hero__counter-n b { color: var(--signal-gold); font-weight: var(--fw-medium); }
 .hero__counter-win { font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wide); text-transform: uppercase; color: rgba(250,250,248,0.7); white-space: nowrap; }
-.hero__counter-bar { height: 2px; background: rgba(250,250,248,0.22); overflow: hidden; }
-.hero__counter-fill { height: 100%; background: var(--signal-gold); width: 34%; }
+.hero__counter-bar {
+  position: relative; height: 2px; background: rgba(250,250,248,0.22); overflow: visible;
+}
+/* Milestone tick marks at 25 / 50 / 75 — silent, brand-aligned. */
+.hero__counter-bar::before,
+.hero__counter-bar::after {
+  content: ""; position: absolute; top: -3px; width: 1px; height: 8px;
+  background: rgba(250,250,248,0.32); pointer-events: none;
+}
+.hero__counter-bar::before { left: 25%; }
+.hero__counter-bar::after  { left: 75%; }
+.hero__counter-fill {
+  position: relative; height: 100%; background: var(--signal-gold); width: 34%;
+  transition: width 600ms var(--ease-calm);
+}
+/* Live pulsing dot at the leading edge of the fill — Magic MCP "live signal"
+   pattern, ported to vanilla CSS. Tells the visitor the count is current. */
+.hero__counter-fill::after {
+  content: ""; position: absolute; right: -3px; top: 50%;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--signal-gold);
+  transform: translateY(-50%);
+  box-shadow: 0 0 0 0 rgba(201, 146, 30, 0.6);
+  animation: heroCounterPulse 1.8s var(--ease-calm) infinite;
+}
+@keyframes heroCounterPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(201, 146, 30, 0.55); }
+  70%  { box-shadow: 0 0 0 8px rgba(201, 146, 30, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(201, 146, 30, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__counter-fill::after { animation: none; }
+  .hero__counter-fill { transition: none; }
+}
 .hero__trust { margin-top: 16px; font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wide); color: rgba(250,250,248,0.66); }
 
 /* ============================================================ MARQUEE */
