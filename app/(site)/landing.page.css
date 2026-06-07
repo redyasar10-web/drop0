@@ -225,6 +225,16 @@
 .lb__img { position: relative; aspect-ratio: 4/5; overflow: hidden; background: var(--bg-surface); }
 .lb__img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-calm); }
 .lb:hover .lb__img img { transform: scale(1.05); }
+/* Magic MCP "vignette-on-hover" pattern: a 30% bottom gradient scrim fades
+   in over the image so the .lb__brand pill (in upper-left) reads more
+   confidently and the eye reads the card as actively reviewed. */
+.lb__img::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(17,17,17,0.32) 0%, transparent 35%);
+  opacity: 0; transition: opacity var(--dur-move) var(--ease-calm);
+  pointer-events: none;
+}
+.lb:hover .lb__img::after { opacity: 1; }
 /* Calm hover affordance for the meta below the image (color-only, no layout shift). */
 .lb:hover .lb__name { color: var(--signal-gold); }
 @media (prefers-reduced-motion: reduce) {
@@ -320,11 +330,30 @@
 /* ============================================================ VOTED MODEL BAND ("the drop you voted for") */
 .voted__head { max-width: 740px; margin-bottom: clamp(36px, 5vw, 64px); }
 .voted-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-ink); border: 1px solid var(--line-ink); }
-.vstep { background: var(--color-ink); padding: clamp(28px, 3.4vw, 46px); display: flex; flex-direction: column; }
+/* Magic MCP "connecting line between steps" pattern: a thin gold rule
+   spans the top of the 3-step grid, visually tying 01 → 02 → 03 together
+   so the visitor reads it as a sequence rather than three standalone cards.
+   Hidden on mobile where the steps stack vertically. */
+.voted-steps {
+  position: relative;
+}
+.voted-steps::before {
+  content: ""; position: absolute; left: 12%; right: 12%; top: 0;
+  height: 1px; background: linear-gradient(to right,
+    transparent 0%, var(--signal-gold) 18%, var(--signal-gold) 82%, transparent 100%);
+  pointer-events: none;
+}
+.vstep { position: relative; background: var(--color-ink); padding: clamp(28px, 3.4vw, 46px); display: flex; flex-direction: column;
+  transition: background var(--dur-state) var(--ease-calm); }
+.vstep:hover { background: var(--color-shadow, #1a1a1a); }
 .vstep__n { font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--signal-gold); }
 .vstep__h { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: clamp(26px, 3vw, 40px); letter-spacing: var(--ls-tight); line-height: 1; color: var(--color-salt); margin: var(--space-5) 0 var(--space-4); }
 .vstep__d { font-family: var(--font-body); font-size: var(--fs-16); line-height: 1.6; color: var(--on-ink-2); }
-@media (max-width: 760px) { .voted-steps { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .voted-steps { grid-template-columns: 1fr; }
+  /* On mobile the steps stack — no horizontal connecting line. */
+  .voted-steps::before { display: none; }
+}
 
 /* ============================================================ THE MATH, SHOWN (operational transparency) */
 .math { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 4vw, 64px); align-items: center; }

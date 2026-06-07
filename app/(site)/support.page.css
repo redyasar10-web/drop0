@@ -38,10 +38,23 @@
 .form-actions { display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; margin-top: var(--space-3); }
 .form-fallback { font-family: var(--font-body); font-size: var(--fs-14); color: var(--fg-2); }
 .form-fallback a { color: var(--fg-1); text-decoration: underline; text-underline-offset: 3px; }
+/* Magic MCP "fade-in + slide" pattern for inline alerts. Initial y+10
+   opacity 0 → settles to y0 opacity 1, ~300ms. Triggered when JS toggles
+   `.is-on`. Keeps the banner from snapping into view. */
+@keyframes formBannerIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 .form-banner { display: none; align-items: flex-start; gap: var(--space-3); padding: var(--space-4) var(--space-5);
   border: 1px solid var(--border); margin-bottom: var(--space-5); font-family: var(--font-mono); font-size: var(--fs-13);
   letter-spacing: var(--ls-wide); line-height: var(--lh-normal); }
-.form-banner.is-on { display: flex; }
+.form-banner.is-on {
+  display: flex;
+  animation: formBannerIn 320ms var(--ease-calm) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .form-banner.is-on { animation: none; }
+}
 .form-banner svg { width: 16px; height: 16px; flex: none; margin-top: 1px; }
 .form-banner--ok  { color: var(--signal-gold); border-color: rgba(201,146,30,0.45); background: rgba(201,146,30,0.07); }
 .form-banner--err { color: var(--signal-urgent); border-color: rgba(155,69,35,0.4); background: rgba(155,69,35,0.06); }
