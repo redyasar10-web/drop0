@@ -60,7 +60,12 @@ export async function POST(request: Request) {
 
   let body: Record<string, unknown>
   try {
-    body = await request.json()
+    const parsed = await request.json()
+    if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      // null / number / array are all valid JSON but not what we expect.
+      return NextResponse.json({ ok: false, error: 'Body must be a JSON object.' }, { status: 400 })
+    }
+    body = parsed as Record<string, unknown>
   } catch {
     return NextResponse.json({ ok: false, error: 'Invalid request body.' }, { status: 400 })
   }
