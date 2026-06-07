@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/admin-guard'
 import ProductForm from '../ProductForm'
+import ResyncButton from './ResyncButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -47,6 +48,9 @@ export default async function EditProductPage({ params }: { params: { id: string
           <dt>Stripe product ID</dt><dd>{p.stripe_product_id ?? '— not synced —'}</dd>
           <dt>Stripe price ID</dt><dd>{p.stripe_price_id ?? '— not synced —'}</dd>
         </dl>
+        <div style={{ marginTop: 18 }}>
+          <ResyncButton id={p.id} />
+        </div>
       </div>
     </>
   )

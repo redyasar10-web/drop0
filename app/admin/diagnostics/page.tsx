@@ -85,7 +85,7 @@ export default async function DiagnosticsPage() {
         )}
       </div>
 
-      <div className="admin-card">
+      <div className="admin-card" style={{ marginBottom: 24 }}>
         <h2 style={{ marginTop: 0 }}>Environment</h2>
         <dl className="admin-kv">
           <dt>NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</dt>
@@ -98,7 +98,31 @@ export default async function DiagnosticsPage() {
           <dd><StatusPill ok={!!process.env.SUPABASE_SERVICE_ROLE_KEY && process.env.SUPABASE_SERVICE_ROLE_KEY !== 'dummy'} /></dd>
           <dt>RESEND_API_KEY</dt>
           <dd><StatusPill ok={!!process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 're_dummy'} /></dd>
+          <dt>EMAIL_HASH_PEPPER</dt>
+          <dd><StatusPill ok={!!process.env.EMAIL_HASH_PEPPER} /></dd>
+          <dt>CRON_SECRET</dt>
+          <dd><StatusPill ok={!!process.env.CRON_SECRET && process.env.CRON_SECRET !== 'dummy'} /></dd>
         </dl>
+      </div>
+
+      <div className="admin-card">
+        <h2 style={{ marginTop: 0 }}>Operator helpers</h2>
+        <p style={{ marginTop: 0, color: 'var(--ad-fg-2)' }}>
+          Snippets you may need from time to time — paste them in the Supabase SQL Editor.
+        </p>
+        <h3 style={{ marginBottom: 4 }}>Promote a user to admin</h3>
+        <pre style={{ background: '#1F1F1F', color: '#FAFAF8', padding: 14, fontSize: 12, overflow: 'auto', margin: 0 }}>{`UPDATE public.users SET is_admin = TRUE WHERE email = 'caleb@chariotarchive.com';`}</pre>
+        <h3 style={{ marginBottom: 4, marginTop: 18 }}>Recompute a stale credit balance</h3>
+        <pre style={{ background: '#1F1F1F', color: '#FAFAF8', padding: 14, fontSize: 12, overflow: 'auto', margin: 0 }}>{`SELECT public.recompute_credit_balance('00000000-0000-0000-0000-000000000000'::uuid);`}</pre>
+        <h3 style={{ marginBottom: 4, marginTop: 18 }}>Manually trigger the reconcile cron</h3>
+        <pre style={{ background: '#1F1F1F', color: '#FAFAF8', padding: 14, fontSize: 12, overflow: 'auto', margin: 0 }}>{`curl -H "Authorization: Bearer $CRON_SECRET" https://${process.env.NEXT_PUBLIC_SITE_URL?.replace(/^https?:\/\//, '') ?? 'YOUR_DOMAIN'}/api/cron/reconcile`}</pre>
+        <h3 style={{ marginBottom: 4, marginTop: 18 }}>Export a customer's data (GDPR/CCPA)</h3>
+        <pre style={{ background: '#1F1F1F', color: '#FAFAF8', padding: 14, fontSize: 12, overflow: 'auto', margin: 0 }}>{`SELECT u.*, o.*, ce.*, r.*
+  FROM public.users u
+  LEFT JOIN public.orders o          ON o.user_id = u.id
+  LEFT JOIN public.credit_events ce  ON ce.user_id = u.id
+  LEFT JOIN public.referrals r       ON r.referrer_id = u.id
+  WHERE u.email = '<their-email>';`}</pre>
       </div>
     </>
   )

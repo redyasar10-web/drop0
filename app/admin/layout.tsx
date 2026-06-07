@@ -21,6 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link href="/admin/products" className="admin-nav__brand">Chariot · Admin</Link>
           <nav className="admin-nav__links">
             <Link href="/admin/products">Products</Link>
+            <Link href="/admin/setup">Setup</Link>
             <Link href="/admin/diagnostics">Diagnostics</Link>
             <Link href="/" target="_blank">View site →</Link>
           </nav>
