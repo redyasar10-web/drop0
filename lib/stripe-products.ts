@@ -37,23 +37,34 @@ export type StripeSyncResult = {
 
 // ----- product -----------------------------------------------------------
 
+function isStripeNotFound(err: unknown): boolean {
+  const e = err as { code?: string; type?: string; statusCode?: number }
+  return e?.code === 'resource_missing' || e?.statusCode === 404
+}
+
 async function createOrUpdateStripeProduct(p: LocalProduct): Promise<{ id: string; changed: boolean }> {
   if (p.stripe_product_id) {
-    // Update only if name/description/status differ from what we believe.
-    const existing = await stripe.products.retrieve(p.stripe_product_id)
-    const needs =
-      existing.name !== p.name ||
-      (existing.description ?? null) !== (p.description ?? null) ||
-      existing.active !== (p.status === 'active')
-    if (!needs) return { id: existing.id, changed: false }
+    try {
+      const existing = await stripe.products.retrieve(p.stripe_product_id)
+      const needs =
+        existing.name !== p.name ||
+        (existing.description ?? null) !== (p.description ?? null) ||
+        existing.active !== (p.status === 'active')
+      if (!needs) return { id: existing.id, changed: false }
 
-    await stripe.products.update(p.stripe_product_id, {
-      name: p.name,
-      description: p.description ?? undefined,
-      active: p.status === 'active',
-      metadata: { sku: p.sku, product_id: p.id },
-    })
-    return { id: existing.id, changed: true }
+      await stripe.products.update(p.stripe_product_id, {
+        name: p.name,
+        description: p.description ?? undefined,
+        active: p.status === 'active',
+        metadata: { sku: p.sku, product_id: p.id },
+      })
+      return { id: existing.id, changed: true }
+    } catch (err) {
+      // Stripe object deleted out from under us — fall through to create a
+      // fresh product. Surfaces a self-healing path for "stripe_product_id
+      // is set in DB but archived/deleted in Stripe".
+      if (!isStripeNotFound(err)) throw err
+    }
   }
 
   const created = await stripe.products.create({
@@ -87,22 +98,35 @@ async function rotatePriceIfChanged(
   currentPriceId: string | null,
 ): Promise<{ id: string; rotated: boolean }> {
   if (currentPriceId) {
-    const existing = await stripe.prices.retrieve(currentPriceId)
-    if (
-      existing.unit_amount === p.price_cents &&
-      existing.currency === p.currency &&
-      existing.active
-    ) {
-      return { id: currentPriceId, rotated: false }
-    }
-    // Archive the old price so the new one becomes canonical. In-flight
-    // PaymentIntents holding the old price ID continue to work.
-    if (existing.active) {
-      await stripe.prices.update(currentPriceId, { active: false })
+    try {
+      const existing = await stripe.prices.retrieve(currentPriceId)
+      if (
+        existing.unit_amount === p.price_cents &&
+        existing.currency === p.currency &&
+        existing.active
+      ) {
+        return { id: currentPriceId, rotated: false }
+      }
+      // Same amount + currency but inactive (e.g. archived in dashboard) —
+      // reactivate instead of minting a duplicate. Avoids cluttering Stripe
+      // with prices that all map to the same dollar amount.
+      if (
+        existing.unit_amount === p.price_cents &&
+        existing.currency === p.currency &&
+        !existing.active
+      ) {
+        await stripe.prices.update(currentPriceId, { active: true })
+        return { id: currentPriceId, rotated: false }
+      }
+      // Different price — archive old, mint new below.
+      if (existing.active) {
+        await stripe.prices.update(currentPriceId, { active: false })
+      }
+    } catch (err) {
+      // Old price was deleted in Stripe — fall through and create fresh.
+      if (!isStripeNotFound(err)) throw err
     }
   } else {
-    // No local record — but a matching active price may already exist on
-    // Stripe (e.g. we just created the product). Re-use it.
     const found = await getActivePrice(stripeProductId, p.price_cents, p.currency)
     if (found) return { id: found.id, rotated: true }
   }

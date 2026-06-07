@@ -32,6 +32,38 @@ function authErrorToResponse(err: unknown): NextResponse | null {
   return null
 }
 
+// Origin check — SameSite=Lax already blocks cross-origin POST cookie auth,
+// but this is a cheap defence-in-depth in case of a same-site XSS.
+function originAllowed(request: Request): boolean {
+  const origin = request.headers.get('origin')
+  if (!origin) return true  // Same-origin browser fetch + non-browser tools
+  const expected = process.env.NEXT_PUBLIC_SITE_URL
+  if (!expected) return true  // Dev/preview without SITE_URL set
+  try {
+    return new URL(origin).origin === new URL(expected).origin
+  } catch {
+    return false
+  }
+}
+
+// Only allow relative same-origin paths OR https:// URLs for product images.
+// Without this, an admin could store `javascript:alert(1)` or a tracking
+// pixel URL that fires on render. Defence in depth — not exploitable today
+// since the admin is a trusted role.
+function safeImageUrl(raw: string | null): string | null {
+  if (raw == null || !raw) return null
+  if (raw.startsWith('/')) {
+    if (raw.startsWith('//')) return null  // protocol-relative
+    return raw
+  }
+  try {
+    const u = new URL(raw)
+    return u.protocol === 'https:' ? u.toString() : null
+  } catch {
+    return null
+  }
+}
+
 type CreateBody = {
   sku: string
   slug: string
@@ -60,7 +92,11 @@ function coerceCreate(raw: unknown): { ok: true; body: CreateBody } | { ok: fals
   if (!sku || sku.length > 64) return { ok: false, error: 'sku is required (≤64 chars).' }
   if (!slug || slug.length > 96) return { ok: false, error: 'slug is required (≤96 chars).' }
   if (!name || name.length > 200) return { ok: false, error: 'name is required (≤200 chars).' }
-  if (!Number.isFinite(price_cents) || price_cents < 0) return { ok: false, error: 'price_cents must be ≥ 0.' }
+  // > 0 not ≥ 0 — Stripe does not accept zero-amount prices, so a 0 here
+  // would create a DB row that can never be synced to Stripe. Better to
+  // reject at the boundary than leave the row in a permanently broken
+  // state.
+  if (!Number.isFinite(price_cents) || price_cents <= 0) return { ok: false, error: 'price_cents must be > 0.' }
   const status = r.status === 'active' || r.status === 'archived' ? r.status : 'draft'
   return {
     ok: true,
@@ -74,7 +110,7 @@ function coerceCreate(raw: unknown): { ok: true; body: CreateBody } | { ok: fals
       currency:     typeof r.currency    === 'string' && /^[a-z]{3}$/.test(r.currency) ? r.currency : 'usd',
       sort_order:   typeof r.sort_order  === 'number' ? Math.round(r.sort_order) : 100,
       metadata:     typeof r.metadata    === 'object' && r.metadata ? r.metadata as Record<string, unknown> : {},
-      primary_image_url: typeof r.primary_image_url === 'string' ? r.primary_image_url.trim() : null,
+      primary_image_url: safeImageUrl(typeof r.primary_image_url === 'string' ? r.primary_image_url.trim() : null),
       primary_image_alt: typeof r.primary_image_alt === 'string' ? r.primary_image_alt.trim() : null,
     },
   }
@@ -110,6 +146,7 @@ export async function GET() {
 // ----- POST --------------------------------------------------------------
 
 export async function POST(request: Request) {
+  if (!originAllowed(request)) return NextResponse.json({ ok: false, error: 'Forbidden origin' }, { status: 403 })
   let actor
   try { actor = await requireAdmin() } catch (err) { const r = authErrorToResponse(err); if (r) return r; throw err }
 
@@ -142,15 +179,21 @@ export async function POST(request: Request) {
     )
   }
 
-  // Optional primary image.
+  // Optional primary image. Catches the partial-unique-violation (23505) on
+  // product_images_one_primary if a parallel POST already inserted a primary.
   if (body.primary_image_url) {
-    await admin.from('product_images').insert({
+    const { error: imgErr } = await admin.from('product_images').insert({
       product_id: created.id,
       url: body.primary_image_url,
       alt: body.primary_image_alt,
       is_primary: true,
       sort_order: 1,
     })
+    if (imgErr && imgErr.code !== '23505') {
+      // Other errors are non-fatal: the product row exists; the operator
+      // can add an image later from the edit page.
+      console.error('[admin/products] primary image insert failed:', imgErr.message)
+    }
   }
 
   // Stripe sync (best-effort, non-fatal).
@@ -187,6 +230,7 @@ export async function POST(request: Request) {
 type PatchBody = Partial<CreateBody> & { id: string }
 
 export async function PATCH(request: Request) {
+  if (!originAllowed(request)) return NextResponse.json({ ok: false, error: 'Forbidden origin' }, { status: 403 })
   let actor
   try { actor = await requireAdmin() } catch (err) { const r = authErrorToResponse(err); if (r) return r; throw err }
 
@@ -209,8 +253,18 @@ export async function PATCH(request: Request) {
   if (typeof r.name === 'string')          patch.name = r.name.trim().slice(0, 200)
   if (typeof r.subtitle === 'string')      patch.subtitle = r.subtitle.trim().slice(0, 200)
   if (typeof r.description === 'string')   patch.description = r.description.trim().slice(0, 4000)
-  if (typeof r.price_cents === 'number')   patch.price_cents = Math.max(0, Math.round(r.price_cents))
+  if (typeof r.price_cents === 'number') {
+    // Mirror the POST constraint: zero or negative would leave the row
+    // permanently un-syncable to Stripe.
+    const cents = Math.round(r.price_cents)
+    if (cents <= 0) return badRequest('price_cents must be > 0.')
+    patch.price_cents = cents
+  }
+  // Allow explicit null to CLEAR the retail price (admin removes the
+  // strikethrough). typeof null === 'object' so the prior `=== 'number'`
+  // check silently dropped the clear.
   if (typeof r.retail_cents === 'number')  patch.retail_cents = Math.max(0, Math.round(r.retail_cents))
+  else if (r.retail_cents === null)        patch.retail_cents = null
   if (r.status === 'draft' || r.status === 'active' || r.status === 'archived') patch.status = r.status
   if (typeof r.sort_order === 'number')    patch.sort_order = Math.round(r.sort_order)
   if (typeof r.brand_id === 'string' || r.brand_id === null) patch.brand_id = r.brand_id
@@ -255,6 +309,7 @@ export async function PATCH(request: Request) {
 // ----- DELETE (soft archive) ---------------------------------------------
 
 export async function DELETE(request: Request) {
+  if (!originAllowed(request)) return NextResponse.json({ ok: false, error: 'Forbidden origin' }, { status: 403 })
   let actor
   try { actor = await requireAdmin() } catch (err) { const r = authErrorToResponse(err); if (r) return r; throw err }
 

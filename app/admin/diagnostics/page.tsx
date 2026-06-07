@@ -89,7 +89,7 @@ export default async function DiagnosticsPage() {
         <h2 style={{ marginTop: 0 }}>Environment</h2>
         <dl className="admin-kv">
           <dt>NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</dt>
-          <dd><StatusPill ok={!!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && !process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY.includes('Dummy')} /> {process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.slice(0, 12)}…</dd>
+          <dd><StatusPill ok={!!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && !/dummy/i.test(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)} /></dd>
           <dt>STRIPE_SECRET_KEY</dt>
           <dd><StatusPill ok={!!process.env.STRIPE_SECRET_KEY && !process.env.STRIPE_SECRET_KEY.includes('dummy')} /></dd>
           <dt>STRIPE_WEBHOOK_SECRET</dt>

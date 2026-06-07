@@ -22,12 +22,26 @@ export const dynamic = 'force-dynamic'
 // during a Supabase outage and reset the social-proof anchor on every
 // session.
 async function getClaimedCount(): Promise<number | null> {
+  // 3-second cap on the Supabase round-trip. Without this, a Supabase outage
+  // makes the entire landing page TTFB hang at the platform timeout (60s on
+  // Vercel Pro). The fallback below renders "Founding spots — closing soon".
+  const TIMEOUT_MS = 3000
   try {
     const admin = createAdminClient()
-    const { count, error } = await admin
+    const query = admin
       .from('users')
       .select('*', { count: 'exact', head: true })
       .not('member_number', 'is', null)
+    const result = await Promise.race([
+      query,
+      new Promise<{ count: null; error: { message: string } }>((resolve) =>
+        setTimeout(
+          () => resolve({ count: null, error: { message: 'claimed-count timeout' } }),
+          TIMEOUT_MS,
+        ),
+      ),
+    ])
+    const { count, error } = result as { count: number | null; error: { message: string } | null }
     if (error) {
       console.error('[home] claimed-count fetch failed:', error.message)
       return null

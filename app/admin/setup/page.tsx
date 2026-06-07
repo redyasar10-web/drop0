@@ -14,13 +14,27 @@ export const runtime = 'nodejs'
 
 type Check = { name: string; ok: boolean; detail?: string; how?: string }
 
+// Cap every external probe at 5s so a hanging Stripe / Supabase call doesn't
+// stall the entire page until Vercel's function timeout. Returns a Check
+// shape on timeout instead of throwing.
+function withTimeout<T>(p: Promise<T>, ms: number, name: string): Promise<T | Check> {
+  return Promise.race<T | Check>([
+    p,
+    new Promise<Check>((resolve) =>
+      setTimeout(() => resolve({ name, ok: false, detail: `timed out after ${ms}ms` }), ms),
+    ),
+  ])
+}
+
 async function checkStripeKey(): Promise<Check> {
   if (!process.env.STRIPE_SECRET_KEY) return { name: 'STRIPE_SECRET_KEY set', ok: false, how: 'Set in Vercel env vars.' }
-  if (process.env.STRIPE_SECRET_KEY.includes('dummy'))
+  if (/dummy/i.test(process.env.STRIPE_SECRET_KEY))
     return { name: 'STRIPE_SECRET_KEY set', ok: false, how: 'Replace the placeholder with the real sk_live_… or sk_test_… key.' }
   try {
     const accountsApi = stripe.accounts as unknown as { retrieve: () => Promise<{ id: string; charges_enabled: boolean }> }
-    const acct = await accountsApi.retrieve()
+    const result = await withTimeout(accountsApi.retrieve(), 5000, 'Stripe key works')
+    if ((result as Check).ok === false && (result as Check).detail?.includes('timed out')) return result as Check
+    const acct = result as { id: string; charges_enabled: boolean }
     return { name: 'Stripe key works', ok: !!acct.charges_enabled, detail: acct.id, how: acct.charges_enabled ? undefined : 'Account is not yet activated for charges. Finish onboarding in dashboard.stripe.com.' }
   } catch (err) {
     return { name: 'Stripe key works', ok: false, detail: err instanceof Error ? err.message : String(err), how: 'Check the key is current and not revoked.' }
@@ -59,7 +73,14 @@ async function checkSupabase(): Promise<Check> {
   if (!key || key === 'dummy') return { name: 'Supabase service role key', ok: false, how: 'Set SUPABASE_SERVICE_ROLE_KEY in Vercel.' }
   try {
     const admin = createAdminClient()
-    const { error } = await admin.from('users').select('id', { count: 'exact', head: true })
+    // Supabase query builder is thenable but not a Promise — wrap so the
+    // `withTimeout` type sig is happy.
+    const queryPromise = Promise.resolve(
+      admin.from('users').select('id', { count: 'exact', head: true })
+    )
+    const result = await withTimeout(queryPromise, 5000, 'Supabase reachable')
+    if ((result as Check).ok === false && (result as Check).detail?.includes('timed out')) return result as Check
+    const { error } = result as { error: { message: string } | null }
     if (error) return { name: 'Supabase reachable', ok: false, detail: error.message }
     return { name: 'Supabase reachable', ok: true, detail: url.replace(/^https?:\/\//, '') }
   } catch (err) {

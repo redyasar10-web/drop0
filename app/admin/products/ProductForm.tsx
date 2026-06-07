@@ -55,6 +55,10 @@ export default function ProductForm({ mode, initial = {}, brands, drops }: Props
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault()
+    // Guard against double-submit via Enter-key (which bypasses disabled on
+    // the button) — without this, two parallel fetches can race the DB and
+    // create duplicate rows on `mode === 'create'`.
+    if (pending) return
     setErr(null); setOk(null)
     const priceN  = Math.round(parseFloat(priceDollars || '0') * 100)
     const retailN = retailDollars ? Math.round(parseFloat(retailDollars) * 100) : null
