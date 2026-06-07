@@ -311,9 +311,24 @@ input, textarea, select { font: inherit; }
 .footer__h { font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wider);
   text-transform: uppercase; color: var(--signal-gold); margin-bottom: var(--space-5); }
 .footer__col { display: flex; flex-direction: column; gap: var(--space-3); }
-.footer__col a { font-family: var(--font-body); font-size: var(--fs-16); color: var(--on-ink-2);
-  transition: color var(--dur-state) var(--ease-calm); width: fit-content; }
+/* Magic MCP "underline animates in" pattern for nav links — ported to a
+   ::after pseudo-element that scales from 0 → 1 along its left edge on hover. */
+.footer__col a {
+  position: relative; font-family: var(--font-body); font-size: var(--fs-16);
+  color: var(--on-ink-2); transition: color var(--dur-state) var(--ease-calm);
+  width: fit-content; padding-bottom: 2px;
+}
+.footer__col a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: var(--signal-gold); transform: scaleX(0); transform-origin: left;
+  transition: transform var(--dur-move) var(--ease-calm);
+}
 .footer__col a:hover { color: var(--color-salt); }
+.footer__col a:hover::after,
+.footer__col a:focus-visible::after { transform: scaleX(1); }
+.footer__col a:focus-visible {
+  outline: 2px solid var(--signal-gold); outline-offset: 4px; border-radius: 1px;
+}
 .footer__social { display: flex; gap: 10px; margin-bottom: var(--space-2); }
 .footer__social a {
   /* Bumped from 38px to 44px to meet WCAG 2.5.5 / iOS HIG touch target
@@ -321,15 +336,29 @@ input, textarea, select { font: inherit; }
      surrounding tap area grows. */
   width: 44px; height: 44px; display: inline-grid; place-items: center;
   border: 1px solid var(--line-ink); color: var(--on-ink-2);
-  transition: border-color var(--dur-state) var(--ease-calm), color var(--dur-state) var(--ease-calm);
+  transition: border-color var(--dur-state) var(--ease-calm),
+              color var(--dur-state) var(--ease-calm),
+              transform var(--dur-state) var(--ease-calm);
 }
-.footer__social a:hover { border-color: var(--signal-gold); color: var(--color-salt); }
+/* Magic MCP "scale on hover" pattern: the SVG inside scales 1.1 so the
+   tap target stays the same 44px (no layout shift) while the icon itself
+   pops forward. */
+.footer__social a:hover {
+  border-color: var(--signal-gold); color: var(--color-salt);
+}
+.footer__social a:hover svg { transform: scale(1.12); }
 .footer__social a:focus-visible {
   outline: 2px solid var(--signal-gold);
   outline-offset: 2px;
   border-color: var(--signal-gold);
 }
-.footer__social svg { width: 18px; height: 18px; display: block; }
+.footer__social svg {
+  width: 18px; height: 18px; display: block;
+  transition: transform var(--dur-state) var(--ease-calm);
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer__social a:hover svg { transform: none; }
+}
 .footer__legal {
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3);
   padding-top: var(--space-5);

@@ -162,16 +162,23 @@
   background: var(--bg-page);
   padding: clamp(30px, 4vw, 52px);
   display: flex; flex-direction: column;
-  /* Subtle hover lift on the value-prop cards — adds tactility without layout
-     shift (transform on a non-positioned element doesn't reflow). */
-  transition: background var(--dur-state) var(--ease-calm), box-shadow var(--dur-state) var(--ease-calm);
+  /* Subtle hover lift — Magic MCP "translateY(-3px) + box-shadow" pattern,
+     ported to vanilla CSS. Pulls the value-prop card forward on intent
+     without committing to a layout shift. */
+  transition:
+    background var(--dur-state) var(--ease-calm),
+    box-shadow var(--dur-state) var(--ease-calm),
+    transform var(--dur-state) var(--ease-calm);
+  will-change: transform;
 }
 .b3card:hover {
   background: var(--color-salt);
-  box-shadow: 0 1px 0 var(--border);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -10px rgba(17, 17, 17, 0.18), 0 1px 0 var(--border);
 }
 @media (prefers-reduced-motion: reduce) {
   .b3card { transition: none; }
+  .b3card:hover { transform: none; }
 }
 .b3card__amt { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: clamp(52px, 7vw, 92px); line-height: 1; color: var(--signal-gold); letter-spacing: var(--ls-tight); }
 .b3card__h { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: var(--fs-24); letter-spacing: var(--ls-tight); margin: var(--space-5) 0 var(--space-3); }
@@ -343,12 +350,22 @@
 .compare__head { border-bottom: 1px solid var(--border); }
 .compare__head span { padding: 18px 22px; font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wide); text-transform: uppercase; }
 .compare__col--direct { color: var(--fg-2); }
-.compare__col--us { color: var(--signal-gold); background: rgba(201,146,30,0.07); }
+/* Magic MCP "highlighted column" pattern: the Chariot column gets a faint
+   gold tint plus a thin gold rail on its left edge so the eye reads it as
+   the recommended choice without a heavy "POPULAR" badge. */
+.compare__col--us {
+  color: var(--signal-gold); background: rgba(201,146,30,0.09);
+  box-shadow: inset 1px 0 0 var(--signal-gold);
+}
 .compare__row { border-top: 1px solid var(--border); }
 .compare__row span { padding: 18px 22px; font-family: var(--font-body); font-size: var(--fs-16); }
 .compare__label { font-family: var(--font-mono) !important; font-size: var(--fs-13) !important; letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--fg-1); }
 .compare__direct { color: var(--fg-2); }
-.compare__us { display: flex; align-items: center; gap: 10px; color: var(--fg-1); background: rgba(201,146,30,0.07); }
+.compare__us {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--fg-1); background: rgba(201,146,30,0.09);
+  box-shadow: inset 1px 0 0 var(--signal-gold);
+}
 .compare__us svg { width: 16px; height: 16px; color: var(--signal-gold); flex: none; }
 
 /* ============================================================ DOSSIER */
@@ -359,10 +376,27 @@
 .dnode__t { font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--on-ink-2); margin-bottom: var(--space-3); }
 .dnode__d { font-family: var(--font-body); font-size: var(--fs-16); line-height: var(--lh-body); color: var(--on-ink-2); }
 
-/* ============================================================ TIMELINE */
+/* ============================================================ TIMELINE
+   Magic MCP timeline pattern, ported native: the current ("Now") node gets
+   a pulsing gold dot anchored at the top edge, signalling "you are here". */
 .tl { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); }
-.tl__node { padding: 30px 24px 30px 0; border-top: 2px solid transparent; margin-top: -1px; }
+.tl__node { position: relative; padding: 30px 24px 30px 0; border-top: 2px solid transparent; margin-top: -1px; }
 .tl__node--now { border-top-color: var(--signal-gold); }
+.tl__node--now::before {
+  content: ""; position: absolute; left: 0; top: -6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--signal-gold);
+  box-shadow: 0 0 0 0 rgba(201, 146, 30, 0.55);
+  animation: tlNowPulse 1.8s var(--ease-calm) infinite;
+}
+@keyframes tlNowPulse {
+  0%   { box-shadow: 0 0 0 0    rgba(201, 146, 30, 0.55); }
+  70%  { box-shadow: 0 0 0 10px rgba(201, 146, 30, 0); }
+  100% { box-shadow: 0 0 0 0    rgba(201, 146, 30, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tl__node--now::before { animation: none; }
+}
 .tl__when { display: block; font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--fg-2); margin-bottom: var(--space-3); }
 .tl__node--now .tl__when { color: var(--signal-urgent); }
 .tl__what { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: var(--fs-20); letter-spacing: var(--ls-tight); line-height: 1.2; }
@@ -372,10 +406,23 @@
 .news__h { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: clamp(30px,3.4vw,52px); letter-spacing: var(--ls-tight); line-height: 1.05; color: var(--color-salt); }
 .news__p { font-family: var(--font-body); font-size: var(--fs-18); line-height: var(--lh-body); color: var(--on-ink-2); margin-top: var(--space-4); max-width: 40ch; }
 .news__form { display: flex; flex-direction: column; gap: var(--space-3); }
-.news__row { display: flex; gap: var(--space-2); }
+/* Magic MCP "focus-within ring" pattern: when the input is focused, the
+   whole row glows gold so the button and input read as a single control. */
+.news__row {
+  display: flex; gap: var(--space-2);
+  border-radius: var(--radius-1);
+  transition: box-shadow var(--dur-state) var(--ease-calm);
+}
+.news__row:focus-within {
+  box-shadow: 0 0 0 3px rgba(201, 146, 30, 0.28);
+}
 .news__row .input { background: rgba(250,250,248,0.05); border-color: var(--line-ink); color: var(--color-salt); flex: 1; }
 .news__row .input::placeholder { color: var(--on-ink-3); }
-.news__row .input:focus { border-color: rgba(250,250,248,0.6); }
+/* :focus-visible (not :focus) so mouse clicks don't show a heavy ring on
+   top of the row-level focus-within glow. */
+.news__row .input:focus-visible {
+  border-color: var(--signal-gold); outline: none;
+}
 .news__note { font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wide); color: var(--on-ink-3); }
 .news__ok { font-family: var(--font-mono); font-size: var(--fs-13); letter-spacing: var(--ls-wide); color: var(--signal-gold); display: none; }
 .news__ok.is-on { display: block; }
