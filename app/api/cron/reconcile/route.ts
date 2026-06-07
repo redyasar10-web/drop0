@@ -17,7 +17,10 @@ export const dynamic = 'force-dynamic'
 
 function authorized(request: Request): boolean {
   const secret = process.env.CRON_SECRET
-  if (!secret) return false
+  // Reject the placeholder value too — a misconfigured dev/preview env that
+  // ships CRON_SECRET="dummy" would otherwise authenticate anyone who knows
+  // the default. Matches the dummy-check in /admin/setup.
+  if (!secret || secret === 'dummy') return false
   return request.headers.get('authorization') === `Bearer ${secret}`
 }
 

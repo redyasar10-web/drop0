@@ -29,7 +29,25 @@ export async function middleware(request: NextRequest) {
   )
 
   // Refresh session — keeps cookies from expiring on active use
-  const { data: { user } } = await supabase.auth.getUser()
+  let { data: { user } } = await supabase.auth.getUser()
+
+  // Test-only mock auth (dev/test only, gated by MOCK_AUTH=1 env var).
+  // Matches the same gate logic as lib/supabase/server.ts so middleware
+  // and page-level auth checks agree about whether a mock session exists.
+  if (!user && process.env.NODE_ENV !== 'production' && process.env.MOCK_AUTH === '1') {
+    const mockEmail = request.cookies.get('chariot_mock_user')?.value
+    if (mockEmail) {
+      // Synthesise the minimal user shape the middleware needs to gate routes.
+      user = {
+        id: '00000000-0000-0000-0000-000000000001',
+        aud: 'authenticated',
+        email: mockEmail,
+        app_metadata: {},
+        user_metadata: {},
+        created_at: new Date('2026-01-01T00:00:00Z').toISOString(),
+      } as typeof user
+    }
+  }
 
   const { pathname } = request.nextUrl
 
