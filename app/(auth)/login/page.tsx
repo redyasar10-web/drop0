@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 import Link from 'next/link'
 import { loginAction, type AuthState } from '@/app/actions/auth'
@@ -17,11 +18,21 @@ function SubmitButton() {
   )
 }
 
-export default function LoginPage() {
+// Hidden `next` input is populated post-mount via window.location to avoid:
+//   1. useSearchParams's CSR bailout, which breaks SSG of /login
+//   2. hydration mismatch (#418) when SSR renders an empty form but the
+//      client tries to inject the hidden input on first render
+function LoginForm() {
   const [state, formAction] = useFormState<AuthState, FormData>(loginAction, null)
+  const [nextPath, setNextPath] = useState('')
+  useEffect(() => {
+    const param = new URLSearchParams(window.location.search).get('next') ?? ''
+    setNextPath(param)
+  }, [])
 
   return (
     <form className="form" action={formAction} noValidate>
+      {nextPath && <input type="hidden" name="next" value={nextPath} />}
       <p className="form__eyebrow">Members</p>
       <h1 className="form__title">Welcome back.</h1>
       <p className="form__lead">
@@ -74,4 +85,8 @@ export default function LoginPage() {
       <Link className="form__back" href="/"><span aria-hidden="true">←</span> Back to Drop 0</Link>
     </form>
   )
+}
+
+export default function LoginPage() {
+  return <LoginForm />
 }

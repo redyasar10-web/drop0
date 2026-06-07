@@ -142,7 +142,20 @@ export async function loginAction(prevState: AuthState, formData: FormData): Pro
   }
 
   await logAudit({ event: 'auth.login_success', level: 'info', detail: { email } })
-  redirect('/account')
+
+  // Honour `next` query param so post-login lands on the page the visitor
+  // originally requested (e.g. /admin/setup, /checkout). Only accept
+  // same-origin internal paths to prevent open-redirect abuse.
+  const requestedNext = String(formData.get('next') ?? '')
+  const safeNext = isSafeInternalPath(requestedNext) ? requestedNext : '/account'
+  redirect(safeNext)
+}
+
+function isSafeInternalPath(p: string): boolean {
+  if (!p) return false
+  // Must start with single "/" and not "//", not protocol-relative, not
+  // a backslash-prefixed path that some browsers normalise to https://.
+  return /^\/(?!\/|\\)/.test(p)
 }
 
 export async function forgotPasswordAction(prevState: AuthState, formData: FormData): Promise<AuthState> {

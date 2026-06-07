@@ -3,7 +3,12 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { SUPABASE_COOKIE_OPTIONS } from '@/lib/supabase/cookie-options'
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({ request: { headers: request.headers } })
+  // Stamp the pathname onto request headers so server components (e.g.
+  // app/admin/layout.tsx) can build accurate `next=` redirects without
+  // hard-coding a single fallback path.
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', request.nextUrl.pathname)
+  let response = NextResponse.next({ request: { headers: requestHeaders } })
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -16,12 +21,12 @@ export async function middleware(request: NextRequest) {
         },
         set(name: string, value: string, options: CookieOptions) {
           request.cookies.set({ name, value, ...options })
-          response = NextResponse.next({ request: { headers: request.headers } })
+          response = NextResponse.next({ request: { headers: requestHeaders } })
           response.cookies.set({ name, value, ...options })
         },
         remove(name: string, options: CookieOptions) {
           request.cookies.set({ name, value: '', ...options })
-          response = NextResponse.next({ request: { headers: request.headers } })
+          response = NextResponse.next({ request: { headers: requestHeaders } })
           response.cookies.set({ name, value: '', ...options })
         },
       },
@@ -53,7 +58,18 @@ export async function middleware(request: NextRequest) {
 
   // Protect /account/* and /checkout — redirect to /login if unauthenticated
   if ((pathname.startsWith('/account') || pathname.startsWith('/checkout')) && !user) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    const url = new URL('/login', request.url)
+    url.searchParams.set('next', pathname)
+    return NextResponse.redirect(url)
+  }
+
+  // Protect /admin/* at the edge so we know the exact pathname for `next=`.
+  // The page-level requireAdmin check still enforces the is_admin DB flag —
+  // this just makes the "you're not logged in" redirect carry the right path.
+  if (pathname.startsWith('/admin') && !user) {
+    const url = new URL('/login', request.url)
+    url.searchParams.set('next', pathname)
+    return NextResponse.redirect(url)
   }
 
   // Redirect authenticated users away from auth pages

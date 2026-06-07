@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
 import Link from 'next/link'
 import { isAdmin } from '@/lib/admin-guard'
 import { signoutAction } from '@/app/actions/auth'
@@ -12,7 +13,13 @@ export const metadata = {
 export const dynamic = 'force-dynamic'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  if (!(await isAdmin())) redirect('/login?next=/admin/products')
+  if (!(await isAdmin())) {
+    // Middleware stamps x-pathname; fall back to /admin if unavailable so
+    // post-login lands the user somewhere sensible regardless.
+    const pathname = headers().get('x-pathname') ?? '/admin'
+    const safeNext = pathname.startsWith('/admin') ? pathname : '/admin'
+    redirect(`/login?next=${encodeURIComponent(safeNext)}`)
+  }
 
   return (
     <>
