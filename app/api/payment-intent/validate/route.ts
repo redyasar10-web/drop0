@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { checkAuthRateLimit } from '@/lib/rate-limit'
 
 const DROP0_PRICE_CENTS = parseInt(process.env.DROP0_PRICE_CENTS ?? '2000', 10)
 
@@ -12,6 +13,15 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json({ valid: false, error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Without this, an authenticated attacker can brute-force the entire promo
+  // namespace (each ilike lookup confirms validity with no throttle).
+  if (!(await checkAuthRateLimit('promo_validate', user.id))) {
+    return NextResponse.json(
+      { valid: false, error: 'Too many attempts. Please wait a minute and try again.' },
+      { status: 429 }
+    )
   }
 
   const { promoCode } = await request.json()

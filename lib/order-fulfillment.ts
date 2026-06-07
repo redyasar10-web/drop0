@@ -15,6 +15,12 @@ type FulfillOrderInput = {
   eventId?: string | null        // Stripe event.id — webhook dedup (PAY-3)
   eventType?: string | null
   promoCode?: string | null      // free path only; paid path reads it from the order
+  // Money fields used ONLY by the recovery branch in fulfill_order (where the
+  // PI-creation order insert was lost and the function must defensively
+  // create the order row from webhook data). On the normal path, the existing
+  // order row's values are used and these are ignored.
+  amountChargedCents?: number | null
+  appliedCreditCents?: number | null
   emailOverride?: string | null
 }
 
@@ -45,6 +51,8 @@ export async function fulfillOrder(input: FulfillOrderInput): Promise<FulfillOrd
     p_event_id: input.eventId ?? null,
     p_event_type: input.eventType ?? null,
     p_promo_code: input.promoCode ?? null,
+    p_amount_charged_cents: input.amountChargedCents ?? null,
+    p_applied_credit_cents: input.appliedCreditCents ?? null,
   })
 
   if (error || !data) {

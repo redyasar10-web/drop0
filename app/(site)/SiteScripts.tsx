@@ -193,6 +193,72 @@ export default function SiteScripts() {
       })
     }
 
+    // ---- Support contact form ----
+    // The /support page ships with [data-form] + [data-ok] / [data-err]
+    // banners but no submit handler. Without this block, the "Send message"
+    // button silently does a GET to /support (HTML5 default) and the user
+    // sees no feedback at all.
+    const contactForm = document.querySelector<HTMLFormElement>('[data-form]')
+    if (contactForm) {
+      const okBanner  = contactForm.parentElement?.querySelector<HTMLElement>('[data-ok]')
+      const errBanner = contactForm.parentElement?.querySelector<HTMLElement>('[data-err]')
+      const errText   = errBanner?.querySelector<HTMLElement>('[data-err-text]')
+      const submit    = contactForm.querySelector<HTMLButtonElement>('[data-submit]')
+
+      const setError = (msg?: string) => {
+        if (!errBanner) return
+        if (msg && errText) {
+          // Replace the message but keep the mailto fallback link if present.
+          const mailto = errText.querySelector('[data-mailto]')
+          errText.textContent = msg + ' '
+          if (mailto) errText.appendChild(mailto)
+        }
+        errBanner.classList.add('is-on')
+        okBanner?.classList.remove('is-on')
+      }
+      const setOk = () => {
+        okBanner?.classList.add('is-on')
+        errBanner?.classList.remove('is-on')
+        contactForm.reset()
+      }
+
+      const onContactSubmit = async (e: Event) => {
+        e.preventDefault()
+        if (!submit) return
+        const data = new FormData(contactForm)
+        const body = {
+          name:    String(data.get('name')    ?? ''),
+          email:   String(data.get('email')   ?? ''),
+          order:   String(data.get('order')   ?? ''),
+          issue:   String(data.get('issue')   ?? ''),
+          message: String(data.get('message') ?? ''),
+        }
+        submit.disabled = true
+        const originalLabel = submit.textContent
+        submit.textContent = 'Sending…'
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+          })
+          const json = await res.json().catch(() => ({}))
+          if (res.ok && json.ok) {
+            setOk()
+          } else {
+            setError(json.error ?? 'Something went wrong sending your message.')
+          }
+        } catch {
+          setError('We could not reach the support inbox. Try emailing caleb@chariotarchive.com directly.')
+        } finally {
+          submit.disabled = false
+          if (originalLabel) submit.textContent = originalLabel
+        }
+      }
+      contactForm.addEventListener('submit', onContactSubmit)
+      cleanups.push(() => contactForm.removeEventListener('submit', onContactSubmit))
+    }
+
     // ---- Newsletter inline validation + success ----
     const form = document.querySelector<HTMLFormElement>('[data-news]')
     if (form) {

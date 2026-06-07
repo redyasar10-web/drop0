@@ -3,6 +3,7 @@ import { stripe } from '@/lib/stripe'
 import { createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { fulfillOrder } from '@/lib/order-fulfillment'
+import { checkAuthRateLimit } from '@/lib/rate-limit'
 import { CONFIG } from '@/lib/config'
 
 const FOUNDING_ITEMS = [{ sku: 'founding-member', qty: 1 }]
@@ -15,6 +16,15 @@ export async function POST(request: Request) {
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Without this an attacker can flood Stripe with PI creates from one
+  // account; also damps free-promo double-click spurious-500 retries below.
+  if (!(await checkAuthRateLimit('payment_intent', user.id))) {
+    return NextResponse.json(
+      { error: 'Too many attempts. Please wait a minute and try again.' },
+      { status: 429 }
+    )
   }
 
   const { promoCode } = await request.json()
@@ -69,6 +79,25 @@ export async function POST(request: Request) {
   // Zarathustra: free path — fulfilled synchronously through the shared,
   // transactional fulfill_order (PAY-7). The order row is created inside it.
   if (applyZarathustra) {
+    // Optimistic short-circuit on retry: a double-click would otherwise race
+    // into fulfill_order, hit the orders_one_promo_per_user unique index, and
+    // surface a spurious 500 to the second click even though the first
+    // succeeded. Resolve from the existing completed order instead.
+    const { data: existing } = await admin
+      .from('orders')
+      .select('status')
+      .eq('user_id', user.id)
+      .eq('source', 'promo_zarathustra')
+      .maybeSingle()
+    if (existing?.status === 'completed') {
+      const { data: prof } = await admin
+        .from('users')
+        .select('member_number')
+        .eq('id', user.id)
+        .maybeSingle()
+      return NextResponse.json({ free: true, memberNumber: prof?.member_number ?? null })
+    }
+
     try {
       const result = await fulfillOrder({
         userId: user.id,
@@ -77,7 +106,20 @@ export async function POST(request: Request) {
         emailOverride: user.email,
       })
       return NextResponse.json({ free: true, memberNumber: result.memberNumber })
-    } catch (err) {
+    } catch (err: unknown) {
+      // Postgres unique_violation (23505) means a parallel call beat us to
+      // creating the single allowed promo order — that's a retry, not a
+      // failure. Look up the now-existing record and return idempotently.
+      const code = (err as { code?: string })?.code
+      const msg = (err as { message?: string })?.message ?? ''
+      if (code === '23505' || msg.includes('orders_one_promo_per_user')) {
+        const { data: prof } = await admin
+          .from('users')
+          .select('member_number')
+          .eq('id', user.id)
+          .maybeSingle()
+        return NextResponse.json({ free: true, memberNumber: prof?.member_number ?? null })
+      }
       console.error('[payment-intent] zarathustra fulfillment failed:', err)
       return NextResponse.json({ error: 'Order processing failed.' }, { status: 500 })
     }

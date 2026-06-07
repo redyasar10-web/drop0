@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import Link from 'next/link'
@@ -606,12 +606,19 @@ export default function CheckoutForm({ creditBalance, userEmail, nextMemberNo }:
   const effectiveTotal = promo.isFree ? 0 : Math.max(afterCredit - promo.discountCents, 0)
   const promoLabel     = promoInput.trim().toUpperCase()
 
-  const elementsOptions = {
-    mode: 'payment' as const,
-    amount: Math.max(effectiveTotal, 50),
-    currency: 'usd' as const,
-    appearance: stripeAppearance,
-  }
+  // Stripe's React SDK compares <Elements options={...}> by reference. A
+  // fresh object on every render forces a full remount of <PaymentElement>,
+  // which destroys the iframe and wipes any card number the user already
+  // typed — extremely visible when they apply a promo code mid-form.
+  const elementsOptions = useMemo(
+    () => ({
+      mode: 'payment' as const,
+      amount: Math.max(effectiveTotal, 50),
+      currency: 'usd' as const,
+      appearance: stripeAppearance,
+    }),
+    [effectiveTotal]
+  )
 
   const summaryProps: SummaryPanelProps = {
     nextMemberNo,

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { checkAuthRateLimit } from '@/lib/rate-limit'
 
 // Member-number lookup for the post-payment success state. The Stripe webhook
 // assigns the number asynchronously (and the synchronous Zarathustra path
@@ -17,6 +18,16 @@ export async function GET() {
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // The success screen polls this every 1.5s for up to 10 tries — generous
+  // enough for the legit case, restrictive enough that an attacker can't
+  // mine the membership state of arbitrary accounts at high frequency.
+  if (!(await checkAuthRateLimit('member_number_poll', user.id))) {
+    return NextResponse.json(
+      { memberNumber: null, error: 'rate_limited' },
+      { status: 429, headers: { 'Cache-Control': 'no-store' } }
+    )
   }
 
   // Admin client because the users row may be slightly out of sync with the

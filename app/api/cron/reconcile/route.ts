@@ -46,10 +46,16 @@ export async function GET(request: Request) {
   }
 
   // ── REC-1: fulfill Stripe-succeeded payments missing a completed order ────
+  // Note `created` is the PI's birth time, not its success time. A PI minted
+  // 24h ago that finishes 3DS one hour ago is invisible to a 24h-lookback
+  // search. autoPagingEach also exhausts pages so volume above limit:100
+  // doesn't silently drop on the floor.
   const sinceSecs = Math.floor(Date.now() / 1000) - CONFIG.RECONCILE_LOOKBACK_HOURS * 3600
   try {
-    const pis = await stripe.paymentIntents.list({ created: { gte: sinceSecs }, limit: 100 })
-    for (const pi of pis.data) {
+    for await (const pi of stripe.paymentIntents.list({
+      created: { gte: sinceSecs },
+      limit: 100,
+    })) {
       if (pi.status !== 'succeeded') continue
       const userId = pi.metadata?.user_id
       if (!userId) continue
@@ -69,6 +75,10 @@ export async function GET(request: Request) {
           stripePaymentIntentId: pi.id,
           eventId: `reconcile:${pi.id}`,
           eventType: 'reconcile',
+          amountChargedCents: pi.amount_received,
+          appliedCreditCents:
+            parseInt(pi.metadata?.applied_credit_cents ?? '0', 10) || 0,
+          promoCode: pi.metadata?.promo_code || null,
           emailOverride: pi.receipt_email,
         })
         summary.reconciled += 1

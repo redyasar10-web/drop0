@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
 import { fulfillOrder } from '@/lib/order-fulfillment'
+import { logAudit } from '@/lib/audit'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,8 +34,17 @@ export async function POST(request: Request) {
   const userId = pi.metadata?.user_id
 
   if (!userId) {
-    console.error('[webhook] payment_intent.succeeded missing user_id:', pi.id)
-    return new NextResponse('Missing user_id in metadata', { status: 400 })
+    // Returning 400 tells Stripe "permanent failure, stop retrying" — but the
+    // PI itself may be a real, fulfilled charge for which we just lost the
+    // metadata link. Acknowledge with 200 (so Stripe doesn't keep retrying a
+    // genuinely unrecoverable event) and emit a high-severity audit row so the
+    // reconcile job + ops can recover it.
+    await logAudit({
+      event: 'webhook.missing_user_id',
+      level: 'alert',
+      detail: { payment_intent: pi.id, amount_received: pi.amount_received },
+    })
+    return new NextResponse('Acknowledged (no metadata)', { status: 200 })
   }
 
   // Fulfillment is transactional, idempotent, and dedup'd by event.id inside
@@ -48,6 +58,13 @@ export async function POST(request: Request) {
       stripePaymentIntentId: pi.id,
       eventId: event.id,
       eventType: event.type,
+      // Pass the actual charged amount so the recovery branch in fulfill_order
+      // (which inserts a placeholder order when the PI-creation insert was
+      // lost) records the real charge instead of $0.00.
+      amountChargedCents: pi.amount_received,
+      appliedCreditCents:
+        parseInt(pi.metadata?.applied_credit_cents ?? '0', 10) || 0,
+      promoCode: pi.metadata?.promo_code || null,
       emailOverride: pi.receipt_email,
     })
   } catch (err) {
