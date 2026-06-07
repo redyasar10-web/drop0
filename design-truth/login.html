@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chariot — Log in</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="public/chariot-mark-cream.png" type="image/png">
+<link rel="stylesheet" href="chariot.css">
+<link rel="stylesheet" href="login.page.css">
+</head>
+<body data-screen-label="Login">
+
+<div class="auth" data-mode="login" data-authwrap>
+  <!-- Editorial visual -->
+  <div class="auth__visual">
+    <img class="auth__img auth__img--login" src="public/lib/ed-01.jpg" alt="1NRI editorial, photographed in Accra">
+    <img class="auth__img auth__img--signup" src="public/lib/signup-a.jpg" alt="1NRI editorial, photographed in Accra">
+    <div class="auth__scrim"></div>
+    <div class="auth__visual-top">
+      <span class="auth__visual-tag">Drop 0 · Founding Fifty</span>
+    </div>
+    <div class="auth__visual-bottom">
+      <p class="auth__quote">What the rest of the world is already wearing.</p>
+      <div class="auth__credit">
+        <span>1NRI</span><span>Time &amp; Chance SS25</span><span>Made in Accra</span><span>Ships from Austin</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="auth__formwrap">
+    <a class="form__brand" href="Drop%200%20Landing.html" aria-label="Chariot home"><img src="public/chariot-wm-tight-dark.png" alt="Chariot"></a>
+    <form class="form" data-login novalidate>
+
+      <div class="authtabs" role="tablist" aria-label="Log in or create account">
+        <button type="button" class="authtab is-on" data-tab="login" role="tab" aria-selected="true">Log in</button>
+        <button type="button" class="authtab" data-tab="signup" role="tab" aria-selected="false">Create account</button>
+      </div>
+
+      <p class="form__eyebrow login-only">Members</p>
+      <p class="form__eyebrow signup-only">The Founding Fifty</p>
+      <h1 class="form__title login-only">Welcome back.</h1>
+      <h1 class="form__title signup-only">Claim your spot.</h1>
+      <p class="form__lead login-only"><em>You're already wearing it.</em> Sign in to pick up your founding spot and the pieces with your name on them.</p>
+      <p class="form__lead signup-only">One of fifty founding spots. $20 holds yours — with $30 in Drop&nbsp;1 credit and first access, for life.</p>
+
+      <div class="formbanner formbanner--error" data-banner role="status" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 1.8 20.5h20.4L12 3.2Z"></path><path d="M12 9.6v4.6"></path><path d="M12 17.3v.1" stroke-width="2"></path></svg>
+        <span data-banner-text>That email and password don't match. Try again.</span>
+      </div>
+
+      <div class="social">
+        <button type="button" class="sbtn" data-oauth="google">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.76h3.56c2.08-1.92 3.22-4.74 3.22-8.09Z"></path><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.56-2.76c-.98.66-2.24 1.06-3.72 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23Z"></path><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84Z"></path><path fill="#EA4335" d="M12 4.75c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.46 1.46 14.97.5 12 .5A11 11 0 0 0 2.18 7.06l3.66 2.84C6.71 7.3 9.14 4.75 12 4.75Z"></path></svg>
+          <span>Continue with Google</span>
+        </button>
+        <button type="button" class="sbtn" data-oauth="apple">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.36 12.78c.02 2.55 2.23 3.4 2.26 3.41-.02.06-.35 1.22-1.17 2.41-.7 1.03-1.44 2.05-2.6 2.07-1.14.02-1.5-.68-2.8-.68-1.3 0-1.7.66-2.78.7-1.12.04-1.97-1.11-2.68-2.13-1.45-2.1-2.56-5.93-1.07-8.52a4.15 4.15 0 0 1 3.5-2.13c1.1-.02 2.13.74 2.8.74.67 0 1.93-.92 3.25-.78.55.02 2.1.22 3.1 1.68-.08.05-1.85 1.08-1.83 3.23M14.2 4.86c.59-.72 1-1.72.88-2.71-.85.03-1.88.57-2.5 1.28-.55.63-1.03 1.65-.9 2.62.95.07 1.92-.48 2.52-1.19"></path></svg>
+          <span>Continue with Apple</span>
+        </button>
+      </div>
+
+      <div class="divider">or</div>
+
+      <div class="field signup-only">
+        <div class="field__labelrow"><label class="field__label" for="name">Name</label></div>
+        <div class="input-shell" data-shell>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="First and last">
+        </div>
+        <div class="field__msg" data-msg-for="name"></div>
+      </div>
+
+      <div class="field">
+        <div class="field__labelrow"><label class="field__label" for="email">Email</label></div>
+        <div class="input-shell" data-shell>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com">
+          <span class="input-tick" data-tick style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.2l2.6 2.6L16 9.4"></path></svg></span>
+        </div>
+        <div class="field__msg" data-msg-for="email"></div>
+      </div>
+
+      <div class="field">
+        <div class="field__labelrow"><label class="field__label" for="password">Password</label><a href="#" class="field__link login-only">Forgot password?</a></div>
+        <div class="input-shell" data-shell>
+          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••">
+          <button type="button" class="input-icon-btn" data-reveal aria-label="Show password" aria-pressed="false">
+            <svg data-eye viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>
+          </button>
+        </div>
+        <div class="field__msg" data-msg-for="password"></div>
+      </div>
+
+      <div class="optrow">
+        <label class="check" for="remember">
+          <input id="remember" name="remember" type="checkbox" checked>
+          <span class="check__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span>
+          <span class="check__label">Remember me</span>
+        </label>
+      </div>
+
+      <button type="submit" class="pbtn" data-submit>
+        <span class="login-only">Log in</span><span class="signup-only">Create account</span>
+        <svg class="pbtn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15"></path><path d="M13 6l6 6-6 6"></path></svg>
+      </button>
+
+      <div class="form__foot">
+        <p class="form__newuser login-only">New to Chariot? <a href="#" data-goto="signup">Claim your founding spot</a></p>
+        <p class="form__newuser signup-only">Already a member? <a href="#" data-goto="login">Log in</a></p>
+      </div>
+      <a class="form__back" href="Drop%200%20Landing.html"><span aria-hidden="true">←</span> Back to Drop 0</a>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  var form = document.querySelector("[data-login]");
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  /* mode tabs (login / signup) */
+  var wrap = document.querySelector("[data-authwrap]");
+  function setMode(mode) {
+    wrap.setAttribute("data-mode", mode);
+    document.querySelectorAll(".authtab").forEach(function (t) {
+      var on = t.dataset.tab === mode;
+      t.classList.toggle("is-on", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+    });
+  }
+  document.querySelectorAll(".authtab").forEach(function (t) {
+    t.addEventListener("click", function () { setMode(t.dataset.tab); });
+  });
+  document.querySelectorAll("[data-goto]").forEach(function (a) {
+    a.addEventListener("click", function (e) { e.preventDefault(); setMode(a.dataset.goto); });
+  });
+  var email = form.querySelector("#email");
+  var pass = form.querySelector("#password");
+  var tick = form.querySelector("[data-tick]");
+  var banner = form.querySelector("[data-banner]");
+
+  // focus styling
+  form.querySelectorAll("[data-shell]").forEach(function (shell) {
+    var input = shell.querySelector("input");
+    input.addEventListener("focus", function () { shell.classList.add("is-focus"); });
+    input.addEventListener("blur", function () { shell.classList.remove("is-focus"); });
+  });
+
+  // email tick
+  email.addEventListener("input", function () {
+    tick.style.display = emailRe.test(email.value.trim()) ? "grid" : "none";
+    setMsg("email", "");
+    email.closest("[data-shell]").classList.remove("is-error");
+  });
+
+  // password reveal
+  var reveal = form.querySelector("[data-reveal]");
+  var eye = form.querySelector("[data-eye]");
+  reveal.addEventListener("click", function () {
+    var show = pass.type === "password";
+    pass.type = show ? "text" : "password";
+    reveal.setAttribute("aria-pressed", show ? "true" : "false");
+    reveal.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    eye.innerHTML = show
+      ? '<path d="M3 3l18 18"></path><path d="M10.6 6.2A9.7 9.7 0 0 1 12 5c6.5 0 10 7 10 7a16.9 16.9 0 0 1-3.5 4.2"></path><path d="M6.5 7.8C3.8 9.4 2 12 2 12s3.5 7 10 7a9.7 9.7 0 0 0 4.1-.9"></path><path d="M9.9 9.9a2.6 2.6 0 0 0 3.7 3.7"></path>'
+      : '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="2.6"></circle>';
+  });
+
+  function setMsg(id, text) {
+    var el = form.querySelector('[data-msg-for="' + id + '"]');
+    if (!el) return;
+    el.innerHTML = text ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 1.8 20.5h20.4L12 3.2Z"></path><path d="M12 9.6v4.6"></path><path d="M12 17.3v.1" stroke-width="2"></path></svg><span>' + text + '</span>' : "";
+  }
+
+  form.querySelectorAll("[data-oauth]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      banner.querySelector("[data-banner-text]").textContent =
+        (b.dataset.oauth === "google" ? "Google" : "Apple") + " sign-in isn't set up in this preview — use your email below.";
+      banner.style.display = "flex";
+    });
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    banner.style.display = "none";
+    var ok = true;
+    var mode = wrap.getAttribute("data-mode");
+    if (mode === "signup") {
+      var name = form.querySelector("#name");
+      if (!name.value.trim()) { setMsg("name", "Enter your name."); name.closest("[data-shell]").classList.add("is-error"); ok = false; }
+      else setMsg("name", "");
+    }
+    if (!emailRe.test(email.value.trim())) { setMsg("email", "Enter a valid email address."); email.closest("[data-shell]").classList.add("is-error"); ok = false; }
+    else setMsg("email", "");
+    if (!pass.value) { setMsg("password", mode === "signup" ? "Choose a password." : "Enter your password."); pass.closest("[data-shell]").classList.add("is-error"); ok = false; }
+    else setMsg("password", "");
+    if (!ok) return;
+    // Returning members go to their account; new accounts continue to the $20 checkout.
+    window.location.href = (mode === "signup") ? "checkout.html" : "account.html";
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,8 +1,10 @@
 import { Resend } from 'resend'
+import { CONFIG } from '@/lib/config'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-const FROM = process.env.RESEND_FROM_EMAIL ?? 'Chariot <orders@chariotarchive.com>'
+// Single transactional sender across all order/auth mail (EMAIL-1).
+const FROM = process.env.RESEND_FROM_EMAIL ?? `Chariot <${CONFIG.TRANSACTIONAL_FROM}>`
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://chariotarchive.com'
 
 export async function sendOrderConfirmation({

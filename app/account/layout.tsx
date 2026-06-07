@@ -1,23 +1,14 @@
 import { redirect } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
-import SignOutButton from './SignOutButton'
-import Link from 'next/link'
 
+// Auth guard only — the account page renders the full design-truth nav + footer.
 export default async function AccountLayout({ children }: { children: React.ReactNode }) {
   const supabase = createServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-  if (!user) {
-    redirect('/login')
-  }
+  if (!user) redirect('/login')
 
-  return (
-    <>
-      <nav className="account-nav">
-        <Link href="/account" className="account-nav-wordmark">Chariot</Link>
-        <SignOutButton />
-      </nav>
-      {children}
-    </>
-  )
+  return <>{children}</>
 }

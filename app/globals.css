@@ -437,6 +437,66 @@ input, textarea, select { font: inherit; }
   border-top: 1px solid rgba(250, 250, 248, 0.08);
 }
 
+/* ── Purchase history (LED-4) ── */
+.account-orders {
+  list-style: none;
+  margin: 0 0 var(--space-6);
+  padding: 0;
+}
+.account-order {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid rgba(250, 250, 248, 0.08);
+}
+.account-order:last-child { border-bottom: none; }
+.account-order-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.account-order-item {
+  font-family: var(--font-body);
+  font-size: var(--fs-16);
+  color: var(--fg-1);
+}
+.account-order-date {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  color: var(--fg-3);
+}
+.account-order-meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+.account-order-amount {
+  font-family: var(--font-mono);
+  font-size: var(--fs-14);
+  color: var(--fg-1);
+}
+.account-order-status {
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.account-order-status--completed { color: var(--signal-gold); }
+.account-order-status--pending   { color: var(--fg-2); }
+.account-order-status--failed,
+.account-order-status--canceled  { color: var(--color-laterite); }
+.account-orders-empty {
+  font-family: var(--font-mono);
+  font-size: var(--fs-13);
+  letter-spacing: var(--ls-wide);
+  color: var(--fg-3);
+  margin: 0 0 var(--space-6);
+}
+
 .account-copy-btn {
   font-family: var(--font-mono);
   font-size: var(--fs-12);

@@ -9,8 +9,8 @@ import { resendVerificationAction, type AuthState } from '@/app/actions/auth'
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <button type="submit" disabled={pending} className="auth-btn" style={{ marginTop: '0' }}>
-      {pending ? 'Sending...' : 'Resend Verification Email'}
+    <button type="submit" disabled={pending} className="pbtn">
+      <span>{pending ? 'Sending…' : 'Resend verification email'}</span>
     </button>
   )
 }
@@ -21,34 +21,37 @@ function VerifyContent() {
   const [state, formAction] = useFormState<AuthState, FormData>(resendVerificationAction, null)
 
   return (
-    <div className="auth-card">
-      <span className="verify-icon" aria-hidden="true">✉</span>
-      <h1 className="auth-title">Check your email</h1>
-      <p className="auth-subtitle">
-        We sent a verification link to <strong>{email || 'your email'}</strong>.
-        Click the link to activate your account.
+    <div className="form">
+      <p className="form__eyebrow">The Founding Fifty</p>
+      <h1 className="form__title">Check your email.</h1>
+      <p className="form__lead">
+        We sent a verification link to <strong>{email || 'your email'}</strong>. Click it to activate your account.
       </p>
 
-      {state?.error && <p className="auth-error" role="alert">{state.error}</p>}
-      {state?.success && <p className="auth-success">Verification email resent.</p>}
+      {state?.error && (
+        <div className="formbanner formbanner--error" role="status">
+          <span>{state.error}</span>
+        </div>
+      )}
+      {state?.success && (
+        <div className="formbanner" role="status">
+          <span>Verification email resent.</span>
+        </div>
+      )}
 
       <form action={formAction}>
         <input type="hidden" name="email" value={email} />
         <SubmitButton />
       </form>
 
-      <div className="auth-links">
-        <Link href="/login" className="auth-link">
-          <span>Back to sign in</span>
-        </Link>
-      </div>
+      <Link className="form__back" href="/login"><span aria-hidden="true">←</span> Back to sign in</Link>
     </div>
   )
 }
 
 export default function VerifyEmailPage() {
   return (
-    <Suspense fallback={<div className="auth-card"><p className="auth-link">Loading...</p></div>}>
+    <Suspense fallback={<div className="form"><p className="form__lead">Loading…</p></div>}>
       <VerifyContent />
     </Suspense>
   )

@@ -1,5 +1,9 @@
 # Chariot — Claude Code Instructions
 
+## ⮕ Sources of truth (read first)
+- **Backend:** `Chariot_Backend_PRD.md` (copied into this repo) is the single source of truth for backend behavior. It is being implemented in milestone order M0→M6. **Where this file and the PRD disagree, the PRD wins.** Notable supersessions: payments are embedded Stripe **Payment Element** (not hosted Checkout); store credit is **derived from an append-only `credit_events` ledger** (the `users.credit_balance` column is only a recomputed cache); purchases are recorded in a new append-only `orders` ledger; webhook idempotency via `processed_webhook_events`.
+- **Front-end design:** `design-truth/` is the absolute canonical design source (final HTML/CSS/JS). Port M6 front-end from there. It **supersedes** the legacy `design-system/` dir and the older `tokens.css`-based rules below; the existing `app/` JSX pages are being scrapped and rebuilt against `design-truth/`. See `design-truth/README.md`.
+
 ## What this is
 Chariot Archive is a fashion import platform. This repo is the customer-facing website.
 Drop 0 is the first launch — a limited pre-order of curated pieces from Ghana-based brands.

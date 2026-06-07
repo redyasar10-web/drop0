@@ -7,8 +7,8 @@ import { forgotPasswordAction, type AuthState } from '@/app/actions/auth'
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <button type="submit" disabled={pending} className="auth-btn">
-      {pending ? 'Sending...' : 'Send Reset Link'}
+    <button type="submit" disabled={pending} className="pbtn">
+      <span>{pending ? 'Sending…' : 'Send reset link'}</span>
     </button>
   )
 }
@@ -18,53 +18,39 @@ export default function ForgotPasswordPage() {
 
   if (state?.success) {
     return (
-      <div className="auth-card">
-        <h1 className="auth-title">Check your email</h1>
-        <p className="auth-subtitle">
-          We sent a password reset link to{' '}
-          <strong>{state.email}</strong>. Check your inbox and follow the link.
+      <div className="form">
+        <p className="form__eyebrow">Members</p>
+        <h1 className="form__title">Check your email.</h1>
+        <p className="form__lead">
+          We sent a password reset link to <strong>{state.email}</strong>. The link expires in one hour.
         </p>
-        <div className="auth-links">
-          <Link href="/login" className="auth-link">
-            <span>Back to sign in</span>
-          </Link>
-        </div>
+        <Link className="form__back" href="/login"><span aria-hidden="true">←</span> Back to sign in</Link>
       </div>
     )
   }
 
   return (
-    <div className="auth-card">
-      <h1 className="auth-title">Reset your password</h1>
-      <p className="auth-subtitle">
-        Enter your email and we&apos;ll send you a link to choose a new password.
-      </p>
+    <form className="form" action={formAction} noValidate>
+      <p className="form__eyebrow">Members</p>
+      <h1 className="form__title">Reset your password.</h1>
+      <p className="form__lead">Enter your email and we&rsquo;ll send a link to choose a new password.</p>
 
-      <form action={formAction}>
-        {state?.error && (
-          <p className="auth-error" role="alert">{state.error}</p>
-        )}
-
-        <div className="auth-field">
-          <label className="auth-label" htmlFor="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            className="auth-input"
-          />
+      {state?.error && (
+        <div className="formbanner formbanner--error" role="status">
+          <span>{state.error}</span>
         </div>
+      )}
 
-        <SubmitButton />
-      </form>
-
-      <div className="auth-links">
-        <Link href="/login" className="auth-link">
-          <span>Back to sign in</span>
-        </Link>
+      <div className="field">
+        <div className="field__labelrow"><label className="field__label" htmlFor="email">Email</label></div>
+        <div className="input-shell">
+          <input id="email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="you@email.com" required />
+        </div>
       </div>
-    </div>
+
+      <SubmitButton />
+
+      <Link className="form__back" href="/login"><span aria-hidden="true">←</span> Back to sign in</Link>
+    </form>
   )
 }

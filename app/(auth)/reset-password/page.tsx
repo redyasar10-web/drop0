@@ -7,8 +7,8 @@ import { resetPasswordAction, type AuthState } from '@/app/actions/auth'
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <button type="submit" disabled={pending} className="auth-btn">
-      {pending ? 'Updating...' : 'Update Password'}
+    <button type="submit" disabled={pending} className="pbtn">
+      <span>{pending ? 'Updating…' : 'Update password'}</span>
     </button>
   )
 }
@@ -17,48 +17,34 @@ export default function ResetPasswordPage() {
   const [state, formAction] = useFormState<AuthState, FormData>(resetPasswordAction, null)
 
   return (
-    <div className="auth-card">
-      <h1 className="auth-title">Choose a new password</h1>
+    <form className="form" action={formAction} noValidate>
+      <p className="form__eyebrow">Members</p>
+      <h1 className="form__title">Choose a new password.</h1>
+      <p className="form__lead">At least 12 characters. Make it something you don&rsquo;t use elsewhere.</p>
 
-      <form action={formAction}>
-        {state?.error && (
-          <p className="auth-error" role="alert">{state.error}</p>
-        )}
-
-        <div className="auth-field">
-          <label className="auth-label" htmlFor="password">New Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            required
-            minLength={8}
-            autoComplete="new-password"
-            className="auth-input"
-          />
+      {state?.error && (
+        <div className="formbanner formbanner--error" role="status">
+          <span>{state.error}</span>
         </div>
+      )}
 
-        <div className="auth-field">
-          <label className="auth-label" htmlFor="confirm_password">Confirm New Password</label>
-          <input
-            id="confirm_password"
-            name="confirm_password"
-            type="password"
-            required
-            minLength={8}
-            autoComplete="new-password"
-            className="auth-input"
-          />
+      <div className="field">
+        <div className="field__labelrow"><label className="field__label" htmlFor="password">New password</label></div>
+        <div className="input-shell">
+          <input id="password" name="password" type="password" minLength={12} autoComplete="new-password" placeholder="At least 12 characters" required />
         </div>
-
-        <SubmitButton />
-      </form>
-
-      <div className="auth-links">
-        <Link href="/login" className="auth-link">
-          <span>Back to sign in</span>
-        </Link>
       </div>
-    </div>
+
+      <div className="field">
+        <div className="field__labelrow"><label className="field__label" htmlFor="confirm_password">Confirm new password</label></div>
+        <div className="input-shell">
+          <input id="confirm_password" name="confirm_password" type="password" minLength={12} autoComplete="new-password" placeholder="••••••••" required />
+        </div>
+      </div>
+
+      <SubmitButton />
+
+      <Link className="form__back" href="/login"><span aria-hidden="true">←</span> Back to sign in</Link>
+    </form>
   )
 }

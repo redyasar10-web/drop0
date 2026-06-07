@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chariot — Membership</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="public/chariot-mark-cream.png" type="image/png">
+<link rel="stylesheet" href="chariot.css">
+<link rel="stylesheet" href="account.page.css">
+</head>
+<body data-screen-label="Account">
+
+<!-- ============================ NAV ============================ -->
+<header class="nav is-scrolled" data-nav data-nav-solid>
+  <div class="nav__row">
+    <nav class="nav__links nav__links--left" aria-label="Primary">
+      <a class="nav__link" href="Drop%200%20Landing.html#selection">The Drop</a>
+      <a class="nav__link" href="Drop%200%20Landing.html#brands">The Brand</a>
+      <a class="nav__link" href="Drop%200%20Landing.html#process">How It Works</a>
+    </nav>
+    <button class="nav__burger" data-burger aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <a class="nav__wordmark" href="Drop%200%20Landing.html" aria-label="Chariot home">
+      <span class="wm" aria-hidden="true">
+        <img class="wm__full wm__full--light" src="public/chariot-wm-tight-white.png" alt="">
+        <img class="wm__full wm__full--dark" src="public/chariot-wm-tight-dark.png" alt="">
+        <img class="wm__mark" src="public/chariot-o-dark.png" alt="">
+      </span>
+    </a>
+    <nav class="nav__links nav__links--right" aria-label="Secondary">
+      <a class="nav__link" href="About.html">About</a>
+      <a class="nav__link" href="archive/index.html">The Archive</a>
+      <a class="nav__link" href="Support.html">Support</a>
+      <div class="nav__acct is-open-disabled" data-acct>
+        <button class="nav__link nav__acct-btn" type="button" data-acct-btn aria-haspopup="true" aria-expanded="false" aria-current="page">Account <span class="nav__caret" aria-hidden="true"></span></button>
+        <div class="nav__menu" role="menu">
+          <div class="nav__menu-head">
+            <span class="nav__menu-name">Caleb Silver</span>
+            <span class="nav__menu-meta">Founding Member · No. 007</span>
+          </div>
+          <a class="nav__menu-link" href="account.html" role="menuitem">View membership</a>
+          <a class="nav__menu-link" href="account.html#activity" role="menuitem">Orders &amp; credit <span class="m">$40</span></a>
+          <a class="nav__menu-link" href="account.html#referral" role="menuitem">Referrals <span class="m">2 / 3</span></a>
+          <div class="nav__menu-sep"></div>
+          <a class="nav__menu-link nav__menu-link--quiet" href="login.html" role="menuitem">Sign out</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="nav__overlay" aria-hidden="true">
+    <a class="nav__overlaylink" href="Drop%200%20Landing.html#selection">The Drop</a>
+    <a class="nav__overlaylink" href="Drop%200%20Landing.html#brands">The Brand</a>
+    <a class="nav__overlaylink" href="Drop%200%20Landing.html#process">How It Works</a>
+    <a class="nav__overlaylink" href="About.html">About</a>
+    <a class="nav__overlaylink" href="archive/index.html">The Archive</a>
+    <a class="nav__overlaylink" href="Support.html">Support</a>
+    <a class="nav__overlaylink" href="login.html">Sign out</a>
+  </div>
+</header>
+
+<main class="acct" id="top">
+  <div class="wrap acct__inner">
+
+    <div class="acct-head reveal">
+      <span class="eyebrow">Membership</span>
+      <h1 class="acct-head__title">Welcome back, Caleb.</h1>
+      <p class="acct-head__sub">Your founding spot is held. Drop&nbsp;1 opens to you 24 hours early.</p>
+    </div>
+
+    <!-- Membership card -->
+    <section class="mcard reveal" aria-label="Membership card">
+      <div class="mcard__mark"><img src="public/chariot-mark-tight.png" alt=""></div>
+      <div class="mcard__l">
+        <span class="mcard__tier">Founding Member</span>
+        <div class="mcard__name">Caleb Silver</div>
+        <div class="mcard__meta">
+          <span>caleb@chariotarchive.com</span>
+          <span>Member since June 2026</span>
+        </div>
+      </div>
+      <div class="mcard__no">
+        <span class="mcard__no-k">Member No.</span>
+        <span class="mcard__no-v">007</span>
+      </div>
+    </section>
+
+    <!-- Two quiet panels -->
+    <div class="acct-panels reveal" id="referral">
+      <div class="panel">
+        <div class="panel__k">Credit balance</div>
+        <div class="panel__credit">$40</div>
+        <p class="panel__note">Applies automatically at Drop&nbsp;1 checkout. Never expires.</p>
+      </div>
+      <div class="panel">
+        <div class="panel__k">Referrals — 2 of 3</div>
+        <div class="refl__row">
+          <span class="refl__link" data-ref-link>chariotarchive.com/ref/CALEB07</span>
+          <button class="refl__copy" data-copy aria-label="Copy referral link">Copy</button>
+        </div>
+        <div class="refl__progress" aria-hidden="true">
+          <span class="refl__pip is-on"></span><span class="refl__pip is-on"></span><span class="refl__pip"></span>
+        </div>
+        <p class="refl__meta">$5 credit per friend who claims a founding spot.</p>
+      </div>
+    </div>
+
+    <!-- Activity -->
+    <section class="acct-activity" id="activity">
+      <div class="acct-activity__k">Recent activity</div>
+      <div class="acct-row">
+        <span class="acct-row__when">Jun 2026</span>
+        <span class="acct-row__what">Founding deposit — Drop 0</span>
+        <span class="acct-row__amt">$20.00</span>
+      </div>
+      <div class="acct-row">
+        <span class="acct-row__when">Jun 2026</span>
+        <span class="acct-row__what">Founding credit applied</span>
+        <span class="acct-row__amt acct-row__amt--credit">+ $30.00</span>
+      </div>
+      <div class="acct-row">
+        <span class="acct-row__when">Jun 2026</span>
+        <span class="acct-row__what">Referral credit — 2 friends</span>
+        <span class="acct-row__amt acct-row__amt--credit">+ $10.00</span>
+      </div>
+    </section>
+
+    <div class="acct-actions reveal">
+      <a class="btn" href="Drop%200%20Landing.html#selection">Preview Drop 1 <span class="arr" aria-hidden="true">→</span></a>
+      <a class="btn btn--ghost" href="Support.html">Get support</a>
+      <a class="acct-actions__signout" href="login.html">Sign out</a>
+    </div>
+
+  </div>
+</main>
+
+<!-- ========================== FOOTER ========================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brandcol">
+        <img class="footer__mark" src="public/chariot-wm-tight-white.png" alt="Chariot" width="130">
+        <p class="footer__mission">Accra. Austin. What the rest of the world is already wearing.</p>
+        <p class="footer__note">Community-validated import drops. Imported into the US, shipped from Austin, duties paid.</p>
+      </div>
+      <div class="footer__col">
+        <div class="footer__h">Drop 0</div>
+        <a href="Drop%200%20Landing.html#claim">The Founding Fifty</a>
+        <a href="Drop%200%20Landing.html#offer">What you get</a>
+        <a href="Drop%200%20Landing.html#selection">The lookbook</a>
+        <a href="Drop%200%20Landing.html#process">How it works</a>
+      </div>
+      <div class="footer__col">
+        <div class="footer__h">Chariot</div>
+        <a href="About.html">About</a>
+        <a href="archive/index.html">The Archive</a>
+        <a href="Support.html">Support</a>
+        <a href="account.html" aria-current="page">Account</a>
+      </div>
+      <div class="footer__col">
+        <div class="footer__h">Connect</div>
+        <div class="footer__social">
+          <a href="https://instagram.com/chariotarchive" target="_blank" rel="noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://tiktok.com/@chariotarchive" target="_blank" rel="noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14.6 3h-2.7v12.4a2.6 2.6 0 1 1-2.1-2.55V10.1a5.3 5.3 0 1 0 4.8 5.27V8.9a6.3 6.3 0 0 0 3.8 1.27V7.45A3.6 3.6 0 0 1 14.6 3Z"/></svg></a>
+          <a href="https://x.com/chariotarchive" target="_blank" rel="noreferrer" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M17.5 3h3.1l-6.77 7.74L21.8 21h-6.2l-4.86-6.36L5.18 21H2.07l7.24-8.28L2 3h6.36l4.4 5.82L17.5 3Zm-1.09 16.13h1.72L7.66 4.78H5.82l10.59 14.35Z"/></svg></a>
+          <a href="https://youtube.com/@chariotarchive" target="_blank" rel="noreferrer" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><path d="M10 9.2v5.6l5-2.8-5-2.8Z" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+        <a href="https://chariotarchive.com" target="_blank" rel="noreferrer">@chariotarchive</a>
+        <a href="Support.html">Customer support</a>
+      </div>
+    </div>
+    <div class="footer__legal">
+      <span>© <span data-year>2026</span> Chariot Archive Inc.</span>
+      <span>Austin, TX · Importer of record</span>
+      <span>Accra → Austin · 14-day window</span>
+    </div>
+  </div>
+</footer>
+
+<script src="chariot.js"></script>
+<script>
+(function () {
+  var btn = document.querySelector("[data-copy]");
+  var link = document.querySelector("[data-ref-link]");
+  if (!btn || !link) return;
+  btn.addEventListener("click", function () {
+    var text = link.textContent.trim();
+    var done = function () { btn.textContent = "Copied"; btn.classList.add("is-done"); setTimeout(function () { btn.textContent = "Copy"; btn.classList.remove("is-done"); }, 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(done);
+    else done();
+  });
+})();
+</script>
+</body>
+</html>

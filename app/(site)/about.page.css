@@ -1,0 +1,52 @@
+/* ============================================================
+   CHARIOT — About (the company) · Brand V3
+   ============================================================ */
+.ab-hero { padding: clamp(150px, 20vh, 240px) 0 clamp(48px, 7vw, 96px); }
+.ab-hero__eyebrow { margin-bottom: clamp(36px, 5vw, 64px); }
+.ab-manifesto { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: clamp(40px, 6.6vw, 96px);
+  line-height: 1.0; letter-spacing: -0.025em; color: var(--color-ink); max-width: 16ch; text-wrap: balance; }
+.ab-manifesto .ital { font-family: var(--font-body); font-style: italic; font-weight: var(--fw-regular); letter-spacing: -0.01em; }
+.ab-lead { font-family: var(--font-body); font-size: clamp(18px, 2vw, 22px); line-height: 1.6; color: var(--fg-2); max-width: 54ch; margin-top: clamp(36px, 5vw, 60px); }
+
+/* full-bleed plate */
+.ab-plate { position: relative; }
+.ab-plate__img { width: 100%; height: clamp(420px, 62vh, 720px); object-fit: cover; object-position: 50% 30%; }
+.ab-plate__cap { max-width: var(--width-bleed); margin: 0 auto; padding: var(--space-4) 40px 0;
+  font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--fg-2); }
+
+/* statement rows */
+.ab-statement { font-family: var(--font-body); font-size: clamp(24px, 3vw, 38px); line-height: 1.32; letter-spacing: -0.01em;
+  color: var(--color-ink); max-width: 24ch; text-wrap: balance; }
+.ab-statement .gold { color: var(--signal-gold); }
+.ab-two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 80px); align-items: start; }
+.ab-two__body p { font-family: var(--font-body); font-size: var(--fs-18); line-height: 1.62; color: var(--fg-2); }
+.ab-two__body p + p { margin-top: var(--space-5); }
+
+/* model steps */
+.ab-model { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-ink); border: 1px solid var(--line-ink); }
+.ab-step { background: var(--color-ink); padding: clamp(26px, 3vw, 40px); }
+.ab-step__n { font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wide); color: var(--signal-gold); }
+.ab-step__h { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: var(--fs-24); letter-spacing: var(--ls-tight); margin: var(--space-4) 0 var(--space-3); color: var(--color-salt); }
+.ab-step__d { font-family: var(--font-body); font-size: var(--fs-16); line-height: var(--lh-body); color: var(--on-ink-2); }
+
+/* founding brands */
+.ab-brands { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 36px); }
+.ab-brand { display: flex; flex-direction: column; }
+.ab-brand__img { aspect-ratio: 4/3; overflow: hidden; background: var(--bg-surface); }
+.ab-brand__img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease-calm); }
+.ab-brand:hover .ab-brand__img img { transform: scale(1.04); }
+.ab-brand__loc { font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--signal-gold); margin: var(--space-5) 0 var(--space-2); }
+.ab-brand__name { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: clamp(28px, 3vw, 40px); letter-spacing: var(--ls-tight); line-height: 1; }
+.ab-brand__p { font-family: var(--font-body); font-size: var(--fs-16); line-height: 1.6; color: var(--fg-2); margin-top: var(--space-4); max-width: 42ch; }
+.ab-brand__soon { display: inline-block; font-family: var(--font-mono); font-size: 10px; letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--fg-2); border: 1px solid var(--border); padding: 4px 9px; margin-top: var(--space-4); width: fit-content; }
+
+/* closing */
+.ab-close__line { font-family: var(--font-body); font-style: italic; font-size: clamp(26px, 3.6vw, 48px); line-height: 1.2; color: var(--color-salt); max-width: 20ch; }
+.ab-close__cta { margin-top: var(--space-7); display: flex; gap: 14px; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .ab-two { grid-template-columns: 1fr; gap: 24px; }
+  .ab-model { grid-template-columns: 1fr 1fr; }
+  .ab-brands { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) { .ab-model { grid-template-columns: 1fr; } }

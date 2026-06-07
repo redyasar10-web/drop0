@@ -31,19 +31,23 @@ export async function POST(request: Request) {
 
   const pi = event.data.object as Stripe.PaymentIntent
   const userId = pi.metadata?.user_id
-  const promoCode = (pi.metadata?.promo_code ?? '').trim().toLowerCase()
-  const appliedCreditCents = parseInt(pi.metadata?.applied_credit_cents ?? '0', 10)
 
   if (!userId) {
     console.error('[webhook] payment_intent.succeeded missing user_id:', pi.id)
     return new NextResponse('Missing user_id in metadata', { status: 400 })
   }
 
+  // Fulfillment is transactional, idempotent, and dedup'd by event.id inside
+  // fulfill_order. Money fields (promo, applied credit) are read from the
+  // server-stored order, never trusted from the PI metadata (PAY-1). If
+  // fulfillment fails the txn rolls back and we return 500 so Stripe retries.
   try {
     await fulfillOrder({
       userId,
-      promoCode,
-      appliedCreditCents,
+      source: 'stripe',
+      stripePaymentIntentId: pi.id,
+      eventId: event.id,
+      eventType: event.type,
       emailOverride: pi.receipt_email,
     })
   } catch (err) {

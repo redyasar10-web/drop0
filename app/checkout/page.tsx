@@ -14,16 +14,17 @@ export default async function CheckoutPage() {
 
   const admin = createAdminClient()
 
-  const [{ data: profile }, { data: seq }] = await Promise.all([
-    admin.from('users').select('credit_balance').eq('id', user.id).single(),
-    admin.from('member_sequence').select('next_val').single(),
+  // Balance is ledger-derived (BAL-2): SUM(credit_events) in cents.
+  const [{ data: balanceCents }, { data: seq }] = await Promise.all([
+    admin.rpc('available_balance', { p_user_id: user.id }),
+    admin.from('member_sequence').select('next_number').single(),
   ])
 
   return (
     <CheckoutForm
-      creditBalance={profile?.credit_balance ?? 0}
+      creditBalance={Math.floor((balanceCents ?? 0) / 100)}
       userEmail={user.email ?? ''}
-      nextMemberNo={seq?.next_val ?? 1}
+      nextMemberNo={seq?.next_number ?? 1}
     />
   )
 }

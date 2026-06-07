@@ -1,0 +1,463 @@
+CHARIOT
+BRAND STRATEGY
+Internal working document — not for external distribution
+CHARIOT — Internal Working Document | 1
+
+-- 1 of 13 --
+
+SECTION 1: WHO WE ARE
+The Problem We Exist to Solve
+There is a specific moment that happens constantly inside diaspora communities, creative
+circles, and anywhere people with genuinely good taste congregate. Someone walks in wearing
+something that stops the room. Not because it's loud. Because it's right in a way that nothing in
+any store near you is right. You ask where they got it. The answer is always somewhere you can't
+easily get to — Japan, Lagos, Accra, a market in Marrakech, a designer you've never heard of
+who doesn't ship internationally, or a brand that technically ships but will take three weeks, hit
+you with a customs bill you didn't budget for, and maybe never arrive at all.
+That moment — the wanting without the access — is the entire business.
+The problem is not that people don't know great fashion exists outside America. The problem is
+that getting it here is an obstacle course: find the brand, DM them, hope they ship
+internationally, wait, get hit by customs, pay fees you didn't expect, and if something's wrong,
+you have no recourse because the return policy doesn't apply across borders. Every one of those
+steps is a place where desire dies.
+This isn't a shipping problem. It's a trust problem. People don't trust that the thing they want
+will actually arrive, cost what they expect, and be returnable if it's wrong. So they don't try.
+What Chariot Is
+Chariot is the answer to "where did you get that?" — specifically for independent fashion from
+West Africa and beyond — that doesn't end in a customs nightmare or a tracking number that
+goes cold.
+We go directly to the brands. We buy wholesale. We handle every customs detail ourselves. We
+bring the inventory to the US. When you order, you're ordering from New York, not Accra. The
+piece ships in days. Returns are free. The price you see is the price you pay.
+The drop is chosen by the community. You vote on what we bring. We bring exactly what you
+asked for — no speculation, no guessing, no inventory we bought on a hunch. Real demand. Real
+order.
+We started in Accra because that's where we have relationships. Nigeria is next. Then anywhere
+there's a brand worth knowing that hasn't made it here yet.
+What We Are Not
+We are not a marketplace. We don't aggregate every brand from everywhere and let you sort by
+price. We curate. We have a point of view. We bring specific things from specific places because
+we have relationships there and because we believe those things are worth bringing.
+We are not a dropshipper. We don't forward your order to a warehouse in Accra and hope for
+the best. We are the importer of record. We own the inventory in the US before you order it.
+That is the entire structural difference between the experience we provide and the experience of
+buying direct.
+CHARIOT — Internal Working Document | 2
+
+-- 2 of 13 --
+
+We are not a charity or a cultural project. We are a fashion company. We happen to source from
+places the American market has ignored, but we are not doing this out of obligation or altruism.
+We are doing this because the fashion is genuinely better, the moment is right, and no one else
+has built the infrastructure to make it work.
+The Positioning Statement
+Chariot is where independent global fashion becomes purchasable in America — on American
+terms, with American trust standards, at the speed Americans expect.
+The slogan: What the rest of the world is already wearing.
+This line does three things simultaneously. It signals that the fashion already exists and already
+has an audience elsewhere — you're not discovering it, you're catching up. It creates mild FOMO
+without hysteria. And it positions Chariot as the access mechanism, not the origin. We didn't
+make this. We made it possible to have it.
+The Values
+Not for the website — for every decision we make.
+– Specificity over generality. We name the brand, the city, the designer, the fabric. We
+never say "African fashion." We say 1Nri, Accra, structured collar, wax-resist fabric. The
+specificity is the credibility.
+– Curation over volume. We bring thirty pieces that we believe in rather than three
+hundred pieces that are available. The quality of the selection is the product. This is what
+separates us from a marketplace.
+– Operational transparency. We show the math. We tell people what the tariff costs, what
+the shipping costs, what the margin is. We don't hide the markup — we justify it line by
+line. Trust is built through transparency, not polish.
+– Community before inventory. We do not buy what we think people want. We ask them,
+we let them commit financially, and we buy what they proved they want. This is not a
+marketing mechanic. It is the structural foundation of how we operate.
+– Cultural authority through humility. We did not invent this fashion. The designers in
+Accra built it. Our job is to bring it here without diluting it, without exoticizing it, and
+without taking credit for it. Chariot's authority is borrowed from the brands until we earn
+our own.
+CHARIOT — Internal Working Document | 3
+
+-- 3 of 13 --
+
+SECTION 2: WHO WE'RE FOR
+The Abstract — The Psychology of the Person Who Asks "Where Did You
+Get That"
+The moment itself has an anatomy. Someone walks into a room wearing something and a
+specific type of person stops them. Not everyone stops them — most people don't notice, or
+notice and move on. The person who asks is a specific psychological type, and understanding
+exactly what is happening inside them when they ask is the foundation of everything Chariot
+does.
+Before any conscious thought, the visual system has already registered an anomaly — this
+silhouette is wrong in a way I can't immediately explain, this fabric is doing something I haven't
+seen before, this piece was clearly made by someone who made decisions rather than optimized
+for cost. The anomaly triggers approach. The question comes out. None of this was deliberate.
+Interest happened to the person before they chose to be interested.
+Underneath that automatic firing is a status read. Humans are running a continuous,
+subconscious status detection system at all times, reading every person in their environment for
+signals of rank, knowledge, and group membership. The unusual piece fires that system with a
+specific signal: this person has access to something I don't. They know something I don't.
+That status read activates mimetic desire. The person wearing the piece has become a model —
+not a celebrity or an authority figure operating at a safe distance, but someone in the same social
+world, close enough to touch, who has something the observer wants. Mimetic desire fires
+precisely because the gap is small enough to imagine closing.
+So when the question gets asked, what the asker is really asking is not "where is the store." They
+are asking: can I enter the world you belong to? The piece is a door. The question is whether the
+door opens.
+Chariot's entire existence is the conversion of that frustrated desire into a fulfillable one. Things
+acquired with effort are valued more than things acquired without it. The community pre-order,
+the voting mechanism, the founding member structure, the limited drop window — these exist
+because desire that costs nothing to fulfill becomes worth nothing once fulfilled.
+The Particular — The Niche Hunter
+The pivot from the diaspora-first framing to this one is not a retreat. It is a more honest read of
+how desire actually moves in the niche streetwear world. The right frame is not "Ghanaian
+fashion for the diaspora." The right frame is "niche streetwear that happens to come from Accra,
+for the person who hunts niche."
+Who They Are
+The Niche Hunter is 19–26. They live in a city or go to school in one. They have a considered
+relationship to what they wear — not necessarily expensive, but deliberate. They have already
+moved through at least one mainstream fashion cycle and come out the other side with
+contempt for it. Fast fashion is not just aesthetically wrong to them — it is a moral failure.
+They are already hunting. They follow accounts that are three steps ahead of what's in stores.
+They know brands that their peers haven't heard of and they feel the specific pleasure of being
+asked about something they're wearing before the person asking has any context for it.
+CHARIOT — Internal Working Document | 4
+
+-- 4 of 13 --
+
+Their Enneagram profile is the 4 with a 3 wing, occasionally shading into the 7. The core fear is
+being ordinary. The core desire is to be recognized as specifically themselves — to have a taste
+that is legible as individual rather than copied.
+What Activates Them
+– They need to see the piece on someone they actually respect before they'll move. Not an
+influencer. Not a brand account. Someone in their actual social orbit who they read as
+having better taste than them.
+– They need the story to be real and specific. "This brand has been in Accra's creative scene
+for three years and this is their first US drop" is exactly the kind of sentence that works
+on them.
+– They need the acquisition to have the right amount of friction. Too easy and the thing
+loses its value immediately. The community pre-order model is correct for this customer.
+– They need the piece itself to pass the MAYA test against their existing reference points. A
+structured collar they've never seen, a woven piece with a pattern that has no American
+equivalent, a silhouette that uses the body differently — these work.
+Where They Congregate
+Digitally: Instagram accounts for independent labels, archive fashion accounts, brands that are
+three steps ahead of mainstream, the specific corners of TikTok where people break down
+construction and materials.
+Physically: art school adjacent events, independent brand pop-ups, vintage and archive markets,
+the creative communities at universities with strong art and design programs — New York, LA,
+Atlanta, Chicago, DC.
+What They Are Not
+– They are not buying Chariot because it's Ghanaian. They are buying Chariot because it's
+genuinely good, genuinely rare, and genuinely from somewhere with a real story.
+– They are not the hotep customer. The hotep customer is motivated by cultural politics.
+The Niche Hunter is motivated by taste. These are not the same person and targeting
+both simultaneously will confuse the brand into incoherence.
+– They are not a loyal customer yet. Loyalty comes from the drop being real, the piece
+being what it was described as, and the experience of ordering from Chariot being
+materially better than the alternatives.
+CHARIOT — Internal Working Document | 5
+
+-- 5 of 13 --
+
+SECTION 3: PRODUCT PHILOSOPHY AND SELECTION CRITERIA
+The Philosophy
+Chariot is not in the business of selling Ghanaian fashion. Chariot is in the business of finding
+the pieces that the rest of the world is already wearing before the American market knows they
+exist — and making those pieces available without the obstacle course. The geographic origin is a
+quality signal and a story, not a category.
+When evaluating a piece from 1Nri or Jireh or any brand after them, the first question is never
+"does this represent Ghanaian fashion well?" The first question is "would a Niche Hunter stop
+someone wearing this and ask where they got it?"
+The Three Pillars
+Pillar 1 — The Piece Must Be Able to Stand Alone
+Before the story is attached, before the Accra origin is mentioned, before the designer's name is
+invoked — the piece must do something visually. A stranger with no context must be capable of
+being stopped by it. This is the visceral test and it is non-negotiable. If the piece only works with
+the story, the story is doing work that the piece should be doing.
+This means: no basics for Drop 1. Not because basics are bad, but because basics cannot pass the
+visceral test against the Niche Hunter's elevated baseline.
+Pillar 2 — The Strangeness Must Be Traceable to Origin
+The Niche Hunter needs the piece to be doing something that is only possible because of where
+it comes from. Not "inspired by African aesthetics" in the way American fast fashion brands do it
+— an abstraction of a cultural signal stripped of its actual logic. The specific fabric tradition of
+West African textile production, the specific construction approaches that emerge from a
+specific design community in Accra.
+The familiar half of the MAYA equation should come from the piece's relationship to the
+customer's existing reference points. The strange half should come unmistakably from Accra.
+Pillar 3 — Construction Must Meet the Story
+The Niche Hunter will physically examine what they buy. They will look at the seams. They will
+assess the fabric weight. They will notice whether the finishing was done with care. A piece with
+a great story and poor construction is worse than a piece with no story and poor construction,
+because the story raised their expectations and the construction betrayed them.
+This means Chariot needs to physically handle the pieces before they go into a drop. Not from
+photos. From the actual garment.
+The Four Selection Gates
+When evaluating any piece for a Chariot drop, run it through four gates in sequence. A piece that
+fails any gate doesn't make the drop.
+Gate 1 — The Stranger Test
+CHARIOT — Internal Working Document | 6
+
+-- 6 of 13 --
+
+Imagine the piece on a person walking through a room full of people whose fashion baseline is
+elevated. Does the piece stop someone? Not because it's loud. Because it's doing something they
+haven't seen before in a way they can immediately understand. If the honest answer is no, it fails
+Gate 1 regardless of what else is true about it.
+Gate 2 — The Origin Test
+Can you look at the piece and trace the strangeness back to where it comes from? Is the thing
+that makes it unusual something that is only possible because of the specific design tradition,
+fabric tradition, or construction approach that comes from Accra? The strangeness should be
+rooted, not floating.
+Gate 3 — The Construction Test
+Handle the piece. Not from photos. From the actual garment. Does the fabric weight
+communicate quality, does the finishing reflect care, are the seams executed with intention, does
+the piece hold its structure when worn? No exceptions.
+Gate 4 — The Drop Coherence Test
+Does the piece fit with the other pieces in the same drop? A drop is a curatorial statement. Each
+piece in it should feel like it comes from the same world, should make the other pieces feel more
+inevitable rather than less, and should together tell a story that is legible in a single look.
+CHARIOT — Internal Working Document | 7
+
+-- 7 of 13 --
+
+SECTION 4: BRAND VOICE
+The Position We Own
+Chariot is the only brand that brings fashion from cities the
+American market hasn't caught up to yet, for people who hunt
+niche before the market arrives.
+Every word Chariot says, every image Chariot posts, every decision about color and type and
+layout is either reinforcing that sentence or diluting it. There is no neutral.
+The Gut Feeling
+These people already know. They were there before I was. If I follow
+them, I will be ahead of everyone else I know.
+Not: this is a cool new brand I discovered. Not: this is a company trying to get my attention. Not:
+this is a cultural project I should support. The moment Chariot's communication sounds like it is
+trying to seem rare, the brand has lost.
+The Voice
+Chariot speaks like someone who has already been to the places the Niche Hunter is trying to get
+to, and is telling them what they found. Not with excitement. With the calm specificity of
+someone who doesn't need validation for what they know.
+The register is: guide, not discoverer. Authority, not enthusiasm. Insider sharing access, not
+outsider announcing arrival.
+The image: the person at the dinner table who, when the conversation turns to a place they know
+well, doesn't say "oh my god you have to go there it's incredible." They say "there's a place on the
+east side of the medina, second alley past the spice market, the guy has been making the same
+jacket for thirty years."
+In Practice
+– Name the specific thing. Never the category. Not "West African fashion." 1Nri. Not "a
+brand from Accra." The brand that has been dressing Accra's creative class since 2021.
+– State facts. Do not praise. "Beautiful" means nothing. "The fabric weight is 280gsm and
+the topstitching is doubled at every stress point" means something.
+– Confidence without pitch energy. Chariot never announces. Never says "we're excited to
+introduce." Never uses exclamation marks.
+– Operational transparency as trust. The price breakdown, the customs math, the timeline
+from window close to doorstep — stated plainly and completely.
+– The customer is the hero. Chariot is the guide. Chariot never makes itself the subject of
+its own communication.
+What the Voice Is Not
+– Not tourist. Chariot never describes Accra as exotic, emerging, undiscovered, or any
+word that positions the American observer as the reference point.
+CHARIOT — Internal Working Document | 8
+
+-- 8 of 13 --
+
+– Not missionary. Chariot is not doing this for the good of African fashion or the cultural
+education of American consumers.
+– Not hype. Drop announcements are factual. Unit counts are stated. Deadlines are stated.
+– Not academic. No customer-facing communication references theoretical frameworks.
+Before and After
+Before: "We're excited to bring the incredible designs of independent African fashion to US
+consumers."
+After: "1Nri has been in Accra's creative scene since 2021. This is their first US drop. 30
+units. 14 days."
+Before: "Chariot is bridging the gap between African designers and American consumers."
+After: "The piece ships from New York. Duties are paid. The price you see is the price
+you pay."
+Before: "Discover the stunning world of West African fashion through our community-driven
+platform."
+After: "You voted. We ordered. Drop 1 opens Thursday."
+Visual Identity
+Typography
+Display: Grand Central or a roman serif in the Cinzel tradition — inscriptional, monumental,
+rooted in the visual language of things made to last. Not a startup font. Not a tech company font.
+Operational: a clean geometric or humanist sans for price, shipping information, unit counts,
+timelines.
+Color
+Black is the color of fashion authority. Chariot's primary color is black, deep and warm, not
+pure. Warm neutrals — cream, sand, Harmattan — are the field on which black operates. The
+single accent — gold, Kente — earns its power through rarity. One instance per layout. No blues.
+No Pan-African palette.
+Photography
+No explanation in the image. The garment is in a space. The person wearing it is in their own
+world, not presenting to the camera. Natural light. Four shots per product: flat lay (the reference
+fact), on body (fit and scale), macro detail (construction), in context (identity function).
+The Onliness Statement
+Chariot is the only brand that makes fashion from cities the
+American market hasn't caught up to yet available in America,
+for people who already know what the rest of the world is
+wearing.
+CHARIOT — Internal Working Document | 9
+
+-- 9 of 13 --
+
+SECTION 5: STRATEGY
+The Diagnosis
+Chariot has two foundational problems right now. The first is trust — nobody knows us and
+nobody trusts us yet, and trust cannot be manufactured, only earned through consistent delivery
+over time. The second is marketing — we now have a voice and a position, but we haven't
+deployed either against a real customer with real money yet.
+The secondary challenge is structural. The original plan assumes campus infrastructure — GSA
+chapters, ambassadors, physical presence, the social density of a college environment. That
+infrastructure goes dormant in May. The summer is not a slower version of the semester plan. It
+is a fundamentally different operating environment.
+The tertiary challenge is the middleman problem. Chariot has no durable leverage on either side
+right now. The brands can go direct to the US when they have enough traction here. The
+customers have no switching cost. The only thing that makes Chariot irreplaceable long-term is
+the community and the curation — the trust that the community has built with Chariot's
+editorial judgment, which neither the brands nor the customers can replicate without Chariot in
+the middle.
+The Guiding Policy
+Earn the right to the next step before taking it.
+Drop 1 is an MVP. Its purpose is not revenue. Its purpose is validated learning — proof that a
+specific type of person will put real money down on a specific type of piece from a specific type
+of brand, through this specific model. Every decision about Drop 1 is in service of that learning.
+Scale comes after the model is validated. Not before.
+The Category Chariot Is Creating
+The existing category Chariot could be placed in: international fashion retailer. That category
+has established kings — SSENSE, Farfetch, Net-a-Porter, Wolf & Badger. Chariot cannot
+compete there without catalog depth, brand recognition, and editorial authority it doesn't have
+yet.
+The new category Chariot creates and owns: community-validated import drops. The customer
+is not buying from a retailer. They are participating in a collective act of cultural curation that
+results in a piece of clothing arriving at their door.
+The category name: the drop you voted for.
+The positioning: you don't buy from Chariot. You build Chariot's drops with your vote and
+then receive what you built.
+The Beachhead
+Chariot's beachhead is not "the African diaspora." That is a demographic, not a psychographic
+beachhead. The beachhead is Niche Hunters at universities with strong creative communities,
+concentrated initially around Worcester and the five cities where the team has actual presence
+and actual relationships — not hypothetical coverage.
+CHARIOT — Internal Working Document | 10
+
+-- 10 of 13 --
+
+Win Worcester completely in the fall. Get twenty people who put real money down, receive a
+piece they love, and tell people about it. That is the validated learning that makes everything else
+possible. Not fifty form responses. Twenty real deposits from people who actually receive the
+product and would buy again.
+The Community Validation Sequence
+The community is built before Drop 1 through the form and through the founder channel.
+Everyone who fills out the form is a founding community member — not just a lead, but a
+participant. The voting mechanism and the curation process are what they are participating in.
+– One: Community seeding. Before piece selection, before the form goes live, the founder
+channel goes active and the first twenty relationships are being built manually.
+– Two: Community signal collection. The form goes live with open-ended questions about
+what types of pieces the community wants, what price points are realistic, what brands
+they already know.
+– Three: Piece selection against the four gates, informed by the community signal.
+– Four: Community confirmation. Before the LOI is signed, the shortlisted pieces go back
+to the founding community for confirmation.
+– Five: LOI signed with one brand. One agreement, one brand, one drop.
+– Six: Drop 1 opens. 14-day window. Visible unit counter. 50% deposit. Founder channel
+announces it first. Founding community gets 24 hours before it goes public.
+– Seven: Drop 1 closes. Wholesale order placed. Import handled. Pieces shipped from US
+inventory.
+– Eight: Debrief. Full data analysis before Drop 2 is planned.
+What Chariot Does Not Do
+– No paid advertising before Drop 1 is complete. The Niche Hunter doesn't convert from
+ads. They convert from social proof from people they respect.
+– No second brand for Drop 1. One LOI, one brand, one drop. Curatorial depth over
+catalog breadth.
+– No press outreach before Drop 1. The press story requires a proof point.
+– No active investor pitching. The deck gets built after Drop 1 data exists. Before that it's
+speculation. After that it's evidence.
+– No website rush. A polished website for an unvalidated idea is putting a frame on an
+empty canvas.
+CHARIOT — Internal Working Document | 11
+
+-- 11 of 13 --
+
+SECTION 6: SUMMER EXECUTION PLAN
+The Constraint
+No campuses. No GSA chapters. Jaden and Shaq are not at Worcester. The team is spread across
+Worcester, Auburn, Austin, and wherever Red is. The summer is the test of whether Chariot can
+build without institutional scaffolding.
+The Goal by End of August
+– Drop 1 closed, validated, and debriefed.
+– Founding community of at minimum 50 real people — people who have had a real
+conversation with someone on the team, filled out the form, and received a personal
+response.
+– Founder channel at minimum 500 followers who are genuinely in the target
+demographic.
+– One signed LOI.
+– Drop 1 data in hand.
+May — Foundation Month
+The single job in May is building the infrastructure before anything is marketed. Nothing public
+until the infrastructure exists.
+– The founder channel goes active. One piece of content per week minimum documenting
+the build process in the established voice. Not inspirational. Specific.
+– The Discord is set up and the founding ten people are invited personally — not blasted,
+personally.
+– The community signal form goes live. What are you looking for that you can't find? What
+would make you commit 50% deposit to a pre-order? Goal: 30 responses by end of May.
+– Each founder commits to one in-person event per week in their city. Non-negotiable.
+June — Selection and Validation Month
+– Community signal data is analyzed. What did people say they want? What price points
+came up?
+– The team physically handles pieces from 1Nri and Jireh — not from photos. Actual
+samples. Every piece goes through the four gates. The shortlist is three to five pieces
+maximum.
+– The shortlist goes back to the founding Discord community for confirmation. The
+community votes. The result is the drop.
+– The LOI negotiation begins with the selected brand. Target: LOI signed by end of June.
+– Founder channel documents the selection process without revealing specific pieces.
+Builds credibility for the curation claim before the drop opens.
+July — Pre-Drop Month
+CHARIOT — Internal Working Document | 12
+
+-- 12 of 13 --
+
+– The LOI is signed. The wholesale order quantity is confirmed. The drop infrastructure is
+set up — payment processing, inventory tracking, fulfillment plan.
+– The founding community grows by referral, not by broadcast. Each founding member
+brings in one person they think belongs. Target: 50 real members by end of July.
+– The packaging is designed and ordered. Stamp card, hangtag, tissue paper. Ordered this
+month — it needs to arrive before the drop closes.
+– Drop announcement assets are prepared. Four shots per piece: flat lay, on body, macro
+detail, in context.
+– Founder channel builds toward the drop without announcing it. By the time the drop
+opens, everyone following already knows what is coming and why it matters.
+August — Drop Month
+Week 1
+Drop 1 opens. Founding community gets 24 hours first. Then the founder channel. Then any
+public announcement. 14-day window. Visible unit counter. 50% deposit. Factual
+communication only.
+Week 2
+Mid-drop check. How many units have moved? Which channel drove the most deposits? If
+conversion is slower than expected, the team does more in-person activation — not more digital
+content. The Niche Hunter converts from people, not from posts.
+Week 3
+Drop closes. Wholesale order placed immediately. Import timeline confirmed. Every depositor
+receives a confirmation with a specific delivery date, not a range.
+Week 4
+Debrief. Full analysis before anything else is planned. What converted. What didn't. What the
+customers said. What the pieces looked like when they arrived. Whether the construction held
+up to the promise. This data is the foundation of Drop 2.
+What Success Looks Like at End of August
+Drop 1 closed with at minimum 15 real deposits from people who were not
+personal friends of the founders before the process started. One brand
+relationship formalized with an LOI and a completed wholesale transaction. A
+founding community of 50 real people who have had genuine conversations
+with the team. A founder channel with 500 or more followers in the target
+demographic. And a debrief document that tells the team exactly what to do
+differently in Drop 2.
+That is the summer. It is not glamorous. It is manual, specific, and measurable. Which means
+when August ends, we know whether the model works. And if it does, the fall semester — with
+campus infrastructure back, GSA chapters active, and a proof point in hand — is a completely
+different game.
+CHARIOT — Internal Working Document | 13
+
+-- 13 of 13 --
+

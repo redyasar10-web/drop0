@@ -3,8 +3,13 @@
 import { redirect } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { validatePassword } from '@/lib/password'
+import { checkAuthRateLimit } from '@/lib/rate-limit'
+import { logAudit } from '@/lib/audit'
 
 export type AuthState = { error?: string; success?: boolean; email?: string } | null
+
+const RATE_LIMIT_MESSAGE = 'Too many attempts. Please wait a minute and try again.'
 
 // Uppercase alphanumeric, no ambiguous chars (0/O, 1/I/L)
 function generateReferralCode(): string {
@@ -17,7 +22,7 @@ export async function signupAction(prevState: AuthState, formData: FormData): Pr
   const password = formData.get('password') as string
   const confirmPassword = formData.get('confirm_password') as string
   const tcAgreed = formData.get('tc_agreed') === 'on'
-  const referredBy = (formData.get('referred_by') as string) || null
+  const referredByCode = ((formData.get('referred_by') as string) || '').trim().toUpperCase() || null
 
   if (!tcAgreed) {
     return { error: 'You must agree to the Terms & Conditions to create an account.' }
@@ -27,12 +32,19 @@ export async function signupAction(prevState: AuthState, formData: FormData): Pr
     return { error: 'Email and password are required.' }
   }
 
-  if (password.length < 8) {
-    return { error: 'Password must be at least 8 characters.' }
+  // Rate limit per IP and per account (ACC-7)
+  if (!(await checkAuthRateLimit('signup', email))) {
+    return { error: RATE_LIMIT_MESSAGE }
   }
 
   if (password !== confirmPassword) {
     return { error: 'Passwords do not match.' }
+  }
+
+  // Length (>=12) + breached-password check; no composition rules (ACC-6)
+  const pwCheck = await validatePassword(password)
+  if (!pwCheck.ok) {
+    return { error: pwCheck.error }
   }
 
   const supabase = createServerClient()
@@ -58,11 +70,24 @@ export async function signupAction(prevState: AuthState, formData: FormData): Pr
   const referralCode = generateReferralCode()
   const tcAgreedAt = new Date().toISOString()
 
+  // Resolve the public referral code to the referrer's user id (uuid).
+  // referred_by stores the id, never the code (PRD §4). Self-reference is
+  // impossible here (the new account has no code yet).
+  let referredById: string | null = null
+  if (referredByCode) {
+    const { data: referrer } = await admin
+      .from('users')
+      .select('id')
+      .eq('referral_code', referredByCode)
+      .maybeSingle()
+    referredById = referrer?.id ?? null
+  }
+
   const { error: profileError } = await admin.from('users').insert({
     id: data.user.id,
     email,
     referral_code: referralCode,
-    referred_by: referredBy,
+    referred_by: referredById,
     tc_agreed_at: tcAgreedAt,
   })
 
@@ -82,10 +107,17 @@ export async function loginAction(prevState: AuthState, formData: FormData): Pro
     return { error: 'Email and password are required.' }
   }
 
+  // Rate limit per IP and per account to resist brute force / credential stuffing (ACC-7)
+  if (!(await checkAuthRateLimit('login', email))) {
+    return { error: RATE_LIMIT_MESSAGE }
+  }
+
   const supabase = createServerClient()
   const { error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
+    // Audit failed sign-in for brute-force / credential-stuffing monitoring (NF-6).
+    await logAudit({ event: 'auth.login_failure', level: 'warn', detail: { email } })
     if (error.message.toLowerCase().includes('email not confirmed')) {
       return {
         error: 'Please verify your email before signing in.',
@@ -95,6 +127,7 @@ export async function loginAction(prevState: AuthState, formData: FormData): Pro
     return { error: 'Invalid email or password.' }
   }
 
+  await logAudit({ event: 'auth.login_success', level: 'info', detail: { email } })
   redirect('/account')
 }
 
@@ -103,6 +136,11 @@ export async function forgotPasswordAction(prevState: AuthState, formData: FormD
 
   if (!email) {
     return { error: 'Email is required.' }
+  }
+
+  // Rate limit reset requests per IP and per account (ACC-7)
+  if (!(await checkAuthRateLimit('reset', email))) {
+    return { error: RATE_LIMIT_MESSAGE }
   }
 
   const supabase = createServerClient()
@@ -125,12 +163,14 @@ export async function resetPasswordAction(prevState: AuthState, formData: FormDa
     return { error: 'Password is required.' }
   }
 
-  if (password.length < 8) {
-    return { error: 'Password must be at least 8 characters.' }
-  }
-
   if (password !== confirmPassword) {
     return { error: 'Passwords do not match.' }
+  }
+
+  // Length (>=12) + breached-password check; no composition rules (ACC-6)
+  const pwCheck = await validatePassword(password)
+  if (!pwCheck.ok) {
+    return { error: pwCheck.error }
   }
 
   const supabase = createServerClient()

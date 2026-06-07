@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chariot — Support</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="public/chariot-mark-cream.png" type="image/png">
+<link rel="stylesheet" href="chariot.css">
+<link rel="stylesheet" href="support.page.css">
+</head>
+<body data-screen-label="Support">
+
+<!-- ============================ NAV ============================ -->
+<header class="nav is-scrolled" data-nav data-nav-solid>
+  <div class="nav__row">
+    <nav class="nav__links nav__links--left" aria-label="Primary">
+      <a class="nav__link" href="Drop%200%20Landing.html#selection">The Drop</a>
+      <a class="nav__link" href="Drop%200%20Landing.html#brands">The Brand</a>
+      <a class="nav__link" href="Drop%200%20Landing.html#process">How It Works</a>
+    </nav>
+    <button class="nav__burger" data-burger aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <a class="nav__wordmark" href="Drop%200%20Landing.html" aria-label="Chariot home">
+      <span class="wm" aria-hidden="true">
+        <img class="wm__full wm__full--light" src="public/chariot-wm-tight-white.png" alt="">
+        <img class="wm__full wm__full--dark" src="public/chariot-wm-tight-dark.png" alt="">
+        <img class="wm__mark" src="public/chariot-o-dark.png" alt="">
+      </span>
+    </a>
+    <nav class="nav__links nav__links--right" aria-label="Secondary">
+      <a class="nav__link" href="About.html">About</a>
+      <a class="nav__link" href="archive/index.html">The Archive</a>
+      <a class="nav__link" href="Support.html" aria-current="page">Support</a>
+      <a class="nav__link" href="login.html">Log in</a>
+    </nav>
+
+  </div>
+  <div class="nav__overlay" aria-hidden="true">
+    <a class="nav__overlaylink" href="Drop%200%20Landing.html#selection">The Drop</a>
+    <a class="nav__overlaylink" href="Drop%200%20Landing.html#brands">The Brand</a>
+    <a class="nav__overlaylink" href="Drop%200%20Landing.html#process">How It Works</a>
+    <a class="nav__overlaylink" href="About.html">About</a>
+    <a class="nav__overlaylink" href="archive/index.html">The Archive</a>
+    <a class="nav__overlaylink" href="Support.html">Support</a>
+    <a class="nav__overlaylink" href="login.html">Log in</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ==================== HEADER ==================== -->
+  <section class="section sup-hero section--harmattan">
+    <div class="wrap">
+      <span class="eyebrow reveal" style="margin-bottom:20px">Support</span>
+      <h1 class="h2 reveal" style="max-width:20ch">Order and customer support, in one place.</h1>
+      <p class="head__sub reveal">Start with the questions below. If you still need us, send a message. Email is the fastest way to reach the team behind Drop&nbsp;0.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT METHODS + FORM ============ -->
+  <section class="section section--dust" style="padding-top:0" aria-label="Contact us">
+    <div class="wrap sup-grid">
+
+      <!-- methods, email-first -->
+      <div class="reveal">
+        <div class="sup-colhead">Reach us</div>
+        <div class="methods">
+          <div class="method method--primary">
+            <div class="method__top">
+              <span class="method__k">Email · fastest</span>
+              <span class="method__tag">Fastest route</span>
+            </div>
+            <a class="method__v" href="mailto:caleb@chariotarchive.com">caleb@chariotarchive.com</a>
+            <p class="method__note">The quickest way to reach us. We reply to founding members first, usually within one business day.</p>
+          </div>
+          <div class="method">
+            <div class="method__top">
+              <span class="method__k">Call us</span>
+            </div>
+            <a class="method__v" href="tel:">[PHONE_PLACEHOLDER]</a>
+            <p class="method__note">Phone line opening soon. <span class="ph">[ Add number ]</span> For anything time-sensitive before then, email is faster.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- contact form -->
+      <div class="reveal">
+        <div class="sup-colhead sup-colhead--form">Send a message</div>
+
+        <div class="form-banner form-banner--ok" data-ok role="status">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.2l2.6 2.6L16 9.4"></path></svg>
+          <span>Thanks. Your message is on its way to Caleb. We will reply by email.</span>
+        </div>
+        <div class="form-banner form-banner--err" data-err role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2 1.8 20.5h20.4L12 3.2Z"></path><path d="M12 9.6v4.6"></path><path d="M12 17.3v.1" stroke-width="2"></path></svg>
+          <span data-err-text>Something went wrong sending your message. <a href="#" data-mailto>Send it by email instead.</a></span>
+        </div>
+
+        <form data-form novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <div class="field__labelrow"><label class="label" for="f-name">Name</label></div>
+              <input class="input" id="f-name" name="name" type="text" autocomplete="name" required>
+              <p class="field__msg" data-msg-for="f-name"></p>
+            </div>
+            <div class="field">
+              <div class="field__labelrow"><label class="label" for="f-email">Email</label></div>
+              <input class="input" id="f-email" name="email" type="email" inputmode="email" autocomplete="email" required>
+              <p class="field__msg" data-msg-for="f-email"></p>
+            </div>
+            <div class="field">
+              <div class="field__labelrow"><label class="label" for="f-order">Order number <span class="opt">(optional)</span></label></div>
+              <input class="input" id="f-order" name="order" type="text" placeholder="CHR-00000">
+              <p class="field__msg" data-msg-for="f-order"></p>
+            </div>
+            <div class="field">
+              <div class="field__labelrow"><label class="label" for="f-issue">Issue type</label></div>
+              <div class="select-wrap">
+                <select class="select" id="f-issue" name="issue" required>
+                  <option value="" selected disabled>Choose one</option>
+                  <option>Order status</option>
+                  <option>Shipping</option>
+                  <option>Returns &amp; exchanges</option>
+                  <option>Sizing</option>
+                  <option>Payment</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <p class="field__msg" data-msg-for="f-issue"></p>
+            </div>
+            <div class="field field--full">
+              <div class="field__labelrow"><label class="label" for="f-message">Message</label></div>
+              <textarea class="textarea" id="f-message" name="message" required placeholder="Tell us what you need help with."></textarea>
+              <p class="field__msg" data-msg-for="f-message"></p>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit" data-submit>Send message <span class="arr" aria-hidden="true">→</span></button>
+            <p class="form-fallback">Prefer your own mail app? <a href="#" data-mailto>Write to caleb@chariotarchive.com</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="section section--harmattan" id="faq" aria-label="Frequently asked questions">
+    <div class="wrap wrap--narrow">
+      <div class="head reveal">
+        <span class="eyebrow">Before you write</span>
+        <h2 class="h2">Frequently asked.</h2>
+        <p class="head__sub">Cross-border, Accra to the US. Values shown as <span class="ph">[X]</span> are placeholders for real policy.</p>
+      </div>
+
+      <div class="faq reveal">
+        <!-- Orders & Shipping -->
+        <div class="faq-group">
+          <h3 class="faq-group__h">Orders &amp; Shipping</h3>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a1"><span>How long does shipping take?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a1" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> Drop&nbsp;1 pieces ship from our Austin warehouse about <span class="ph">[X]</span> business days after the window closes, then arrive in <span class="ph">[X]</span> business days by UPS or USPS. You will get an email the day your piece leaves Austin.</p></div></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a2"><span>How do I track my order?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a2" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> A tracking link is emailed to you when the piece ships. You can also view live status from your account under Orders. If tracking has not updated in <span class="ph">[X]</span> days, email us.</p></div></div>
+          </div>
+        </div>
+
+        <!-- Customs & Duties -->
+        <div class="faq-group">
+          <h3 class="faq-group__h">Customs &amp; Duties</h3>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a3"><span>Who pays import duties?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a3" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> Chariot is the importer of record, so we pay all duties. Ghanaian cotton apparel enters the US at <span class="ph">[X]</span> duty under the AGOA treaty. You are charged nothing extra for import.</p></div></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a4"><span>What should I expect at delivery?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a4" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> A normal domestic parcel from Austin, TX. No customs form, no broker fee, no surprise invoice at your door. The price you saw at checkout is the full price you pay.</p></div></div>
+          </div>
+        </div>
+
+        <!-- Returns & Exchanges -->
+        <div class="faq-group">
+          <h3 class="faq-group__h">Returns &amp; Exchanges</h3>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a5"><span>What is the return window?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a5" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> Returns are accepted within <span class="ph">[X]</span> days of delivery to a US address. Returns are free and domestic. Exchanges depend on remaining stock.</p></div></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a6"><span>How do I start a return?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a6" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> Email <a href="mailto:caleb@chariotarchive.com">caleb@chariotarchive.com</a> with your order number and we send a prepaid return label within <span class="ph">[X]</span> business days.</p></div></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a7"><span>What condition do items need to be in?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a7" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> Unworn, unwashed, with original tags attached. Items that do not meet these conditions may not be accepted.</p></div></div>
+          </div>
+        </div>
+
+        <!-- Sizing -->
+        <div class="faq-group">
+          <h3 class="faq-group__h">Sizing</h3>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a8"><span>How does the sizing run?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a8" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> 1NRI pieces run <span class="ph">[X]</span> and are cut for an oversized fit. If you are between sizes, <span class="ph">[PLACEHOLDER guidance]</span>.</p></div></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a9"><span>Where do I find the size guide?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a9" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> A measurement guide sits on every product page. For exact garment measurements before a drop, email us and we will send them.</p></div></div>
+          </div>
+        </div>
+
+        <!-- Payments -->
+        <div class="faq-group">
+          <h3 class="faq-group__h">Payments</h3>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a10"><span>What payment methods do you accept?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a10" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> All major debit and credit cards through Stripe, plus <span class="ph">[X]</span>. The $20 founding deposit and any balance are both handled by Stripe.</p></div></div>
+          </div>
+          <div class="acc">
+            <button class="acc__q" aria-expanded="false" aria-controls="a11"><span>What currency are prices in?</span><span class="acc__icon" aria-hidden="true"></span></button>
+            <div class="acc__a" id="a11" role="region"><div class="acc__a-inner"><p><span class="ph">[PLACEHOLDER]</span> All prices are in US dollars, with duties and domestic shipping already included. The price you see is the price you pay.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ========================== FOOTER ========================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brandcol">
+        <img class="footer__mark" src="public/chariot-wm-tight-white.png" alt="Chariot" width="130">
+        <p class="footer__mission">Accra. Austin. What the rest of the world is already wearing.</p>
+        <p class="footer__note">Community-validated import drops. Imported into the US, shipped from Austin, duties paid.</p>
+      </div>
+      <div class="footer__col">
+        <div class="footer__h">Drop 0</div>
+        <a href="Drop%200%20Landing.html#claim">The Founding Fifty</a>
+        <a href="Drop%200%20Landing.html#offer">What you get</a>
+        <a href="Drop%200%20Landing.html#selection">The lookbook</a>
+        <a href="Drop%200%20Landing.html#process">How it works</a>
+      </div>
+      <div class="footer__col">
+        <div class="footer__h">Chariot</div>
+        <a href="archive/index.html">The Archive</a>
+        <a href="Support.html" aria-current="page">Support</a>
+        <a href="account.html">Account</a>
+        <a href="#">Terms</a>
+      </div>
+      <div class="footer__col">
+        <div class="footer__h">Connect</div>
+        <div class="footer__social">
+          <a href="https://instagram.com/chariotarchive" target="_blank" rel="noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://tiktok.com/@chariotarchive" target="_blank" rel="noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14.6 3h-2.7v12.4a2.6 2.6 0 1 1-2.1-2.55V10.1a5.3 5.3 0 1 0 4.8 5.27V8.9a6.3 6.3 0 0 0 3.8 1.27V7.45A3.6 3.6 0 0 1 14.6 3Z"/></svg></a>
+          <a href="https://x.com/chariotarchive" target="_blank" rel="noreferrer" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M17.5 3h3.1l-6.77 7.74L21.8 21h-6.2l-4.86-6.36L5.18 21H2.07l7.24-8.28L2 3h6.36l4.4 5.82L17.5 3Zm-1.09 16.13h1.72L7.66 4.78H5.82l10.59 14.35Z"/></svg></a>
+          <a href="https://youtube.com/@chariotarchive" target="_blank" rel="noreferrer" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5"/><path d="M10 9.2v5.6l5-2.8-5-2.8Z" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+        <a href="https://chariotarchive.com" target="_blank" rel="noreferrer">@chariotarchive</a>
+        <a href="Support.html" aria-current="page">Customer support</a>
+      </div>
+    </div>
+    <div class="footer__legal">
+      <span>© <span data-year>2026</span> Chariot Archive Inc.</span>
+      <span>Austin, TX · Importer of record</span>
+      <span>Accra → Austin · 14-day window</span>
+    </div>
+  </div>
+</footer>
+
+<script src="chariot.js"></script>
+<script>
+/* ============================================================
+   SUPPORT FORM
+   Routes submissions to Caleb. Wire FORM_ENDPOINT to a real
+   service (Formspree or Web3Forms) for emails to actually send.
+   ============================================================ */
+(function () {
+  // IMPORTANT: replace FORM_ENDPOINT with a real Formspree / Web3Forms URL.
+  // Until it is configured, the form falls back to a mailto: draft so no
+  // message is ever lost. Emails will NOT send on their own until this is set.
+  var FORM_ENDPOINT = "https://formspree.io/f/your-form-id"; // <-- CONFIGURE THIS
+  var CONTACT_EMAIL = "caleb@chariotarchive.com";
+  var ENDPOINT_CONFIGURED = FORM_ENDPOINT.indexOf("your-form-id") === -1;
+
+  var form = document.querySelector("[data-form]");
+  if (!form) return;
+  var okBanner  = document.querySelector("[data-ok]");
+  var errBanner = document.querySelector("[data-err]");
+  var errText   = document.querySelector("[data-err-text]");
+  var submitBtn = form.querySelector("[data-submit]");
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  var REQUIRED = {
+    "f-name":    "Enter your name.",
+    "f-email":   "Enter a valid email address.",
+    "f-issue":   "Choose an issue type.",
+    "f-message": "Tell us how we can help."
+  };
+
+  function setMsg(id, text) {
+    var el = form.querySelector('[data-msg-for="' + id + '"]');
+    var input = document.getElementById(id);
+    if (el) el.textContent = text || "";
+    if (input) input.setAttribute("aria-invalid", text ? "true" : "false");
+  }
+
+  function validate() {
+    var firstBad = null;
+    Object.keys(REQUIRED).forEach(function (id) {
+      var input = document.getElementById(id);
+      var val = (input.value || "").trim();
+      var bad = !val || (id === "f-email" && !emailRe.test(val));
+      setMsg(id, bad ? REQUIRED[id] : "");
+      if (bad && !firstBad) firstBad = input;
+    });
+    return firstBad;
+  }
+
+  function buildMailto() {
+    var name = document.getElementById("f-name").value.trim();
+    var email = document.getElementById("f-email").value.trim();
+    var order = document.getElementById("f-order").value.trim();
+    var issue = document.getElementById("f-issue").value;
+    var message = document.getElementById("f-message").value.trim();
+    var subject = "Chariot support: " + (issue || "General") + (order ? " (" + order + ")" : "");
+    var body =
+      "Name: " + name + "\n" +
+      "Email: " + email + "\n" +
+      "Order number: " + (order || "n/a") + "\n" +
+      "Issue type: " + (issue || "n/a") + "\n\n" +
+      message;
+    return "mailto:" + CONTACT_EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  }
+
+  // Keep the mailto fallback links live with current field values.
+  function refreshMailto() {
+    document.querySelectorAll("[data-mailto]").forEach(function (a) { a.setAttribute("href", buildMailto()); });
+  }
+  form.addEventListener("input", refreshMailto);
+  refreshMailto();
+
+  function showBanner(which) {
+    okBanner.classList.toggle("is-on", which === "ok");
+    errBanner.classList.toggle("is-on", which === "err");
+    if (which) (which === "ok" ? okBanner : errBanner).scrollIntoView ? null : null;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    okBanner.classList.remove("is-on");
+    errBanner.classList.remove("is-on");
+
+    var firstBad = validate();
+    if (firstBad) { firstBad.focus(); return; }
+
+    refreshMailto();
+
+    // If the endpoint is not configured, route to the mailto draft so the
+    // message is never lost, and tell the user clearly.
+    if (!ENDPOINT_CONFIGURED) {
+      errText.innerHTML = 'The contact endpoint is not configured yet. <a href="' + buildMailto() + '" data-mailto>Send your message by email instead.</a>';
+      errBanner.classList.add("is-on");
+      return;
+    }
+
+    var data = new FormData(form);
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
+    fetch(FORM_ENDPOINT, { method: "POST", body: data, headers: { Accept: "application/json" } })
+      .then(function (r) {
+        if (!r.ok) throw new Error("bad status");
+        form.reset();
+        okBanner.classList.add("is-on");
+      })
+      .catch(function () {
+        errText.innerHTML = 'Something went wrong sending your message. <a href="' + buildMailto() + '" data-mailto>Send it by email instead.</a>';
+        errBanner.classList.add("is-on");
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send message <span class="arr" aria-hidden="true">→</span>';
+      });
+  });
+})();
+
+/* ---- FAQ accordion (accessible) ---- */
+(function () {
+  document.querySelectorAll(".acc__q").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var acc = btn.closest(".acc");
+      var open = acc.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+})();
+</script>
+</body>
+</html>
