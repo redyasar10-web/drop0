@@ -18,9 +18,9 @@ function generateReferralCode(): string {
 }
 
 export async function signupAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-  const confirmPassword = formData.get('confirm_password') as string
+  const email = String(formData.get('email') ?? '')
+  const password = String(formData.get('password') ?? '')
+  const confirmPassword = String(formData.get('confirm_password') ?? '')
   const tcAgreed = formData.get('tc_agreed') === 'on'
   const referredByCode = ((formData.get('referred_by') as string) || '').trim().toUpperCase() || null
 
@@ -114,8 +114,8 @@ export async function signupAction(prevState: AuthState, formData: FormData): Pr
 }
 
 export async function loginAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
+  const email = String(formData.get('email') ?? '')
+  const password = String(formData.get('password') ?? '')
 
   if (!email || !password) {
     return { error: 'Email and password are required.' }
@@ -146,7 +146,7 @@ export async function loginAction(prevState: AuthState, formData: FormData): Pro
 }
 
 export async function forgotPasswordAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
-  const email = formData.get('email') as string
+  const email = String(formData.get('email') ?? '')
 
   if (!email) {
     return { error: 'Email is required.' }
@@ -173,8 +173,8 @@ export async function forgotPasswordAction(prevState: AuthState, formData: FormD
 }
 
 export async function resetPasswordAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
-  const password = formData.get('password') as string
-  const confirmPassword = formData.get('confirm_password') as string
+  const password = String(formData.get('password') ?? '')
+  const confirmPassword = String(formData.get('confirm_password') ?? '')
 
   if (!password) {
     return { error: 'Password is required.' }
@@ -221,12 +221,18 @@ export async function resetPasswordAction(prevState: AuthState, formData: FormDa
 
 export async function signoutAction() {
   const supabase = createServerClient()
-  await supabase.auth.signOut()
+  // Explicit `scope: 'global'` documents intent: revoke the refresh token
+  // server-side, not just locally. If the network call fails, the refresh
+  // token remains valid until expiry — log so ops can chase it. We still
+  // redirect to /login because the cookies are cleared regardless via the
+  // SSR client's remove() handler.
+  const { error } = await supabase.auth.signOut({ scope: 'global' })
+  if (error) console.error('[signout] token revocation failed:', error.message)
   redirect('/login')
 }
 
 export async function resendVerificationAction(prevState: AuthState, formData: FormData): Promise<AuthState> {
-  const email = formData.get('email') as string
+  const email = String(formData.get('email') ?? '')
 
   if (!email) {
     return { error: 'Email is required.' }

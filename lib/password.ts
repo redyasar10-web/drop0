@@ -55,6 +55,12 @@ export async function isBreachedPassword(password: string): Promise<boolean> {
     })
     if (!res.ok) return false
 
+    // HIBP's "Add-Padding" response is usually ~30 KB; legitimate replies
+    // never exceed ~250 KB. If a compromised intermediary serves a much
+    // larger body, refuse to read it into memory.
+    const contentLength = parseInt(res.headers.get('content-length') ?? '0', 10)
+    if (contentLength > 256 * 1024) return false
+
     const body = await res.text()
     for (const line of body.split('\n')) {
       const [hashSuffix, countStr] = line.trim().split(':')

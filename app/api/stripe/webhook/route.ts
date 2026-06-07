@@ -4,6 +4,9 @@ import { stripe } from '@/lib/stripe'
 import { fulfillOrder } from '@/lib/order-fulfillment'
 import { logAudit } from '@/lib/audit'
 
+// Stripe signature verification uses Node `crypto` — pin explicitly so a
+// future Next default flip to Edge doesn't silently break webhooks.
+export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: Request) {
@@ -14,15 +17,31 @@ export async function POST(request: Request) {
     return new NextResponse('Missing stripe-signature header', { status: 400 })
   }
 
-  let event: Stripe.Event
-  try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    )
-  } catch (err) {
-    console.error('[webhook] signature verification failed:', err)
+  // Secret rotation: Stripe permits up to 24h of overlap during rollover. The
+  // SDK only accepts one secret per call, so iterate the active secrets. The
+  // SDK's v1-only verification + 300s tolerance applies on every attempt.
+  const activeSecrets = [
+    process.env.STRIPE_WEBHOOK_SECRET,
+    process.env.STRIPE_WEBHOOK_SECRET_PREV,
+  ].filter((s): s is string => Boolean(s))
+
+  if (activeSecrets.length === 0) {
+    console.error('[webhook] no webhook secret configured')
+    return new NextResponse('Server misconfigured', { status: 500 })
+  }
+
+  let event: Stripe.Event | null = null
+  let lastErr: unknown = null
+  for (const secret of activeSecrets) {
+    try {
+      event = stripe.webhooks.constructEvent(body, sig, secret)
+      break
+    } catch (err) {
+      lastErr = err
+    }
+  }
+  if (!event) {
+    console.error('[webhook] signature verification failed:', lastErr)
     return new NextResponse('Invalid signature', { status: 400 })
   }
 

@@ -59,7 +59,14 @@ export default async function AccountPage() {
   // We log them server-side and let the UI fall back to sensible empty states,
   // but at least the failure is observable in logs instead of invisible.
   const [profileRes, referralRes, balanceRes, eventsRes, ordersRes] = await Promise.all([
-    supabase.from('users').select('*').eq('id', user.id).single<UserProfile>(),
+    // Explicit column list (BOPLA): a future migration adding internal columns
+    // (risk_score, stripe_customer_id, notes) should never silently ship to the
+    // browser via the server component's serialized props.
+    supabase
+      .from('users')
+      .select('id, email, member_number, referral_code, created_at, founder_status')
+      .eq('id', user.id)
+      .single<UserProfile>(),
     supabase
       .from('referrals')
       .select('*', { count: 'exact', head: true })
@@ -212,7 +219,10 @@ export default async function AccountPage() {
             </div>
             <div className="mcard__no">
               <span className="mcard__no-k">Member No.</span>
-              <span className={`mcard__no-v${memberNo ? '' : ' mcard__no-v--pending'}`}>
+              <span
+                className={`mcard__no-v${memberNo ? '' : ' mcard__no-v--pending'}`}
+                aria-label={memberNo ? `Member number ${profile!.member_number}` : 'Member number pending'}
+              >
                 {memberNo ?? '— — —'}
               </span>
               {!memberNo && (

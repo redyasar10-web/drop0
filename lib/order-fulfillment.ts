@@ -60,6 +60,13 @@ export async function fulfillOrder(input: FulfillOrderInput): Promise<FulfillOrd
   }
 
   const result = data as FulfillRpcResult
+  // Defensive runtime check: a future migration could rename a return
+  // column and the `as FulfillRpcResult` cast wouldn't catch it. Without
+  // this, an invalid result silently emails the customer "Member NaN" and
+  // assigns NaN as their member number. Throw instead — Stripe retries.
+  if (typeof result?.member_number !== 'number' || typeof result?.credit_balance !== 'number') {
+    throw new Error('fulfill_order returned an unexpected shape: ' + JSON.stringify(result))
+  }
 
   // Audit the fulfillment that actually completed the order (NF-6). No sensitive data.
   if (!result.already_processed) {

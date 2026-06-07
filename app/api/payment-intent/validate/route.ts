@@ -24,8 +24,13 @@ export async function POST(request: Request) {
     )
   }
 
-  const { promoCode } = await request.json()
-  const cleanPromo = ((promoCode as string | null) ?? '').trim().toLowerCase()
+  let bodyRaw: unknown
+  try { bodyRaw = await request.json() } catch { bodyRaw = {} }
+  const promoCode =
+    typeof (bodyRaw as { promoCode?: unknown })?.promoCode === 'string'
+      ? (bodyRaw as { promoCode: string }).promoCode
+      : ''
+  const cleanPromo = promoCode.trim().toLowerCase().slice(0, 64)
 
   if (!cleanPromo) {
     return NextResponse.json({ valid: false, error: 'Enter a promo code.' })

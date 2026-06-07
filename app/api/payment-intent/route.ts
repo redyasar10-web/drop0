@@ -27,8 +27,16 @@ export async function POST(request: Request) {
     )
   }
 
-  const { promoCode } = await request.json()
-  const cleanPromo = ((promoCode as string | null) ?? '').trim().toLowerCase()
+  let bodyRaw: unknown
+  try { bodyRaw = await request.json() } catch { bodyRaw = {} }
+  // `request.json()` is `any`; coerce defensively so a non-string promoCode
+  // (a number, an array from `?promoCode=1&promoCode=2`) doesn't reach
+  // .trim() and crash the route.
+  const promoCode =
+    typeof (bodyRaw as { promoCode?: unknown })?.promoCode === 'string'
+      ? (bodyRaw as { promoCode: string }).promoCode
+      : ''
+  const cleanPromo = promoCode.trim().toLowerCase().slice(0, 64)
 
   const admin = createAdminClient()
 
@@ -130,19 +138,30 @@ export async function POST(request: Request) {
   const amount = CONFIG.DROP0_PRICE_CENTS - appliedCreditCents
 
   // Create PaymentIntent, then record the order row at PI-creation (LED-1).
+  //
+  // Idempotency key prevents a double-click from creating two distinct PIs.
+  // Stripe deduplicates by this header for 24h. The key encodes the inputs
+  // that genuinely change the charge (user, applied credit, promo code) so
+  // legitimate state changes still mint a fresh PI rather than reuse a stale
+  // one charged at the old amount.
+  const idempotencyKey = `pi-${user.id}-${appliedCreditCents}-${cleanPromo || 'none'}`
+
   let paymentIntent
   try {
-    paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: 'usd',
-      automatic_payment_methods: { enabled: true },
-      receipt_email: user.email ?? undefined,
-      metadata: {
-        user_id: user.id,
-        promo_code: cleanPromo,
-        applied_credit_cents: String(appliedCreditCents),
+    paymentIntent = await stripe.paymentIntents.create(
+      {
+        amount,
+        currency: 'usd',
+        automatic_payment_methods: { enabled: true },
+        receipt_email: user.email ?? undefined,
+        metadata: {
+          user_id: user.id,
+          promo_code: cleanPromo,
+          applied_credit_cents: String(appliedCreditCents),
+        },
       },
-    })
+      { idempotencyKey }
+    )
   } catch (err) {
     console.error('[payment-intent] create failed:', err)
     return NextResponse.json({ error: 'Could not start payment.' }, { status: 500 })

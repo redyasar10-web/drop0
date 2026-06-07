@@ -30,8 +30,17 @@ const VALID_ISSUES = new Set([
 ])
 
 const TO_EMAIL = process.env.SUPPORT_TO_EMAIL ?? 'caleb@chariotarchive.com'
+// Separate from RESEND_FROM_EMAIL (used by order confirmations) so the
+// transactional and support reputations don't pollute each other in Resend.
 const FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL ?? 'Chariot Support <support@chariotarchive.com>'
+  process.env.RESEND_SUPPORT_FROM_EMAIL ??
+  process.env.RESEND_FROM_EMAIL ??
+  'Chariot Support <support@chariotarchive.com>'
+
+// Maximum body bytes accepted before we parse JSON — defends Resend quota
+// against a malicious caller posting a 900 KB JSON blob that we'd still have
+// to parse and validate. Holds even before the per-field length clamps.
+const MAX_BODY_BYTES = 16 * 1024
 
 function escape(s: string): string {
   return s
@@ -43,6 +52,12 @@ function escape(s: string): string {
 }
 
 export async function POST(request: Request) {
+  // Reject obviously-oversized bodies before parsing JSON.
+  const cl = parseInt(request.headers.get('content-length') ?? '0', 10) || 0
+  if (cl > MAX_BODY_BYTES) {
+    return NextResponse.json({ ok: false, error: 'Message too large.' }, { status: 413 })
+  }
+
   let body: Record<string, unknown>
   try {
     body = await request.json()
