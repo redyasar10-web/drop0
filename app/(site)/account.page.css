@@ -158,29 +158,74 @@
 .acct-actions__signout:hover { color: var(--fg-1); }
 
 @media (max-width: 720px) {
+  /* Mobile "breath" pass — the dashboard was reading as cramped, not upscale.
+     The fix is generous breathing room, larger typographic moments, and
+     side-padding that doesn't hug the screen edges. Editorial brands on
+     phones use 28-32px gutters, oversized display heads, and stacked
+     vertical rhythm — not desktop-density shrunk. */
+
+  /* Section frame: more top-room after the nav, big bottom-room before footer */
+  .acct { padding: clamp(132px, 18vh, 184px) 22px clamp(88px, 12vw, 128px); }
+  /* Head: larger floor on the heading (was 30px → 36px), more breath in the sub */
+  .acct-head { margin-bottom: clamp(36px, 6vw, 56px); }
+  .acct-head__title { font-size: clamp(36px, 9.5vw, 44px); line-height: 1.04; letter-spacing: -0.012em; }
+  .acct-head__sub { font-size: 17px; line-height: 1.55; margin-top: var(--space-4); }
+
+  /* Membership card stacks vertically with 28px gutters (was 20px),
+     bigger internal gaps, and the member number gets stronger presence. */
   .acct-panels { grid-template-columns: 1fr; }
-  .mcard { grid-template-columns: 1fr; align-items: start; padding: 24px 20px; }
+  .mcard {
+    grid-template-columns: 1fr; align-items: start;
+    padding: 30px 26px 32px;
+    gap: var(--space-6);
+  }
+  .mcard::before        { top: 14px; left: 14px;    width: 20px; height: 20px; }
+  .mcard::after         { top: 14px; right: 14px;   width: 20px; height: 20px; }
+  .mcard__corners::before { bottom: 14px; left: 14px; width: 20px; height: 20px; }
+  .mcard__corners::after  { bottom: 14px; right: 14px; width: 20px; height: 20px; }
+  .mcard__name { font-size: 30px; }
+  .mcard__meta { gap: 8px 16px; margin-top: var(--space-5); }
   .mcard__no { text-align: left; }
-  .mcard__no-note { margin-left: 0; max-width: none; }
-  .acct-row { grid-template-columns: 72px 1fr auto; gap: var(--space-3); }
-  /* Sign-out gets full width + a 48px tap target — was sitting flush with
-     the screen edge at small sizes and felt cramped. */
-  .acct-actions { flex-direction: column; align-items: stretch; gap: var(--space-3); }
-  .acct-actions .btn { width: 100%; text-align: center; }
+  .mcard__no-k { margin-bottom: 10px; }
+  .mcard__no-note { margin-left: 0; max-width: none; margin-top: 14px; }
+  /* Member number stays legible on small screens; oversized floor for presence */
+  .mcard__no-v { font-size: clamp(48px, 13vw, 64px); }
+
+  /* Panels: 26px gutters + bigger internal padding for breath */
+  .panel { padding: 28px 24px 30px; }
+  .panel__k { margin-bottom: var(--space-5); }
+  .panel__credit { font-size: clamp(52px, 14vw, 72px); }
+  .panel__note { margin-top: var(--space-5); }
+
+  /* Activity rows breathe vertically, mono dates get a touch more room */
+  .acct-activity { margin-top: clamp(48px, 7vw, 72px); }
+  .acct-activity__k { padding-bottom: var(--space-4); margin-bottom: 4px; }
+  .acct-row { grid-template-columns: 72px 1fr auto; gap: var(--space-3); padding: var(--space-5) 0; }
+  .acct-row__when { font-size: 12px; letter-spacing: 0.04em; }
+  .acct-row__what { font-size: 15px; line-height: 1.5; }
+
+  /* Empty state breathes — was 28px top → 36px, vertical stack centered */
+  .acct-empty { padding: clamp(36px, 7vw, 52px) var(--space-3); gap: 22px; }
+  .acct-empty__title { font-size: clamp(22px, 5vw, 26px); }
+  .acct-empty__desc { font-size: 15px; line-height: 1.62; }
+
+  /* Actions: full-width buttons, more breath above */
+  .acct-actions {
+    flex-direction: column; align-items: stretch; gap: var(--space-4);
+    margin-top: clamp(44px, 6vw, 64px);
+  }
+  .acct-actions .btn { width: 100%; text-align: center; min-height: 56px; }
   .acct-actions__signout {
     margin-left: 0;
-    min-height: 48px;
+    min-height: 52px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 16px;
+    padding: 14px 16px;
     border: 1px solid rgba(250, 250, 248, 0.18);
     border-radius: var(--radius-1);
+    font-size: 12px;
   }
-  /* Membership number stays legible on small screens — keep tabular nums
-     centred and downsize the credit / referrals panel headers. */
-  .mcard__no-v { font-size: clamp(40px, 11vw, 60px); }
-  .panel { padding: 22px 18px; }
 }
 /* Mobile reduces the activity row from 96px-1fr-auto to a tighter 60px-1fr-auto */
 @media (max-width: 420px) {
