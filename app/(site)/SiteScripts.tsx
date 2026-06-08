@@ -133,16 +133,19 @@ export default function SiteScripts() {
     }
 
     // ---- Copy-to-clipboard (referral link) ----
+    // Only swap the .refl__copy-label text so the SVG icons (handled by CSS
+    // via the .is-done class) stay in the DOM and can cross-fade.
     document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
       const link = document.querySelector<HTMLElement>('[data-ref-link]')
+      const label = btn.querySelector<HTMLElement>('.refl__copy-label') ?? btn
       const onCopy = () => {
         const text = (link?.textContent ?? '').trim()
+        const original = label.textContent
         const done = () => {
-          const original = btn.textContent
-          btn.textContent = 'Copied'
+          label.textContent = 'Copied'
           btn.classList.add('is-done')
           setTimeout(() => {
-            btn.textContent = original
+            label.textContent = original
             btn.classList.remove('is-done')
           }, 1800)
         }

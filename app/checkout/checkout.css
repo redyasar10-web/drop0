@@ -826,6 +826,10 @@
 
 /* ===================== MOBILE SUMMARY BAR ===================== */
 .msum { display: none; }
+/* The backdrop is in the markup at all viewports (server-rendered).
+   Hide it everywhere except inside the mobile breakpoint, where it gets
+   restyled as a fixed-position dim overlay. */
+.msum__backdrop { display: none; }
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 980px) {
@@ -882,13 +886,59 @@
     color: var(--co-cream);
     font-variant-numeric: tabular-nums;
   }
+  /* Magic MCP "Drawer / bottom sheet" pattern, ported to vanilla CSS.
+     The panel is fixed-position so it floats over the form instead of
+     pushing it down. A 100% backdrop dims the form when open. Slide-up
+     animation + safe-area-inset-bottom for the iOS home indicator. */
   .msum__panel {
-    display: none;
+    position: fixed; inset: auto 0 0 0;
+    z-index: 60;
     max-width: var(--co-site-max);
     margin: 0 auto;
-    padding: 0 var(--co-pad-x) 8px;
+    padding: 0 var(--co-pad-x) calc(20px + env(safe-area-inset-bottom));
+    background: var(--co-ink);
+    color: var(--co-cream);
+    border-top: 1px solid var(--co-rule-cream);
+    box-shadow: 0 -20px 60px -10px rgba(0, 0, 0, 0.35);
+    transform: translateY(100%);
+    visibility: hidden;
+    transition:
+      transform 320ms cubic-bezier(0.2, 0.6, 0.2, 1),
+      visibility 0s linear 320ms;
   }
-  .msum.is-open .msum__panel { display: block; }
+  .msum.is-open .msum__panel {
+    transform: translateY(0);
+    visibility: visible;
+    transition:
+      transform 320ms cubic-bezier(0.2, 0.6, 0.2, 1),
+      visibility 0s linear 0ms;
+  }
+  /* Drag-handle bar at the top — visual affordance that this is a sheet. */
+  .msum__panel::before {
+    content: ""; position: absolute; left: 50%; top: 8px;
+    width: 36px; height: 3px; border-radius: 2px;
+    background: var(--co-cream-25, rgba(244, 240, 232, 0.25));
+    transform: translateX(-50%);
+  }
+  /* Backdrop dim — real button so it can receive tap to close. */
+  .msum__backdrop {
+    display: block;
+    position: fixed; inset: 0;
+    border: 0; padding: 0; cursor: pointer;
+    background: rgba(17, 17, 17, 0.5);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 0; visibility: hidden; z-index: 59;
+    transition: opacity 240ms ease, visibility 0s linear 240ms;
+  }
+  .msum.is-open .msum__backdrop {
+    opacity: 1; visibility: visible;
+    transition: opacity 240ms ease, visibility 0s linear 0ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .msum__panel { transition: none; }
+    .msum__backdrop { transition: none; }
+  }
   .msum .co-summary {
     display: block;
     position: static;

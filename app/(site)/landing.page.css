@@ -192,10 +192,34 @@
 .brandfeat__loc { font-family: var(--font-mono); font-size: var(--fs-12); letter-spacing: var(--ls-wider); text-transform: uppercase; color: var(--signal-gold); }
 .brandfeat__name { font-family: var(--font-display); font-weight: var(--fw-medium); font-size: clamp(44px, 5vw, 72px); letter-spacing: var(--ls-tight); line-height: 1; margin: var(--space-4) 0 var(--space-5); color: var(--color-salt); }
 .brandfeat__p { font-family: var(--font-body); font-size: var(--fs-18); line-height: 1.62; color: var(--on-ink-2); max-width: 46ch; }
-.brandfeat .quote { margin: var(--space-6) 0 0; padding-left: var(--space-5); border-left: 2px solid var(--signal-gold);
-  font-family: var(--font-body); font-style: italic; font-size: var(--fs-24); line-height: 1.4; color: var(--color-salt); }
-.brandfeat .quote cite { display: block; margin-top: var(--space-4); font-family: var(--font-mono); font-style: normal;
-  font-size: var(--fs-12); letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--on-ink-3); }
+/* Magic MCP "editorial pull-quote with oversized quote marks" pattern,
+   ported to vanilla CSS. The opening quote mark sits above and to the left
+   of the body text in display serif, giving the moment a magazine-pull
+   weight without a heavy quote-glyph image. */
+.brandfeat .quote {
+  position: relative;
+  margin: var(--space-6) 0 0;
+  padding-left: var(--space-5);
+  border-left: 2px solid var(--signal-gold);
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(20px, 2.4vw, 28px); line-height: 1.32;
+  color: var(--color-salt);
+}
+.brandfeat .quote::before {
+  content: "\201C";  /* fancy left double-quotation mark, not the typewriter " */
+  position: absolute;
+  left: var(--space-5); top: -0.45em;
+  font-family: var(--font-display); font-style: normal;
+  font-size: clamp(58px, 6vw, 86px); line-height: 1; font-weight: var(--fw-medium);
+  color: var(--signal-gold); opacity: 0.32;
+  pointer-events: none;
+}
+.brandfeat .quote cite {
+  display: block; margin-top: var(--space-4);
+  font-family: var(--font-mono); font-style: normal;
+  font-size: var(--fs-12); letter-spacing: var(--ls-wide); text-transform: uppercase;
+  color: var(--on-ink-3);
+}
 .brandfeat__cta { margin-top: var(--space-6); }
 
 /* ============================================================ LOOKBOOK — View All carousel */

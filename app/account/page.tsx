@@ -249,7 +249,18 @@ export default async function AccountPage() {
               {refLink ? (
                 <div className="refl__row">
                   <span className="refl__link" data-ref-link>{refLink}</span>
-                  <button className="refl__copy" data-copy aria-label="Copy referral link">Copy link</button>
+                  <button className="refl__copy" data-copy aria-label="Copy referral link">
+                    <span className="refl__copy-icons" aria-hidden="true">
+                      <svg className="refl__copy-icon refl__copy-icon--copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                      </svg>
+                      <svg className="refl__copy-icon refl__copy-icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </span>
+                    <span className="refl__copy-label">Copy</span>
+                  </button>
                 </div>
               ) : (
                 <p className="refl__meta">

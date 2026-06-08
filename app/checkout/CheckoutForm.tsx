@@ -690,12 +690,20 @@ export default function CheckoutForm({ creditBalance, userEmail, nextMemberNo }:
             </span>
             <span className="msum__r">{money(effectiveTotal)}</span>
           </button>
-          {/* Mobile summary — shown inside collapsible bar */}
+          {/* Mobile summary — bottom-sheet drawer, slides up over the form */}
           <div className="msum__panel" id="msum-panel">
             <aside className="co-summary" aria-label="Order summary (mobile)">
               <SummaryPanel {...summaryProps} />
             </aside>
           </div>
+          {/* Backdrop — tap to dismiss. Visible only when msum is open via CSS. */}
+          <button
+            type="button"
+            className="msum__backdrop"
+            aria-label="Close order summary"
+            tabIndex={msumOpen ? 0 : -1}
+            onClick={() => setMsumOpen(false)}
+          />
         </div>
 
         {/* ===== TWO-COLUMN GRID ===== */}

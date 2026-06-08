@@ -63,11 +63,44 @@
 .refl__link { flex: 1; min-width: 0; font-family: var(--font-mono); font-size: var(--fs-14); color: var(--fg-1);
   background: var(--color-salt); border: 1px solid var(--border); border-radius: var(--radius-1); padding: 13px 15px;
   display: flex; align-items: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.refl__copy { font-family: var(--font-display); font-size: var(--fs-12); font-weight: var(--fw-medium); letter-spacing: var(--ls-wider);
-  text-transform: uppercase; padding: 0 20px; border: 1px solid var(--color-ink); background: var(--color-ink); color: var(--color-salt);
-  transition: background var(--dur-move) var(--ease-calm); white-space: nowrap; }
+/* Magic MCP "copy button with icon cross-fade" pattern, ported to vanilla CSS.
+   Two SVG icons (copy + check) stack absolutely; the .is-done state swaps
+   which one is visible via opacity + scale. Label text swaps via JS. */
+.refl__copy {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-size: var(--fs-12); font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wider); text-transform: uppercase;
+  padding: 0 20px; border: 1px solid var(--color-ink);
+  background: var(--color-ink); color: var(--color-salt);
+  transition: background var(--dur-move) var(--ease-calm),
+              border-color var(--dur-move) var(--ease-calm),
+              color var(--dur-move) var(--ease-calm);
+  white-space: nowrap;
+}
 .refl__copy:hover { background: var(--color-shadow); }
 .refl__copy.is-done { background: var(--signal-gold); border-color: var(--signal-gold); color: var(--color-ink); }
+.refl__copy-icons {
+  position: relative; display: inline-block;
+  width: 14px; height: 14px; flex: none;
+}
+.refl__copy-icon {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  color: currentColor;
+  transition: opacity 200ms var(--ease-calm), transform 200ms var(--ease-calm);
+}
+.refl__copy-icon--copy { opacity: 1; transform: scale(1); }
+.refl__copy-icon--check { opacity: 0; transform: scale(0.6); }
+.refl__copy.is-done .refl__copy-icon--copy {
+  opacity: 0; transform: scale(0.6);
+}
+.refl__copy.is-done .refl__copy-icon--check {
+  opacity: 1; transform: scale(1);
+  /* Slight delay so the check appears after the copy icon fades out. */
+  transition-delay: 100ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .refl__copy-icon { transition: none; }
+}
 .refl__how { font-family: var(--font-body); font-size: var(--fs-15, 0.9375rem); line-height: 1.55; color: var(--fg-2); margin: 0 0 var(--space-3); max-width: 44ch; }
 .refl__steps { list-style: none; counter-reset: refl; padding: 0; margin: var(--space-4) 0 0; display: grid; gap: 8px; }
 .refl__steps li { counter-increment: refl; position: relative; padding-left: 26px; font-family: var(--font-body); font-size: var(--fs-14); line-height: 1.55; color: var(--fg-1); }
